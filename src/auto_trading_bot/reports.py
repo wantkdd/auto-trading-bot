@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass, field, is_dataclass
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, cast
 
 from .validation import DisqualificationFlag, flags_to_dicts
 
@@ -29,7 +30,9 @@ class ReportInputs:
     symbol: str = "unspecified"
     benchmark_metrics: Mapping[str, Any] = field(default_factory=dict)
     validation: Mapping[str, Any] = field(default_factory=dict)
-    disqualification_flags: list[DisqualificationFlag | Mapping[str, Any]] = field(default_factory=list)
+    disqualification_flags: Sequence[DisqualificationFlag | Mapping[str, Any]] = field(
+        default_factory=tuple
+    )
     warnings: list[str] = field(default_factory=list)
     caveats: list[str] = field(default_factory=lambda: list(DEFAULT_CAVEATS))
 
@@ -37,10 +40,7 @@ class ReportInputs:
 def normalize_report(report: ReportInputs | Mapping[str, Any]) -> dict[str, Any]:
     """Convert a report dataclass/mapping into a stable JSON-ready schema."""
 
-    if isinstance(report, ReportInputs):
-        payload = asdict(report)
-    else:
-        payload = dict(report)
+    payload = asdict(report) if isinstance(report, ReportInputs) else dict(report)
 
     caveats = list(payload.get("caveats") or [])
     if SAFETY_STATEMENT not in caveats:
@@ -56,7 +56,8 @@ def normalize_report(report: ReportInputs | Mapping[str, Any]) -> dict[str, Any]
     payload.setdefault("validation", {})
     payload.setdefault("schema_version", "1.0")
     payload["live_trading_authorized"] = False
-    return _json_safe(payload)
+    normalized = _json_safe(payload)
+    return cast(dict[str, Any], normalized)
 
 
 def write_json_report(report: ReportInputs | Mapping[str, Any], path: str | Path) -> Path:
@@ -134,10 +135,16 @@ def render_markdown_report(report: ReportInputs | Mapping[str, Any]) -> str:
     if flags:
         for flag in flags:
             lines.append(
-                f"- [{flag.get('severity', 'fail')}] {flag.get('code', 'unknown')}: {flag.get('message', '')}"
+                "- "
+                f"[{flag.get('severity', 'fail')}] "
+                f"{flag.get('code', 'unknown')}: "
+                f"{flag.get('message', '')}"
             )
     else:
-        lines.append("- None triggered by configured gates; this still does not approve live trading.")
+        lines.append(
+            "- None triggered by configured gates; "
+            "this still does not approve live trading."
+        )
 
     if payload.get("warnings"):
         lines.extend(["", "## Warnings"])
@@ -162,8 +169,8 @@ def _format_value(value: Any) -> str:
 
 
 def _json_safe(value: Any) -> Any:
-    if is_dataclass(value):
-        return _json_safe(asdict(value))
+    if is_dataclass(value) and not isinstance(value, type):
+        return _json_safe(asdict(cast(Any, value)))
     if isinstance(value, Mapping):
         return {str(k): _json_safe(v) for k, v in value.items()}
     if isinstance(value, (list, tuple)):

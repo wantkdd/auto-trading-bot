@@ -5,13 +5,14 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
 
 SAFETY_STATEMENT = "This MVP cannot place orders and is not approval for live trading."
 
 
-def _fixture_csv(tmp_path):
+def _fixture_csv(tmp_path: Path) -> Path:
     csv_path = tmp_path / "fixture.csv"
     csv_path.write_text(
         "timestamp,open,high,low,close,volume\n"
@@ -35,7 +36,7 @@ def test_reports_module_contains_required_safety_statement() -> None:
     assert SAFETY_STATEMENT in module_text
 
 
-def test_cli_generates_local_markdown_and_json_reports(tmp_path) -> None:
+def test_cli_generates_local_markdown_and_json_reports(tmp_path: Path) -> None:
     csv_path = _fixture_csv(tmp_path)
     output_dir = tmp_path / "out"
     command = [
@@ -70,4 +71,76 @@ def test_cli_generates_local_markdown_and_json_reports(tmp_path) -> None:
         assert "metrics" in report
         assert "assumptions" in report
         assert "disqualification_flags" in report
+        assert report["metrics"]["metrics_label"] == "out_of_sample_test"
+        assert report["validation"]["headline_metrics"] == "out_of_sample_test"
+        assert "train_metrics" in report["validation"]
+        assert "test_metrics" in report["validation"]
+        assert report["validation"]["test_metrics"] == {
+            key: value
+            for key, value in report["metrics"].items()
+            if key not in {"costs_included", "metrics_label"}
+        }
         assert SAFETY_STATEMENT in json.dumps(report)
+
+
+def test_cli_rejects_negative_cost_assumptions(tmp_path: Path) -> None:
+    csv_path = _fixture_csv(tmp_path)
+    output_dir = tmp_path / "bad-out"
+    command = [
+        sys.executable,
+        "-m",
+        "auto_trading_bot.cli",
+        "--csv",
+        str(csv_path),
+        "--output-dir",
+        str(output_dir),
+        "--commission-rate",
+        "-0.1",
+    ]
+
+    completed = subprocess.run(command, check=False, capture_output=True, text=True)
+
+    assert completed.returncode != 0
+    assert "commission_rate must be nonnegative" in (completed.stderr or completed.stdout)
+    assert not output_dir.exists()
+
+
+def test_holdout_uses_distinct_strategy_instances(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from auto_trading_bot import cli
+    from auto_trading_bot.domain import SignalAction, StrategySignal
+
+    created_ids: list[int] = []
+
+    class StatefulProbeStrategy:
+        name = "stateful_probe"
+
+        def __init__(self) -> None:
+            self.calls = 0
+            created_ids.append(id(self))
+
+        def generate_signals(self, bars):  # type: ignore[no-untyped-def]
+            self.calls += 1
+            assert self.calls == 1, "strategy instance reused across validation slices"
+            return tuple(StrategySignal(bar.timestamp, SignalAction.HOLD, "probe") for bar in bars)
+
+    monkeypatch.setattr(cli, "_build_strategy", lambda args: StatefulProbeStrategy())
+    args = cli.build_parser().parse_args(
+        [
+            "--csv",
+            str(_fixture_csv(tmp_path)),
+            "--output-dir",
+            str(tmp_path / "out-distinct"),
+            "--validation-mode",
+            "holdout",
+            "--min-trades",
+            "0",
+        ]
+    )
+
+    cli.run_backtest_cli(args)
+
+    assert len(created_ids) == 2
+    assert len(set(created_ids)) == 2

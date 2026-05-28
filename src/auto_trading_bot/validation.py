@@ -7,8 +7,9 @@ integration.
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any
 
 
 class ValidationError(ValueError):
@@ -184,7 +185,9 @@ def evaluate_disqualification(
         flags.append(
             DisqualificationFlag(
                 "max_drawdown_exceeded",
-                f"Max drawdown {max_drawdown:.2%} is worse than limit {active_rules.max_drawdown_limit:.2%}.",
+                "Max drawdown "
+                f"{max_drawdown:.2%} is worse than limit "
+                f"{active_rules.max_drawdown_limit:.2%}.",
             )
         )
 
@@ -193,13 +196,18 @@ def evaluate_disqualification(
         flags.append(
             DisqualificationFlag(
                 "insufficient_trades",
-                f"Trade count {trade_count} is below minimum {active_rules.min_trades}; result may be statistically weak.",
+                f"Trade count {trade_count} is below minimum "
+                f"{active_rules.min_trades}; result may be statistically weak.",
                 severity="warn",
             )
         )
 
     total_return = _as_float(metrics.get("total_return"))
-    if active_rules.require_positive_total_return and total_return is not None and total_return <= 0:
+    if (
+        active_rules.require_positive_total_return
+        and total_return is not None
+        and total_return <= 0
+    ):
         flags.append(
             DisqualificationFlag(
                 "non_positive_total_return",
@@ -209,11 +217,17 @@ def evaluate_disqualification(
 
     if active_rules.require_benchmark_outperformance and benchmark_metrics:
         benchmark_return = _as_float(benchmark_metrics.get("total_return"))
-        if total_return is not None and benchmark_return is not None and total_return <= benchmark_return:
+        if (
+            total_return is not None
+            and benchmark_return is not None
+            and total_return <= benchmark_return
+        ):
             flags.append(
                 DisqualificationFlag(
                     "underperformed_benchmark",
-                    f"Strategy return {total_return:.2%} did not beat benchmark {benchmark_return:.2%} after costs.",
+                    "Strategy return "
+                    f"{total_return:.2%} did not beat benchmark "
+                    f"{benchmark_return:.2%} after costs.",
                 )
             )
 
@@ -228,7 +242,9 @@ def evaluate_disqualification(
     return flags
 
 
-def flags_to_dicts(flags: Iterable[DisqualificationFlag | Mapping[str, Any]]) -> list[dict[str, Any]]:
+def flags_to_dicts(
+    flags: Iterable[DisqualificationFlag | Mapping[str, Any]],
+) -> list[dict[str, Any]]:
     """Normalize flag dataclasses or mappings for JSON reports."""
 
     normalized: list[dict[str, Any]] = []

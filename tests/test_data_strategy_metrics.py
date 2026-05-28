@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from pathlib import Path
 
 import pytest
 
@@ -31,7 +32,7 @@ def test_validate_bars_rejects_duplicates_and_unsorted_rows() -> None:
         validate_bars(unsorted_rows)
 
 
-def test_load_csv_bars_rejects_invalid_prices(tmp_path) -> None:
+def test_load_csv_bars_rejects_invalid_prices(tmp_path: Path) -> None:
     from auto_trading_bot.data import DataValidationError, load_csv_bars
 
     csv_path = tmp_path / "bad.csv"

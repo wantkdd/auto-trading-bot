@@ -4,18 +4,18 @@ from __future__ import annotations
 
 import pytest
 
+from auto_trading_bot.domain import Bar, SignalAction, StrategySignal
+from auto_trading_bot.strategies import Strategy
 from helpers import make_bars
 
 
-class ScriptedStrategy:
+class ScriptedStrategy(Strategy):
     name = "scripted_test_strategy"
 
-    def __init__(self, actions):
+    def __init__(self, actions: list[SignalAction]) -> None:
         self._actions = actions
 
-    def generate_signals(self, bars):
-        from auto_trading_bot.domain import StrategySignal
-
+    def generate_signals(self, bars: tuple[Bar, ...]) -> tuple[StrategySignal, ...]:
         return tuple(
             StrategySignal(timestamp=bar.timestamp, action=action, reason="scripted")
             for bar, action in zip(bars, self._actions, strict=True)
