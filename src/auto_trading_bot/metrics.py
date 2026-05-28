@@ -33,7 +33,7 @@ def cagr(equity_curve: tuple[EquityPoint, ...], initial_cash: float) -> float | 
     if elapsed_days <= 0 or initial_cash <= 0:
         return None
     years = elapsed_days / 365.25
-    return (equity_curve[-1].equity / initial_cash) ** (1 / years) - 1.0
+    return float((equity_curve[-1].equity / initial_cash) ** (1 / years) - 1.0)
 
 
 def volatility(
