@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "createdAt": "2026-05-28T08:23:03.640Z",
+  "updatedAt": "2026-05-28T08:23:03.640Z",
+  "briefPath": ".omx/ultragoal/brief.md",
+  "goalsPath": ".omx/ultragoal/goals.json",
+  "ledgerPath": ".omx/ultragoal/ledger.jsonl",
+  "codexGoalMode": "aggregate",
+  "goals": [
+    {
+      "id": "G001-skeleton-docs-safety",
+      "title": "Skeleton, docs, and safety invariants",
+      "objective": "Create Python package skeleton, market-comparison documentation, and static safety tests blocking broker/network/credential/live-order pathways. Evidence: files exist and static safety tests pass.",
+      "status": "pending",
+      "attempt": 0,
+      "createdAt": "2026-05-28T08:23:03.640Z",
+      "updatedAt": "2026-05-28T08:23:03.640Z"
+    },
+    {
+      "id": "G002-data-domain-strategies",
+      "title": "Data/domain/strategy core",
+      "objective": "Implement immutable domain models, strict CSV loader, moving-average crossover strategy, and momentum strategy with no look-ahead signal behavior. Evidence: data/model/strategy tests pass.",
+      "status": "pending",
+      "attempt": 0,
+      "createdAt": "2026-05-28T08:23:03.640Z",
+      "updatedAt": "2026-05-28T08:23:03.640Z"
+    },
+    {
+      "id": "G003-backtest-engine-metrics",
+      "title": "Backtest engine and metrics",
+      "objective": "Implement long-only cash-only next-bar-open backtest engine with commission/slippage, trade ledger, equity curve, and metrics including max drawdown, returns, win rate, turnover, Sharpe-like risk measure, and benchmark comparison. Evidence: accounting/metrics tests pass.",
+      "status": "pending",
+      "attempt": 0,
+      "createdAt": "2026-05-28T08:23:03.640Z",
+      "updatedAt": "2026-05-28T08:23:03.640Z"
+    },
+    {
+      "id": "G004-validation-reports-cli",
+      "title": "Validation, reports, and CLI",
+      "objective": "Implement train/test and walk-forward validation, markdown/JSON reporting with caveats/disqualification flags, and CLI fixture smoke path. Evidence: CLI smoke generates reports; report tests pass.",
+      "status": "pending",
+      "attempt": 0,
+      "createdAt": "2026-05-28T08:23:03.640Z",
+      "updatedAt": "2026-05-28T08:23:03.640Z"
+    },
+    {
+      "id": "G005-final-verification-review",
+      "title": "Final verification, cleanup, and review",
+      "objective": "Run full pytest/static checks, run cleanup/no-op anti-slop pass, independent code/architecture review, and checkpoint completion evidence. Evidence: tests pass; review artifacts approve or blockers are recorded.",
+      "status": "pending",
+      "attempt": 0,
+      "createdAt": "2026-05-28T08:23:03.640Z",
+      "updatedAt": "2026-05-28T08:23:03.640Z"
+    }
+  ],
+  "codexObjective": "Complete the durable ultragoal plan in .omx/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .omx/ultragoal/ledger.jsonl as the audit trail.",
+  "summary": {
+    "total": 5,
+    "pending": 5,
+    "inProgress": 0,
+    "complete": 0,
+    "failed": 0,
+    "reviewBlocked": 0,
+    "needsUserDecision": 0,
+    "superseded": 0,
+    "steeringBlocked": 0,
+    "aggregateComplete": false,
+    "artifactComplete": false
+  }
+}

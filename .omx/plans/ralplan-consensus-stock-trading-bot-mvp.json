@@ -1,0 +1,25 @@
+{
+  "workflow": "ralplan",
+  "status": "APPROVE",
+  "planning_artifacts": {
+    "prd": ".omx/plans/prd-stock-trading-bot-mvp.md",
+    "test_spec": ".omx/plans/test-spec-stock-trading-bot-mvp.md",
+    "research": ".omx/research/stock-trading-bot-best-practice-20260528T081731Z.md",
+    "deep_interview_spec": ".omx/specs/deep-interview-stock-trading-bot.md"
+  },
+  "ralplan_architect_review": {
+    "path": ".omx/plans/architect-review-stock-trading-bot-mvp.md",
+    "verdict": "ITERATE",
+    "applied": true
+  },
+  "ralplan_critic_review": {
+    "path": ".omx/plans/critic-review-stock-trading-bot-mvp.md",
+    "verdict": "APPROVE"
+  },
+  "ralplan_consensus_gate": {
+    "complete": true,
+    "order": ["architect", "critic"],
+    "execution_allowed": true
+  },
+  "recommended_followup": ["ultragoal", "team"]
+}
