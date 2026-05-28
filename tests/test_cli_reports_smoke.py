@@ -55,10 +55,16 @@ def test_cli_generates_local_markdown_and_json_reports(tmp_path) -> None:
     assert {path.suffix for path in report_files} >= {".json", ".md"}
     assert all(path.resolve().is_relative_to(output_dir.resolve()) for path in report_files)
 
-    markdown = "\n".join(path.read_text(encoding="utf-8") for path in report_files if path.suffix == ".md")
+    markdown = "\n".join(
+        path.read_text(encoding="utf-8") for path in report_files if path.suffix == ".md"
+    )
     assert SAFETY_STATEMENT in markdown
 
-    json_reports = [json.loads(path.read_text(encoding="utf-8")) for path in report_files if path.suffix == ".json"]
+    json_reports = [
+        json.loads(path.read_text(encoding="utf-8"))
+        for path in report_files
+        if path.suffix == ".json"
+    ]
     assert json_reports
     for report in json_reports:
         assert "metrics" in report

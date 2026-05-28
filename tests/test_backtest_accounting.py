@@ -70,7 +70,9 @@ def test_sell_accounting_closes_long_position_without_shorting() -> None:
     bars = make_bars([10, 10, 12, 12], opens=[10, 10, 12, 12])
     result = run_backtest(
         bars,
-        ScriptedStrategy([SignalAction.BUY, SignalAction.SELL, SignalAction.HOLD, SignalAction.HOLD]),
+        ScriptedStrategy(
+            [SignalAction.BUY, SignalAction.SELL, SignalAction.HOLD, SignalAction.HOLD]
+        ),
         BacktestConfig(initial_cash=100.0, commission_rate=0.0, slippage_bps=0.0),
     )
 
