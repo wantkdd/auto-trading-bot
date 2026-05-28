@@ -42,8 +42,16 @@ def _add_backtest_parser(parser: argparse.ArgumentParser, *, required_paths: boo
         return
     parser._auto_trading_backtest_args = True  # type: ignore[attr-defined]
     parser.add_argument("--csv", required=required_paths, help="Local OHLCV CSV fixture path")
-    parser.add_argument("--output-dir", required=required_paths, help="Local directory for generated reports")
-    parser.add_argument("--strategy", choices=("moving-average", "momentum"), default="moving-average")
+    parser.add_argument(
+        "--output-dir",
+        required=required_paths,
+        help="Local directory for generated reports",
+    )
+    parser.add_argument(
+        "--strategy",
+        choices=("moving-average", "momentum"),
+        default="moving-average",
+    )
     parser.add_argument("--symbol", default="fixture")
     parser.add_argument("--market", default="offline-fixture")
     parser.add_argument("--initial-cash", type=float, default=10_000.0)
@@ -53,8 +61,10 @@ def _add_backtest_parser(parser: argparse.ArgumentParser, *, required_paths: boo
     parser.add_argument("--long-window", type=int, default=20)
     parser.add_argument("--lookback", type=int, default=10)
     parser.add_argument("--train-fraction", type=float, default=0.7)
+    parser.add_argument("--validation-mode", choices=("holdout", "none"), default="holdout")
     parser.add_argument("--max-drawdown-limit", type=float, default=-0.20)
     parser.add_argument("--min-trades", type=int, default=5)
+    parser.add_argument("--min-trade-quantity", type=int, default=1)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -85,13 +95,22 @@ def run_backtest_cli(args: argparse.Namespace) -> dict[str, Path]:
         initial_cash=args.initial_cash,
         commission=args.commission,
         slippage=args.slippage,
+        min_trade_quantity=args.min_trade_quantity,
     )
-    metrics = _calculate_metrics(result["equity_curve"], result["trades"], initial_cash=args.initial_cash)
+    metrics = _calculate_metrics(
+        result["equity_curve"],
+        result["trades"],
+        initial_cash=args.initial_cash,
+    )
     benchmark_metrics = _benchmark_metrics(bars, args.initial_cash)
     metrics["costs_included"] = True
     metrics["trade_count"] = len(result["trades"])
 
-    split = train_test_split_window(bars, args.train_fraction).to_dict()
+    split = (
+        train_test_split_window(bars, args.train_fraction).to_dict()
+        if args.validation_mode == "holdout"
+        else None
+    )
     flags = evaluate_disqualification(
         metrics,
         benchmark_metrics=benchmark_metrics,
@@ -109,13 +128,18 @@ def run_backtest_cli(args: argparse.Namespace) -> dict[str, Path]:
             "initial_cash": args.initial_cash,
             "commission": args.commission,
             "slippage": args.slippage,
+            "min_trade_quantity": args.min_trade_quantity,
             "execution": "signals execute at next bar open",
             "positioning": "long-only cash-only local simulation",
             "data_source": str(csv_path),
         },
         metrics=metrics,
         benchmark_metrics=benchmark_metrics,
-        validation={"train_test_split": split, "rows": len(bars)},
+        validation={
+            "mode": args.validation_mode,
+            "train_test_split": split,
+            "rows": len(bars),
+        },
         disqualification_flags=flags,
         warnings=result["warnings"],
     )
@@ -208,20 +232,26 @@ def _run_local_backtest(
     initial_cash: float,
     commission: float,
     slippage: float,
+    min_trade_quantity: int,
 ) -> dict[str, Any]:
     cash = initial_cash
     shares = 0
     trades: list[dict[str, Any]] = []
     equity_curve: list[float] = [initial_cash]
     warnings: list[str] = []
+    if min_trade_quantity < 1:
+        raise SystemExit("min-trade-quantity must be positive")
 
     for signal_index, signal in enumerate(signals[:-1]):
         execution_bar = bars[signal_index + 1]
         if signal > 0 and shares == 0:
             execution_price = execution_bar.open * (1 + slippage)
             affordable = int((cash - commission) // execution_price)
-            if affordable <= 0:
-                warnings.append(f"buy signal at {bars[signal_index].timestamp} skipped: insufficient cash")
+            if affordable < min_trade_quantity:
+                warnings.append(
+                    f"buy signal at {bars[signal_index].timestamp} skipped: "
+                    "insufficient cash for minimum trade quantity"
+                )
             else:
                 cost = affordable * execution_price + commission
                 cash -= cost
