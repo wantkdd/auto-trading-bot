@@ -1,7 +1,7 @@
 {
   "version": 1,
   "createdAt": "2026-05-28T08:23:03.640Z",
-  "updatedAt": "2026-05-28T08:23:03.640Z",
+  "updatedAt": "2026-05-28T08:55:21.049Z",
   "briefPath": ".omx/ultragoal/brief.md",
   "goalsPath": ".omx/ultragoal/goals.json",
   "ledgerPath": ".omx/ultragoal/ledger.jsonl",
@@ -11,49 +11,59 @@
       "id": "G001-skeleton-docs-safety",
       "title": "Skeleton, docs, and safety invariants",
       "objective": "Create Python package skeleton, market-comparison documentation, and static safety tests blocking broker/network/credential/live-order pathways. Evidence: files exist and static safety tests pass.",
-      "status": "pending",
+      "status": "complete",
       "attempt": 0,
       "createdAt": "2026-05-28T08:23:03.640Z",
-      "updatedAt": "2026-05-28T08:23:03.640Z"
+      "updatedAt": "2026-05-28T08:54:59.652Z",
+      "completedAt": "2026-05-28T08:54:59.652Z",
+      "evidence": "Team plus leader evidence completed G001-skeleton-docs-safety in .omx/ultragoal/goals.json: offline-only package/docs/safety/data/domain/strategy/backtest/metrics/validation/report/CLI scope implemented; final tests/reviews pass; commit d49f7f5."
     },
     {
       "id": "G002-data-domain-strategies",
       "title": "Data/domain/strategy core",
       "objective": "Implement immutable domain models, strict CSV loader, moving-average crossover strategy, and momentum strategy with no look-ahead signal behavior. Evidence: data/model/strategy tests pass.",
-      "status": "pending",
+      "status": "complete",
       "attempt": 0,
       "createdAt": "2026-05-28T08:23:03.640Z",
-      "updatedAt": "2026-05-28T08:23:03.640Z"
+      "updatedAt": "2026-05-28T08:54:59.840Z",
+      "completedAt": "2026-05-28T08:54:59.840Z",
+      "evidence": "Team plus leader evidence completed G002-data-domain-strategies in .omx/ultragoal/goals.json: offline-only package/docs/safety/data/domain/strategy/backtest/metrics/validation/report/CLI scope implemented; final tests/reviews pass; commit d49f7f5."
     },
     {
       "id": "G003-backtest-engine-metrics",
       "title": "Backtest engine and metrics",
       "objective": "Implement long-only cash-only next-bar-open backtest engine with commission/slippage, trade ledger, equity curve, and metrics including max drawdown, returns, win rate, turnover, Sharpe-like risk measure, and benchmark comparison. Evidence: accounting/metrics tests pass.",
-      "status": "pending",
+      "status": "complete",
       "attempt": 0,
       "createdAt": "2026-05-28T08:23:03.640Z",
-      "updatedAt": "2026-05-28T08:23:03.640Z"
+      "updatedAt": "2026-05-28T08:55:00.027Z",
+      "completedAt": "2026-05-28T08:55:00.027Z",
+      "evidence": "Team plus leader evidence completed G003-backtest-engine-metrics in .omx/ultragoal/goals.json: offline-only package/docs/safety/data/domain/strategy/backtest/metrics/validation/report/CLI scope implemented; final tests/reviews pass; commit d49f7f5."
     },
     {
       "id": "G004-validation-reports-cli",
       "title": "Validation, reports, and CLI",
       "objective": "Implement train/test and walk-forward validation, markdown/JSON reporting with caveats/disqualification flags, and CLI fixture smoke path. Evidence: CLI smoke generates reports; report tests pass.",
-      "status": "pending",
+      "status": "complete",
       "attempt": 0,
       "createdAt": "2026-05-28T08:23:03.640Z",
-      "updatedAt": "2026-05-28T08:23:03.640Z"
+      "updatedAt": "2026-05-28T08:55:00.212Z",
+      "completedAt": "2026-05-28T08:55:00.212Z",
+      "evidence": "Team plus leader evidence completed G004-validation-reports-cli in .omx/ultragoal/goals.json: offline-only package/docs/safety/data/domain/strategy/backtest/metrics/validation/report/CLI scope implemented; final tests/reviews pass; commit d49f7f5."
     },
     {
       "id": "G005-final-verification-review",
       "title": "Final verification, cleanup, and review",
       "objective": "Run full pytest/static checks, run cleanup/no-op anti-slop pass, independent code/architecture review, and checkpoint completion evidence. Evidence: tests pass; review artifacts approve or blockers are recorded.",
-      "status": "pending",
+      "status": "complete",
       "attempt": 0,
       "createdAt": "2026-05-28T08:23:03.640Z",
-      "updatedAt": "2026-05-28T08:23:03.640Z"
+      "updatedAt": "2026-05-28T08:55:21.049Z",
+      "evidence": "Final gate complete for .omx/ultragoal G005: ai-slop-cleaner passed; full verification passed (20 pytest tests, ruff, mypy src/tests, compileall, tabnanny, CLI smoke, forbidden-token scan); independent code-reviewer APPROVE and architect CLEAR; commit d49f7f5.",
+      "completedAt": "2026-05-28T08:55:21.049Z"
     }
   ],
-  "codexObjective": "Complete the durable ultragoal plan in .omx/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .omx/ultragoal/ledger.jsonl as the audit trail.",
+  "codexObjective": "Complete the durable ultragoal plan in .omx/ultragoal/goals.json for the stock auto-trading bot MVP, under the approved RALPLAN constraints: offline/local-simulator-only, no live orders, no broker SDKs/network/credentials, robust tests/reports/review, and ledger evidence in .omx/ultragoal/ledger.jsonl.",
   "summary": {
     "total": 5,
     "pending": 5,
@@ -66,5 +76,8 @@
     "steeringBlocked": 0,
     "aggregateComplete": false,
     "artifactComplete": false
-  }
+  },
+  "codexObjectiveAliases": [
+    "Complete the durable ultragoal plan in .omx/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .omx/ultragoal/ledger.jsonl as the audit trail."
+  ]
 }
