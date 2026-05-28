@@ -6,17 +6,17 @@ credential access, network code, or remote execution path.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import datetime
-from enum import Enum
-from typing import Mapping
+from enum import StrEnum
 
 
 class DomainValidationError(ValueError):
     """Raised when domain data violates an invariant."""
 
 
-class SignalAction(str, Enum):
+class SignalAction(StrEnum):
     """Long-only strategy intent generated after a bar is complete."""
 
     BUY = "buy"
@@ -24,7 +24,7 @@ class SignalAction(str, Enum):
     HOLD = "hold"
 
 
-class TradeSide(str, Enum):
+class TradeSide(StrEnum):
     """Executed local-simulation trade side."""
 
     BUY = "buy"

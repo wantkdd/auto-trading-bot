@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import csv
+from collections.abc import Iterable
 from datetime import datetime
 from pathlib import Path
-from typing import Iterable
 
 from auto_trading_bot.domain import Bar, DomainValidationError
 
@@ -36,7 +36,10 @@ def load_csv_bars(path: str | Path) -> tuple[Bar, ...]:
             missing = [column for column in _REQUIRED_COLUMNS if column not in reader.fieldnames]
             if missing:
                 raise DataValidationError(f"CSV file is missing required columns: {missing}")
-            bars = tuple(_parse_bar(row, line_number) for line_number, row in enumerate(reader, start=2))
+            bars = tuple(
+                _parse_bar(row, line_number)
+                for line_number, row in enumerate(reader, start=2)
+            )
     except csv.Error as exc:
         raise DataValidationError(f"CSV parsing failed: {exc}") from exc
 
@@ -66,7 +69,11 @@ def validate_bars(bars: Iterable[Bar]) -> tuple[Bar, ...]:
 def _parse_bar(row: dict[str, str], line_number: int) -> Bar:
     try:
         timestamp = datetime.fromisoformat(row["timestamp"])
-        values = {column: float(row[column]) for column in _REQUIRED_COLUMNS if column != "timestamp"}
+        values = {
+            column: float(row[column])
+            for column in _REQUIRED_COLUMNS
+            if column != "timestamp"
+        }
         return Bar(timestamp=timestamp, **values)
     except (KeyError, TypeError, ValueError, DomainValidationError) as exc:
         raise DataValidationError(f"invalid bar at line {line_number}: {exc}") from exc

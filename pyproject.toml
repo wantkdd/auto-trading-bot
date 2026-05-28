@@ -6,7 +6,6 @@ build-backend = "hatchling.build"
 name = "auto-trading-bot"
 version = "0.1.0"
 description = "Offline validation-first stock trading research MVP with no live-order pathways."
-readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Proprietary" }
 authors = [{ name = "Auto Trading Bot Contributors" }]
