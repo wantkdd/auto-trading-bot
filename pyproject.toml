@@ -32,3 +32,6 @@ python_version = "3.11"
 strict = true
 mypy_path = "src"
 packages = ["auto_trading_bot"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/auto_trading_bot"]
