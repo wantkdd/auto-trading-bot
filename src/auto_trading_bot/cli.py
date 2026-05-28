@@ -6,9 +6,8 @@ import argparse
 import csv
 import math
 from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
-from typing import Any, Iterable, Sequence
+from typing import Any, Sequence
 
 from .reports import ReportInputs, SAFETY_STATEMENT, write_report_bundle
 from .validation import DisqualificationRules, evaluate_disqualification, train_test_split_window
@@ -30,17 +29,20 @@ def build_parser() -> argparse.ArgumentParser:
         description="Run offline backtest validation and write markdown/JSON reports.",
     )
     subparsers = parser.add_subparsers(dest="command")
-    _add_backtest_parser(subparsers.add_parser("backtest", help="run an offline fixture backtest"))
-    _add_backtest_parser(parser)
+    _add_backtest_parser(
+        subparsers.add_parser("backtest", help="run an offline fixture backtest"),
+        required_paths=True,
+    )
+    _add_backtest_parser(parser, required_paths=False)
     return parser
 
 
-def _add_backtest_parser(parser: argparse.ArgumentParser) -> None:
+def _add_backtest_parser(parser: argparse.ArgumentParser, *, required_paths: bool) -> None:
     if getattr(parser, "_auto_trading_backtest_args", False):
         return
     parser._auto_trading_backtest_args = True  # type: ignore[attr-defined]
-    parser.add_argument("--csv", required=True, help="Local OHLCV CSV fixture path")
-    parser.add_argument("--output-dir", required=True, help="Local directory for generated reports")
+    parser.add_argument("--csv", required=required_paths, help="Local OHLCV CSV fixture path")
+    parser.add_argument("--output-dir", required=required_paths, help="Local directory for generated reports")
     parser.add_argument("--strategy", choices=("moving-average", "momentum"), default="moving-average")
     parser.add_argument("--symbol", default="fixture")
     parser.add_argument("--market", default="offline-fixture")
@@ -60,6 +62,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.command not in (None, "backtest"):
         parser.error(f"unsupported command: {args.command}")
+    if args.command is None and (not args.csv or not args.output_dir):
+        parser.error("--csv and --output-dir are required unless using a subcommand")
     report_paths = run_backtest_cli(args)
     print(f"{SAFETY_STATEMENT}")
     print(f"Wrote markdown report: {report_paths['markdown']}")
