@@ -36,7 +36,10 @@ def cagr(equity_curve: tuple[EquityPoint, ...], initial_cash: float) -> float | 
     return (equity_curve[-1].equity / initial_cash) ** (1 / years) - 1.0
 
 
-def volatility(returns: tuple[float, ...], annualization: int = TRADING_DAYS_PER_YEAR) -> float | None:
+def volatility(
+    returns: tuple[float, ...],
+    annualization: int = TRADING_DAYS_PER_YEAR,
+) -> float | None:
     if len(returns) < 2:
         return None
     return pstdev(returns) * sqrt(annualization)

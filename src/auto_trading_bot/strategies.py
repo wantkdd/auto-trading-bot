@@ -42,11 +42,20 @@ class MovingAverageCrossoverStrategy(Strategy):
 
             short_average = fmean(closes[index + 1 - self.short_window : index + 1])
             long_average = fmean(closes[index + 1 - self.long_window : index + 1])
-            relation = 1 if short_average > long_average else -1 if short_average < long_average else 0
+            if short_average > long_average:
+                relation = 1
+            elif short_average < long_average:
+                relation = -1
+            else:
+                relation = 0
 
             if previous_relation is None:
                 action = SignalAction.BUY if relation > 0 else SignalAction.HOLD
-                reason = "initial short average above long average" if relation > 0 else "no bullish crossover"
+                reason = (
+                    "initial short average above long average"
+                    if relation > 0
+                    else "no bullish crossover"
+                )
             elif previous_relation <= 0 < relation:
                 action = SignalAction.BUY
                 reason = "short average crossed above long average"
