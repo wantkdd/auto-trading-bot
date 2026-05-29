@@ -1,0 +1,76 @@
+{
+  "task": "Productize the completed offline auto-trading MVP with docs, examples, and tests using ultragoal plus team.",
+  "principles": [
+    "Preserve offline-only safety above feature expansion.",
+    "Prefer documentation, deterministic examples, and tests over speculative trading features.",
+    "Keep no-dependency and local-file-only constraints.",
+    "Make every user-facing claim verifiable by local commands."
+  ],
+  "decision_drivers": [
+    "User asked to do all useful next work now.",
+    "Current MVP is complete but lacks onboarding artifacts.",
+    "Live/paper trading remains high-risk and out of scope without a separate approval gate."
+  ],
+  "options": [
+    {
+      "name": "Productization docs/examples/tests",
+      "verdict": "chosen",
+      "pros": [
+        "Improves usability immediately",
+        "Low safety risk",
+        "Fully local and testable"
+      ],
+      "cons": [
+        "Does not add real trading connectivity"
+      ]
+    },
+    {
+      "name": "Start paper/live trading adapter",
+      "verdict": "rejected",
+      "reason": "Conflicts with current MVP safety boundary and requires separate broker/legal/credential planning."
+    },
+    {
+      "name": "Add dependency-heavy analytics/dashboard",
+      "verdict": "rejected",
+      "reason": "Premature; adds dependencies and maintenance before basic onboarding is complete."
+    }
+  ],
+  "adr": {
+    "decision": "Add README, examples, sample reports, future-live-gate docs, and regression tests; do not add broker/network/live features.",
+    "consequences": [
+      "Repo becomes runnable and reviewable by a new user",
+      "Future trading work remains explicitly gated"
+    ]
+  },
+  "available_agent_types": [
+    "executor",
+    "writer",
+    "test-engineer",
+    "verifier",
+    "code-reviewer",
+    "architect"
+  ],
+  "team_staffing": {
+    "recommended": "3:executor",
+    "lanes": [
+      "docs/examples",
+      "tests/verification",
+      "review/hardening"
+    ]
+  },
+  "consensus_gate": {
+    "complete": true,
+    "ralplan_architect_review": {
+      "verdict": "APPROVE",
+      "evidence": "Architect re-review approved deterministic sample-report comparison, docs safety coverage beyond README, and pending critic gate discipline."
+    },
+    "ralplan_critic_review": {
+      "verdict": "APPROVE",
+      "evidence": "Critic approved principle/option consistency, alternatives, risk mitigation, acceptance criteria, and verification plan."
+    },
+    "order": [
+      "architect",
+      "critic"
+    ]
+  }
+}
