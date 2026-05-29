@@ -1,0 +1,61 @@
+# Backtest Validation Report
+
+## Summary
+- Strategy: moving_average_crossover_3_8
+- Market: offline-fixture
+- Symbol: SAMPLE
+- Data period: 2024-02-17T09:30:00 to 2024-03-13T09:30:00
+- Live trading authorized: no
+
+## Safety Caveats
+- This MVP cannot place orders and is not approval for live trading.
+- Backtests and paper trading are not live-trading proof.
+- This report is not investment advice and does not guarantee profit.
+
+## Assumptions
+- commission_rate: 0.001
+- data_source: examples/data/sample_ohlcv.csv
+- engine: auto_trading_bot.backtest.run_backtest
+- execution: signals execute at next bar open
+- initial_cash: 10000
+- metrics_label: out_of_sample_test
+- min_trade_quantity: 1
+- positioning: long-only cash-only local simulation
+- slippage_bps: 5
+
+## Metrics
+- cagr: 0.628299
+- costs_included: True
+- exposure: 0.423077
+- final_equity: 10339.3
+- max_drawdown: -0.0470081
+- metrics_label: out_of_sample_test
+- sharpe: 2.70653
+- sortino: 4.94178
+- total_return: 0.033933
+- trade_count: 2
+- turnover: 1.97438
+- volatility: 0.127347
+- win_rate: 1
+
+## Benchmark Metrics
+- final_equity: 10304.9
+- total_return: 0.030485
+- trade_count: 1
+
+## Validation
+- headline_metrics: out_of_sample_test
+- mode: holdout
+- rows: 72
+- strategy_selection: Strategy parameters are supplied before the split; train metrics are diagnostic only and report headline metrics use the test slice.
+- test_metrics: {"cagr": 0.6282989957585086, "exposure": 0.4230769230769231, "final_equity": 10339.3303849, "max_drawdown": -0.047008131227850636, "sharpe": 2.7065250296381214, "sortino": 4.941781005487765, "total_return": 0.03393303849000007, "trade_count": 2, "turnover": 1.9743829001747426, "volatility": 0.12734745556543572, "win_rate": 1.0}
+- test_rows: 26
+- train_metrics: {"cagr": 0.8417762002446567, "exposure": 0.4782608695652174, "final_equity": 10781.471821300003, "max_drawdown": -0.0499033886714354, "sharpe": 3.0416886698372054, "sortino": 5.62462627038909, "total_return": 0.07814718213000038, "trade_count": 4, "turnover": 3.9115815517674952, "volatility": 0.14194405589248585, "win_rate": 1.0}
+- train_rows: 46
+- train_test_split: {"label": "holdout", "test_end": 72, "test_start": 46, "train_end": 46, "train_start": 0}
+
+## Disqualification Flags
+- None triggered by configured gates; this still does not approve live trading.
+
+## Warnings
+- This MVP cannot place orders and is not approval for live trading.
