@@ -112,14 +112,14 @@ def test_holdout_uses_distinct_strategy_instances(
     from auto_trading_bot import cli
     from auto_trading_bot.domain import SignalAction, StrategySignal
 
-    created_ids: list[int] = []
+    created_instances: list[object] = []
 
     class StatefulProbeStrategy:
         name = "stateful_probe"
 
         def __init__(self) -> None:
             self.calls = 0
-            created_ids.append(id(self))
+            created_instances.append(self)
 
         def generate_signals(self, bars):  # type: ignore[no-untyped-def]
             self.calls += 1
@@ -142,5 +142,5 @@ def test_holdout_uses_distinct_strategy_instances(
 
     cli.run_backtest_cli(args)
 
-    assert len(created_ids) == 2
-    assert len(set(created_ids)) == 2
+    assert len(created_instances) == 2
+    assert created_instances[0] is not created_instances[1]
