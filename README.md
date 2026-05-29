@@ -14,7 +14,7 @@ Requirements:
 Install/run from the repository root:
 
 ```bash
-uv run python -m pytest -q
+uv run --with pytest python -m pytest -q
 ```
 
 Optional static checks used by maintainers:
@@ -58,6 +58,8 @@ uv run python -m auto_trading_bot.cli backtest \
   --short-window 3 \
   --long-window 8 \
   --train-fraction 0.65 \
+  --data-provenance synthetic_offline_fixture \
+  --example-only \
   --min-trades 0
 ```
 
@@ -66,7 +68,7 @@ The command writes:
 - `examples/reports/moving-average-report.md`
 - `examples/reports/moving-average-report.json`
 
-The report bundle includes the strategy name, local data period, assumptions, costs, benchmark metrics, holdout validation metrics, disqualification flags, warnings, and `live_trading_authorized=false`.
+The report bundle includes the strategy name, local data period, assumptions, costs, benchmark metrics, holdout validation metrics, disqualification flags, warnings, `example_only=true`, `data_provenance=synthetic_offline_fixture`, and `live_trading_authorized=false`.
 
 ## Report interpretation
 

@@ -67,6 +67,16 @@ def _add_backtest_parser(parser: argparse.ArgumentParser, *, required_paths: boo
     parser.add_argument("--long-window", type=int, default=20)
     parser.add_argument("--lookback", type=int, default=10)
     parser.add_argument("--train-fraction", type=float, default=0.7)
+    parser.add_argument(
+        "--data-provenance",
+        default="user_supplied_local_csv",
+        help="Human-readable provenance label recorded in reports.",
+    )
+    parser.add_argument(
+        "--example-only",
+        action="store_true",
+        help="Mark reports as educational examples rather than strategy evidence.",
+    )
     parser.add_argument("--validation-mode", choices=("holdout", "none"), default="holdout")
     parser.add_argument("--max-drawdown-limit", type=float, default=-0.20)
     parser.add_argument("--min-trades", type=int, default=5)
@@ -209,7 +219,9 @@ def _report_from_result(
             "execution": "signals execute at next bar open",
             "positioning": "long-only cash-only local simulation",
             "data_source": str(csv_path),
+            "data_provenance": args.data_provenance,
             "engine": "auto_trading_bot.backtest.run_backtest",
+            "example_only": args.example_only,
             "metrics_label": metrics_label,
         },
         metrics=metrics,

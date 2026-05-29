@@ -22,6 +22,8 @@ SAMPLE_COMMAND_PARTS = (
     "--short-window 3",
     "--long-window 8",
     "--train-fraction 0.65",
+    "--data-provenance synthetic_offline_fixture",
+    "--example-only",
     "--min-trades 0",
 )
 
@@ -73,6 +75,9 @@ def test_committed_example_report_matches_regenerated_cli_output(tmp_path: Path)
         "8",
         "--train-fraction",
         "0.65",
+        "--data-provenance",
+        "synthetic_offline_fixture",
+        "--example-only",
         "--min-trades",
         "0",
     ]
@@ -101,6 +106,8 @@ def test_committed_example_report_matches_regenerated_cli_output(tmp_path: Path)
     assert committed["live_trading_authorized"] is False
     assert committed["metrics"]["metrics_label"] == "out_of_sample_test"
     assert committed["metrics"]["costs_included"] is True
+    assert committed["assumptions"]["example_only"] is True
+    assert committed["assumptions"]["data_provenance"] == "synthetic_offline_fixture"
     assert committed["validation"]["headline_metrics"] == "out_of_sample_test"
     assert "train_metrics" in committed["validation"]
     assert "test_metrics" in committed["validation"]
@@ -126,6 +133,8 @@ def test_docs_document_offline_boundary_and_example_command() -> None:
     assert "examples/reports/moving-average-report.md" in readme
     assert "examples/reports/moving-average-report.json" in readme
     assert "live_trading_authorized=false" in readme
+    assert "example_only=true" in readme
+    assert "data_provenance=synthetic_offline_fixture" in readme
     assert "synthetic and pedagogical" in readme
     assert "not market-performance evidence" in readme
     assert SAFETY_STATEMENT in combined

@@ -15,8 +15,10 @@
 
 ## Assumptions
 - commission_rate: 0.001
+- data_provenance: synthetic_offline_fixture
 - data_source: examples/data/sample_ohlcv.csv
 - engine: auto_trading_bot.backtest.run_backtest
+- example_only: True
 - execution: signals execute at next bar open
 - initial_cash: 10000
 - metrics_label: out_of_sample_test
