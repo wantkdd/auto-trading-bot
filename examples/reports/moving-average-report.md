@@ -10,6 +10,7 @@
 ## Safety Caveats
 - This MVP cannot place orders and is not approval for live trading.
 - Backtests and paper trading are not live-trading proof.
+- Synthetic example fixtures are for report-shape demonstration only; CSV backtest metrics are not market-performance evidence.
 - This report is not investment advice and does not guarantee profit.
 
 ## Assumptions

@@ -42,7 +42,7 @@ Rows must satisfy these rules:
 - `volume`: nonnegative numeric volume.
 - Files are read from local disk only; the CLI does not download market data.
 
-A deterministic fixture is committed at `examples/data/sample_ohlcv.csv`.
+A deterministic fixture is committed at `examples/data/sample_ohlcv.csv`. The `SAMPLE` / `offline-fixture` data is synthetic and pedagogical; its metrics are for report-shape demonstration only, not market-performance evidence.
 
 ## Run the sample backtest
 

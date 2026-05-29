@@ -40,6 +40,12 @@ def _normalize_path_dependent_fields(payload: dict[str, Any]) -> dict[str, Any]:
     return normalized
 
 
+def _normalize_markdown_paths(markdown: str, sample_csv: Path) -> str:
+    return markdown.replace(str(sample_csv), "<normalized-local-csv>").replace(
+        "examples/data/sample_ohlcv.csv", "<normalized-local-csv>"
+    )
+
+
 def test_committed_example_report_matches_regenerated_cli_output(tmp_path: Path) -> None:
     sample_csv = PROJECT_ROOT / "examples" / "data" / "sample_ohlcv.csv"
     committed_json_path = PROJECT_ROOT / "examples" / "reports" / "moving-average-report.json"
@@ -80,6 +86,12 @@ def test_committed_example_report_matches_regenerated_cli_output(tmp_path: Path)
     assert regenerated_markdown_path.exists()
     assert committed_markdown_path.exists()
 
+    committed_markdown = committed_markdown_path.read_text(encoding="utf-8")
+    regenerated_markdown = regenerated_markdown_path.read_text(encoding="utf-8")
+    assert _normalize_markdown_paths(committed_markdown, sample_csv) == _normalize_markdown_paths(
+        regenerated_markdown, sample_csv
+    )
+
     committed = _load_json(committed_json_path)
     regenerated = _load_json(regenerated_json_path)
     assert _normalize_path_dependent_fields(committed) == _normalize_path_dependent_fields(
@@ -93,7 +105,13 @@ def test_committed_example_report_matches_regenerated_cli_output(tmp_path: Path)
     assert "train_metrics" in committed["validation"]
     assert "test_metrics" in committed["validation"]
     assert SAFETY_STATEMENT in json.dumps(committed)
-    assert SAFETY_STATEMENT in committed_markdown_path.read_text(encoding="utf-8")
+    assert SAFETY_STATEMENT in committed_markdown
+    assert "Synthetic example fixtures are for report-shape demonstration only" in json.dumps(
+        committed
+    )
+    assert "Synthetic example fixtures are for report-shape demonstration only" in (
+        committed_markdown
+    )
 
 
 def test_docs_document_offline_boundary_and_example_command() -> None:
@@ -108,6 +126,8 @@ def test_docs_document_offline_boundary_and_example_command() -> None:
     assert "examples/reports/moving-average-report.md" in readme
     assert "examples/reports/moving-average-report.json" in readme
     assert "live_trading_authorized=false" in readme
+    assert "synthetic and pedagogical" in readme
+    assert "not market-performance evidence" in readme
     assert SAFETY_STATEMENT in combined
 
     required_boundary_phrases = (
