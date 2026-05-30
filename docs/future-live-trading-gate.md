@@ -13,6 +13,22 @@ This MVP cannot place orders and is not approval for live trading. The current s
 
 The current MVP must not include broker SDKs, exchange clients, network market-data clients, credential handling, account reads, paper/live adapters, or live-order paths.
 
+## Current readiness automation
+
+The repository may generate a local readiness-blocker report with:
+
+```bash
+uv run python scripts/live_readiness_gate.py
+```
+
+That report can mark a candidate as `paper_dry_run_candidate` when offline gates
+and dry-run target logging line up, but it must keep `live_trading_authorized=false`.
+It is a blocker checklist for future human/legal review, not permission to connect
+a broker or place trades. Current mandatory live blockers include independent
+data-source replication, at least 30 trading days of dry-run observation, drift
+monitoring, tax/cost/liquidity review, human approval, and legal/adviser-status
+review for automated investment advice.
+
 ## Required approval before expansion
 
 Before any future paper or live trading work begins, maintainers must approve a separate design that covers:

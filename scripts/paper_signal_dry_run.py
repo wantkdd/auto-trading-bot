@@ -14,9 +14,13 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 
+from auto_trading_bot.domain import Bar
+
 try:
+    from scripts.non_leveraged_universe_analysis import looks_leveraged
     from scripts.strategy_optimization import fetch_or_load_bars
 except ModuleNotFoundError:  # pragma: no cover - direct script execution path
+    from non_leveraged_universe_analysis import looks_leveraged  # type: ignore[no-redef]
     from strategy_optimization import fetch_or_load_bars
 
 
@@ -40,6 +44,11 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--strategy", default="static_portfolio_qqq_0.36_gld_0.64")
     parser.add_argument("--qqq-weight", type=float, default=0.36)
     parser.add_argument("--gld-weight", type=float, default=0.64)
+    parser.add_argument(
+        "--weights",
+        nargs="+",
+        help="Optional explicit weights like AAPL=0.3 GLD=0.7. Overrides qqq/gld flags.",
+    )
     parser.add_argument("--force-refresh", action="store_true")
     return parser.parse_args(argv)
 
@@ -58,21 +67,34 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 
 def build_signal(args: argparse.Namespace) -> DryRunSignal:
-    weights = normalize_weights({"QQQ": args.qqq_weight, "GLD": args.gld_weight})
+    raw_weights = (
+        parse_weight_pairs(args.weights)
+        if args.weights
+        else {"QQQ": args.qqq_weight, "GLD": args.gld_weight}
+    )
+    weights = normalize_weights(raw_weights)
+    blocked = [symbol for symbol in weights if looks_leveraged(symbol)]
+    if blocked:
+        raise SystemExit(f"leveraged/inverse symbols are blocked: {', '.join(blocked)}")
     bars_by_symbol = {}
     metadata_by_symbol = {}
+    start = date.fromisoformat(args.start)
+    end = date.fromisoformat(args.end)
     for symbol in weights:
         bars, metadata = fetch_or_load_bars(
             user_symbol=symbol,
-            start=date.fromisoformat(args.start),
-            end=date.fromisoformat(args.end),
+            start=start,
+            end=end,
             data_dir=Path(args.data_dir),
             force_refresh=args.force_refresh,
         )
         metadata_by_symbol[symbol] = metadata
         if bars is None:
             raise SystemExit(f"missing validated bars for {symbol}: {metadata.get('error')}")
-        bars_by_symbol[symbol] = bars
+        filtered_bars = constrain_bars_to_window(bars, start=start, end=end)
+        if not filtered_bars:
+            raise SystemExit(f"no bars for {symbol} within requested dry-run window")
+        bars_by_symbol[symbol] = filtered_bars
 
     common_dates = sorted(
         set.intersection(
@@ -105,6 +127,26 @@ def build_signal(args: argparse.Namespace) -> DryRunSignal:
         source_bars=source_bars,
         warnings=warnings,
     )
+
+
+def constrain_bars_to_window(bars: Sequence[Bar], *, start: date, end: date) -> tuple[Bar, ...]:
+    return tuple(bar for bar in bars if start <= bar.timestamp.date() <= end)
+
+
+def parse_weight_pairs(pairs: Sequence[str]) -> dict[str, float]:
+    weights: dict[str, float] = {}
+    for pair in pairs:
+        if "=" not in pair:
+            raise SystemExit(f"weight must be SYMBOL=VALUE: {pair}")
+        symbol, value = pair.split("=", 1)
+        symbol = symbol.strip().upper()
+        if not symbol:
+            raise SystemExit(f"missing symbol in weight pair: {pair}")
+        try:
+            weights[symbol] = float(value)
+        except ValueError as exc:
+            raise SystemExit(f"invalid weight value for {symbol}: {value}") from exc
+    return weights
 
 
 def normalize_weights(weights: dict[str, float]) -> dict[str, float]:
