@@ -1,0 +1,113 @@
+name: Paper Observation No-Orders
+
+on:
+  schedule:
+    # Runs after the regular US market close window, Tuesday-Saturday UTC.
+    # 02:30 UTC = 11:30 KST, giving data vendors time to publish prior US session bars.
+    - cron: "30 2 * * 2-6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: paper-observation-no-orders
+  cancel-in-progress: false
+
+jobs:
+  observe:
+    name: Append paper observation only
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHON_VERSION: "3.11"
+      STRATEGY_NAME: "AAPL_0.3_GLD_0.7"
+      STRATEGY_WEIGHTS: "AAPL=0.3 GLD=0.7"
+      STATE_BRANCH: "paper-observation-state"
+    steps:
+      - name: Check out research repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore prior observation log from state branch
+        run: |
+          set -euo pipefail
+          mkdir -p reports .omx/reports
+          git fetch origin "${STATE_BRANCH}:${STATE_BRANCH}" || true
+          if git show-ref --verify --quiet "refs/heads/${STATE_BRANCH}"; then
+            git show "${STATE_BRANCH}:reports/paper-observation-log.jsonl" \
+              > reports/paper-observation-log.jsonl || true
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install uv
+        run: python -m pip install --upgrade uv
+
+      - name: Validate code before observation
+        run: |
+          set -euo pipefail
+          uv run --with pytest python -m pytest -q
+          uv run --with ruff ruff check .
+          uv run --with mypy mypy
+
+      - name: Refresh offline research gates
+        run: |
+          set -euo pipefail
+          uv run python scripts/fundamental_macro_recent_gate.py --top-candidates 8
+
+      - name: Generate dry-run target weights with no orders
+        run: |
+          set -euo pipefail
+          # shellcheck disable=SC2086
+          uv run python scripts/paper_signal_dry_run.py \
+            --strategy "${STRATEGY_NAME}" \
+            --weights ${STRATEGY_WEIGHTS}
+
+      - name: Append paper observation log
+        run: |
+          set -euo pipefail
+          uv run python scripts/paper_observation_log.py
+          uv run python scripts/live_readiness_gate.py
+
+      - name: Upload observation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-observation-${{ github.run_id }}
+          retention-days: 90
+          path: |
+            reports/paper-dry-run-signal-latest.json
+            reports/paper-observation-log.jsonl
+            .omx/reports/fundamental-macro-recent-gate-latest.json
+            .omx/reports/fundamental-macro-recent-gate-latest.md
+            .omx/reports/paper-observation-summary-latest.json
+            .omx/reports/paper-observation-summary-latest.md
+            .omx/reports/live-readiness-gate-latest.json
+            .omx/reports/live-readiness-gate-latest.md
+
+      - name: Persist latest observation state branch
+        run: |
+          set -euo pipefail
+          tmp_state="$(mktemp -d)"
+          mkdir -p "${tmp_state}/reports" "${tmp_state}/.omx/reports"
+          cp -f reports/paper-dry-run-signal-latest.json "${tmp_state}/reports/"
+          cp -f reports/paper-observation-log.jsonl "${tmp_state}/reports/"
+          cp -f .omx/reports/fundamental-macro-recent-gate-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/paper-observation-summary-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/live-readiness-gate-latest.* "${tmp_state}/.omx/reports/"
+          git -C "${tmp_state}" init
+          git -C "${tmp_state}" checkout -b "${STATE_BRANCH}"
+          git -C "${tmp_state}" config user.name "github-actions[bot]"
+          git -C "${tmp_state}" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C "${tmp_state}" add -f reports .omx/reports
+          git -C "${tmp_state}" commit -m "Update paper observation state ${GITHUB_RUN_ID}"
+          git -C "${tmp_state}" remote add origin "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+          git -C "${tmp_state}" push --force origin "${STATE_BRANCH}:${STATE_BRANCH}"
