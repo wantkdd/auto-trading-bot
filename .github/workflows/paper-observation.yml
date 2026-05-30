@@ -111,3 +111,5 @@ jobs:
           git -C "${tmp_state}" commit -m "Update paper observation state ${GITHUB_RUN_ID}"
           git -C "${tmp_state}" remote add origin "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
           git -C "${tmp_state}" push --force origin "${STATE_BRANCH}:${STATE_BRANCH}"
+
+# Workflow activation touch: keep scheduled paper observation indexed.
