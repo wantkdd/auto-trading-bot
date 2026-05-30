@@ -83,6 +83,14 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         "human_approval_missing",
         "legal_or_registered_adviser_review_missing_for_automated_investment_advice",
         "broker_sandbox_and_order_reconciliation_intentionally_not_connected",
+        "broker_api_latency_budget_not_defined",
+        "market_data_latency_and_staleness_gate_missing",
+        "slippage_and_spread_model_not_validated_against_live_quotes",
+        "partial_fill_rejection_cancel_replace_handling_missing",
+        "idempotency_keys_and_duplicate_order_prevention_missing",
+        "rate_limit_backoff_and_outage_recovery_missing",
+        "account_position_reconciliation_missing",
+        "market_hours_holiday_and_corporate_action_handling_missing",
     ]
     paper_ready = top is not None and not candidate_blockers and not paper_blockers
     return {
@@ -122,6 +130,8 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "Run at least 30 trading days of dry-run target logging with no broker connection.",
             "Replicate price history with an independent licensed or official data source.",
             "Add drift monitor, loss limits, stale-data halt, and manual kill switch tests.",
+            "Define broker API latency budget, stale-quote halt, idempotent order model, "
+            "partial-fill handling, and reconciliation tests before any broker sandbox.",
             "Complete tax/cost/liquidity and legal/adviser-status review before any real capital.",
         ],
     }
