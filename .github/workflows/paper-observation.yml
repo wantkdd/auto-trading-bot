@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 defaults:
   run:
@@ -112,5 +113,18 @@ jobs:
           git -C "${tmp_state}" remote add origin \
             "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git"
           git -C "${tmp_state}" push --force origin "${STATE_BRANCH}:${STATE_BRANCH}"
+
+      - name: Update paper observation status issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          mode="success"
+          if [[ "${{ job.status }}" != "success" ]]; then
+            mode="failure"
+          fi
+          uv run python scripts/github_issue_report.py --mode "${mode}"
 
 # Workflow activation touch: keep scheduled paper observation indexed.
