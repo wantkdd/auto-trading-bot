@@ -15,6 +15,10 @@ def test_strategy_research_loop_preserves_safety_boundary() -> None:
     assert "authorizes live trading" in text
     assert "explicit human" in text
     assert "approval" in text
+    assert "SEC fundamentals" in text
+    assert "recent-regime validation" in text
+    assert "no leverage" in text
+    assert "no live-trading authorization" in text
 
 
 def test_candidate_registry_keeps_candidate_at_research_level() -> None:

@@ -21,6 +21,11 @@ simulation:
 4. Enough trades/windows to avoid a one-shot artifact.
 5. Deep analysis report generated with yearly, monthly, stress-period, and rolling
    summaries.
+6. SEC fundamentals and recent-regime validation generated from cached/public SEC
+   data, with no leverage, no broker access, and no live-trading authorization.
+7. Macro/news risk notes remain conservative: FRED macro automation requires a user
+   API key, and public RSS/news checks are event-risk alerts rather than complete
+   sentiment coverage.
 
 A candidate may not move to any live-capital process until additional external
 requirements exist outside this MVP: independent data-source validation, a dry-run
@@ -50,6 +55,9 @@ capture:
    orders.
 5. Drift monitor that compares live dry-run behavior against historical rolling
    distributions.
+6. Fundamental/macro/news-risk gate that records SEC filing metadata, recent 8-K
+   counts, recent-regime windows after 2020/2022/2023, and explicit no-leverage
+   constraints before any paper-trading promotion.
 
 ## Stop rules
 
