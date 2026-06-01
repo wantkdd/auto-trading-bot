@@ -75,6 +75,6 @@ Fine-tuning becomes reasonable only when:
 1. Generate a data-source registry report.
 2. Build a point-in-time feature dataset for daily decisions over the existing 90-symbol universe. **Done for cached daily price/volume via `scripts/point_in_time_dataset.py`.**
 3. Add forward-label generation with no-lookahead tests. **Done for 1/5/20-day returns, 20-day benchmark excess return, and 20-day forward max drawdown.**
-4. Compare scorecard/logistic baselines against current static defensive pairs.
+4. Compare scorecard/logistic baselines against current static defensive pairs. **Scorecard baseline evaluator exists via `scripts/scorecard_baseline_report.py`; logistic/regularized models remain later.**
 5. Add news/event collection only after source/API constraints are explicit.
 6. Add intraday no-order observer only after market-data source freshness and cost are known.

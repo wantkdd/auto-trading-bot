@@ -100,6 +100,14 @@ uv run python scripts/point_in_time_dataset.py
 
 This writes `.omx/datasets/point-in-time-daily.csv` plus `.omx/reports/point-in-time-dataset-latest.json` / `.md`. Features use only data available at each `as_of_date`; forward labels are for offline evaluation only.
 
+Evaluate the first auditable no-order scorecard baseline with:
+
+```bash
+uv run python scripts/scorecard_baseline_report.py
+```
+
+This ranks symbols from feature columns only and evaluates forward labels offline; it is not an order signal or investment recommendation.
+
 ## Broker API comparison
 
 Broker API work is gated before credentials or orders. See `docs/broker-api-comparison.md` and generate the current comparison report with:
