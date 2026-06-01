@@ -106,6 +106,11 @@ jobs:
           set -euo pipefail
           uv run python scripts/no_order_gate_status.py --github-output "${GITHUB_OUTPUT}"
 
+      - name: Render Discord paper report artifact
+        run: |
+          set -euo pipefail
+          uv run python scripts/discord_paper_report.py --dry-run
+
       - name: Upload observation artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -142,6 +147,8 @@ jobs:
             .omx/reports/live-readiness-gate-latest.md
             .omx/reports/no-order-gate-status-latest.json
             .omx/reports/no-order-gate-status-latest.md
+            .omx/reports/discord-paper-report-latest.json
+            .omx/reports/discord-paper-report-latest.md
 
       - name: Persist latest observation state branch
         run: |
@@ -167,6 +174,7 @@ jobs:
           cp -f .omx/reports/independent-price-replication-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/live-readiness-gate-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/no-order-gate-status-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/discord-paper-report-latest.* "${tmp_state}/.omx/reports/"
           git -C "${tmp_state}" init
           git -C "${tmp_state}" checkout -b "${STATE_BRANCH}"
           git -C "${tmp_state}" config user.name "github-actions[bot]"
@@ -191,5 +199,15 @@ jobs:
             mode="action-needed"
           fi
           uv run python scripts/github_issue_report.py --mode "${mode}"
+
+      - name: Send Discord paper report
+        if: always()
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GITHUB_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          uv run python scripts/discord_paper_report.py
 
 # Workflow activation touch: keep scheduled paper observation indexed.

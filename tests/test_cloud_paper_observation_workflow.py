@@ -14,6 +14,7 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "workflow_dispatch" in workflow
     assert "paper_observation_log.py" in workflow
     assert "paper_challenger_signal.py" in workflow
+    assert "discord_paper_report.py" in workflow
     assert "no_order_preview_report.py" in workflow
     assert "operational_risk_gate.py" in workflow
     assert "independent_price_replication_gate.py" in workflow
@@ -33,7 +34,9 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "operational-risk-gate-latest" in workflow
     assert "independent-price-replication-latest" in workflow
     assert "no-order-gate-status-latest" in workflow
+    assert "discord-paper-report-latest" in workflow
     assert 'steps.gate_status.outputs.mode }}" == "action-needed"' in workflow
+    assert "DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}" in workflow
     assert "sec-fundamental-feature-snapshot-latest" in workflow
     assert "bls-macro-snapshot-latest" in workflow
     assert ".omx/features/sec-fundamental-snapshot.csv" in workflow
