@@ -168,17 +168,51 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
 def looks_leveraged(symbol: str) -> bool:
     upper = symbol.upper()
     known_leveraged = {
-        "TQQQ",
-        "SQQQ",
-        "UPRO",
-        "SPXL",
-        "SPXS",
-        "QLD",
+        "BITU",
+        "BITX",
+        "BOIL",
+        "DDM",
+        "DOG",
+        "DUST",
+        "DXD",
+        "ERY",
+        "FAZ",
+        "FNGD",
+        "FNGU",
+        "GUSH",
+        "LABD",
+        "LABU",
+        "NUGT",
+        "PSQ",
         "QID",
+        "QLD",
+        "ROM",
+        "SCO",
+        "SDOW",
+        "SDS",
+        "SH",
         "SOXL",
         "SOXS",
+        "SPXL",
+        "SPXS",
+        "SQQQ",
+        "SSO",
         "TECL",
         "TECS",
+        "TBT",
+        "TMF",
+        "TNA",
+        "TQQQ",
+        "TWM",
+        "UCO",
+        "UDOW",
+        "UPRO",
+        "URE",
+        "URTY",
+        "UVIX",
+        "VIXY",
+        "YANG",
+        "YINN",
     }
     return upper in known_leveraged or any(marker in upper for marker in BANNED_LEVERAGED_MARKERS)
 
@@ -372,7 +406,28 @@ def total_return(curve: tuple[EquityPoint, ...]) -> float:
 
 
 def category(symbol: str) -> str:
-    etfs = {"SPY", "QQQ", "DIA", "IWM", "GLD", "TLT", "IEF", "SHY", "XLK", "XLV", "XLP", "XLU"}
+    etfs = {
+        "DIA",
+        "GLD",
+        "IEF",
+        "IWM",
+        "QQQ",
+        "SHY",
+        "SPY",
+        "TLT",
+        "VNQ",
+        "XLB",
+        "XLC",
+        "XLE",
+        "XLF",
+        "XLI",
+        "XLK",
+        "XLP",
+        "XLRE",
+        "XLU",
+        "XLV",
+        "XLY",
+    }
     return "ETF" if symbol in etfs else "stock"
 
 

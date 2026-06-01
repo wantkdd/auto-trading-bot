@@ -16,6 +16,7 @@ def test_format_percent_handles_numbers_and_missing_values() -> None:
 def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     summary = tmp_path / "summary.json"
     readiness = tmp_path / "readiness.json"
+    market_scan = tmp_path / "market-scan.json"
     summary.write_text(
         json.dumps(
             {
@@ -40,11 +41,24 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
         ),
         encoding="utf-8",
     )
+    market_scan.write_text(
+        json.dumps(
+            {
+                "summary": {
+                    "symbols": 82,
+                    "passed": 3,
+                    "top_candidate": "NVDA_0.3_GLD_0.7",
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
 
     body = build_issue_body(
         argparse.Namespace(
             summary=str(summary),
             readiness=str(readiness),
+            market_scan=str(market_scan),
             run_url="https://example.test/run",
             repo="wantkdd/auto-trading-bot",
             mode="success",
@@ -53,5 +67,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
 
     assert "5 / 30" in body
     assert "live trading authorized: `False`" in body
+    assert "시장 후보군 스캔 종목수: `82`" in body
+    assert "NVDA_0.3_GLD_0.7" in body
     assert "human_approval_missing" in body
     assert "실주문" in body

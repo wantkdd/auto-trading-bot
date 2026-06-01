@@ -78,6 +78,10 @@ The report bundle includes the strategy name, local data period, assumptions, co
 - Disqualification flags are local review gates, not trading approval.
 - Even when no flags are triggered, the report still does not authorize live trading.
 
+## Market-wide paper observation
+
+The cloud paper workflow can scan a broad non-leveraged large/liquid universe while keeping the current strategy as a locked paper baseline. See `docs/market-wide-paper-trading-plan.md`. The scan logs hypothetical `would_buy`, `would_sell`, or `would_hold` intents only; it never creates broker orders.
+
 ## Future live-trading work
 
 Any paper or live trading proposal must pass a separate approval gate before design or implementation. See `docs/future-live-trading-gate.md`. Until that gate is approved, this repository remains local-simulator-only and must not add broker SDKs, network clients, credential storage, account reads, or order-routing paths.

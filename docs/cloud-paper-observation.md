@@ -19,6 +19,10 @@ The workflow runs at `02:30 UTC` Tuesday-Saturday, which is `11:30 KST`. That is
 
 GitHub scheduled workflows run from the latest commit on the default branch. Schedules may not execute at an exact wall-clock second, so the workflow is written to be idempotent for the same `as_of_date`.
 
+## Broad market scan
+
+Each scheduled run now also writes `.omx/reports/market-universe-scan-latest.json` and `.md`. This scans a broad non-leveraged large/liquid watchlist, but it does not automatically switch the locked paper strategy. Candidate replacement requires a separate promotion gate; the workflow remains no-order and not live trading.
+
 ## State and artifacts
 
 - Durable observation log: `paper-observation-state:reports/paper-observation-log.jsonl`

@@ -22,6 +22,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Create/update paper observation status issue.")
     parser.add_argument("--summary", default=".omx/reports/paper-observation-summary-latest.json")
     parser.add_argument("--readiness", default=".omx/reports/live-readiness-gate-latest.json")
+    parser.add_argument("--market-scan", default=".omx/reports/market-universe-scan-latest.json")
     parser.add_argument("--run-url", default=os.environ.get("GITHUB_RUN_URL", ""))
     parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", ""))
     parser.add_argument("--mode", choices=("success", "failure"), default="success")
@@ -45,6 +46,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 def build_issue_body(args: argparse.Namespace) -> str:
     summary = read_json_if_exists(Path(args.summary))
     readiness = read_json_if_exists(Path(args.readiness))
+    market_scan = read_json_if_exists(Path(args.market_scan))
     observed_days = summary.get("observed_days", "unknown") if summary else "unknown"
     required_days = summary.get("required_days", "unknown") if summary else "unknown"
     status = summary.get("status", "missing_summary") if summary else "missing_summary"
@@ -57,6 +59,10 @@ def build_issue_body(args: argparse.Namespace) -> str:
         readiness.get("live_blockers", []) if readiness else ["readiness_report_missing"]
     )
     paper_ready = readiness.get("summary", {}).get("paper_dry_run_ready") if readiness else None
+    market_summary = market_scan.get("summary", {}) if market_scan else {}
+    top_market_candidate = market_summary.get("top_candidate", "unknown")
+    market_passed = market_summary.get("passed", "unknown")
+    market_symbols = market_summary.get("symbols", "unknown")
     issue_state = "실패/확인 필요" if args.mode == "failure" else "정상 관찰 중"
     return "\n".join(
         [
@@ -71,6 +77,9 @@ def build_issue_body(args: argparse.Namespace) -> str:
             f"- 최대낙폭: `{format_percent(drawdown)}`",
             f"- paper ready: `{paper_ready}`",
             f"- live trading authorized: `{live_authorized}`",
+            f"- 시장 후보군 스캔 종목수: `{market_symbols}`",
+            f"- 시장 후보군 통과 후보: `{market_passed}`",
+            f"- 시장 후보군 top candidate: `{top_market_candidate}`",
             f"- GitHub run: {args.run_url or 'n/a'}",
             "",
             "## 남은 live blockers",

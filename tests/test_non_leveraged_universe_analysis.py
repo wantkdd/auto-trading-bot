@@ -6,7 +6,21 @@ from scripts.non_leveraged_universe_analysis import looks_leveraged
 
 
 def test_leveraged_and_inverse_symbols_are_blocked() -> None:
-    for symbol in ("TQQQ", "SQQQ", "UPRO", "SPXL", "SOXL"):
+    for symbol in (
+        "TQQQ",
+        "SQQQ",
+        "UPRO",
+        "SPXL",
+        "SOXL",
+        "SSO",
+        "SDS",
+        "DXD",
+        "DOG",
+        "PSQ",
+        "TBT",
+        "TMF",
+        "SH",
+    ):
         assert looks_leveraged(symbol)
 
 
