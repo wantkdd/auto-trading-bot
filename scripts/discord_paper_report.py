@@ -27,6 +27,7 @@ DEFAULT_CHALLENGER_SELECTION = ".omx/reports/paper-challenger-selection-latest.j
 DEFAULT_INTRADAY_LOG = "reports/intraday-no-order-log.jsonl"
 DEFAULT_ADAPTIVE_SEARCH = ".omx/reports/adaptive-allocation-search-latest.json"
 DEFAULT_BROKER_PREFLIGHT = ".omx/reports/broker-execution-preflight-latest.json"
+DEFAULT_MARKET_FEATURE_GATE = ".omx/reports/market-data-feature-gate-latest.json"
 DEFAULT_OUTPUT = ".omx/reports/discord-paper-report-latest.json"
 DEFAULT_MARKDOWN = ".omx/reports/discord-paper-report-latest.md"
 DISCORD_LIMIT = 2000
@@ -46,6 +47,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--intraday-log", default=DEFAULT_INTRADAY_LOG)
     parser.add_argument("--adaptive-search", default=DEFAULT_ADAPTIVE_SEARCH)
     parser.add_argument("--broker-preflight", default=DEFAULT_BROKER_PREFLIGHT)
+    parser.add_argument("--market-feature-gate", default=DEFAULT_MARKET_FEATURE_GATE)
     parser.add_argument("--run-url", default=os.environ.get("GITHUB_RUN_URL", ""))
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     parser.add_argument("--markdown", default=DEFAULT_MARKDOWN)
@@ -88,6 +90,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     intraday = summarize_intraday_log(Path(args.intraday_log))
     adaptive_search = read_json_if_exists(Path(args.adaptive_search)) or {}
     broker_preflight = read_json_if_exists(Path(args.broker_preflight)) or {}
+    market_feature_gate = read_json_if_exists(Path(args.market_feature_gate)) or {}
     sections = report_sections(
         paper, weekly_day=args.weekly_day, final_days=args.final_observed_days
     )
@@ -103,6 +106,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         intraday=intraday,
         adaptive_search=adaptive_search,
         broker_preflight=broker_preflight,
+        market_feature_gate=market_feature_gate,
         sections=sections,
         run_url=args.run_url,
         final_days=args.final_observed_days,
@@ -126,6 +130,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "intraday_log": str(args.intraday_log),
             "adaptive_search": str(args.adaptive_search),
             "broker_preflight": str(args.broker_preflight),
+            "market_feature_gate": str(args.market_feature_gate),
         },
     }
 
@@ -158,6 +163,7 @@ def render_message(
     intraday: Mapping[str, Any],
     adaptive_search: Mapping[str, Any],
     broker_preflight: Mapping[str, Any],
+    market_feature_gate: Mapping[str, Any],
     sections: Sequence[str],
     run_url: str,
     final_days: int,
@@ -174,6 +180,8 @@ def render_message(
     adaptive_summary = mapping(adaptive_search.get("summary"))
     adaptive_baseline = mapping(adaptive_search.get("static_baseline_summary"))
     broker_preflight_summary = mapping(broker_preflight.get("summary"))
+    market_feature_summary = mapping(market_feature_gate.get("summary"))
+    market_feature_breadth = mapping(market_feature_gate.get("breadth"))
     title = "📊 자동매매 가정 일일 리포트 (NO-ORDER)"
     lines = [
         title,
@@ -212,6 +220,14 @@ def render_message(
         f"- static 기준 중앙 초과수익: `{pct(adaptive_baseline.get('median_excess'))}`",
         f"- adaptive 최악 MDD: `{pct(adaptive_summary.get('worst_max_drawdown'))}`",
         "- 자동 교체/실거래 반영: `False`",
+        "",
+        "**방대한 시장 데이터 게이트**",
+        f"- 상태: `{market_feature_summary.get('status', 'missing')}`",
+        f"- 사용 가능 자산: `{market_feature_summary.get('usable_assets', 'unknown')}`개",
+        f"- breadth coverage: `{pct(market_feature_breadth.get('coverage_ratio'))}`",
+        f"- regime: `{market_feature_summary.get('regime', 'unknown')}`",
+        f"- 권고: `{market_feature_summary.get('recommendation', 'missing')}`",
+        "- 자동 전략/코드 반영: `False`",
         "",
         "**브로커 API 연결 준비도**",
         f"- API preflight: `{broker_preflight_summary.get('status', 'missing')}`",

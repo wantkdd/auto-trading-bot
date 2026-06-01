@@ -25,6 +25,10 @@ GitHub scheduled workflows run from the latest commit on the default branch. Sch
 
 Each scheduled run now also writes `.omx/reports/market-universe-scan-latest.json` and `.md`. This scans a broad non-leveraged large/liquid watchlist, but it does not automatically switch the locked paper strategy. Candidate replacement requires a separate promotion gate; the workflow remains no-order and not live trading.
 
+## Broad market data feature gate
+
+Each scheduled run writes `.omx/reports/market-data-feature-gate-latest.json` and `.md`. This pulls the dynamic liquid watchlist plus core sector/cross-asset ETFs into a breadth/regime/quality diagnostic. If coverage is poor, dates are stale, or market signals are conflicted, the report stays `review` and is not used for strategy promotion. See [`docs/broad-market-data-feature-gate.md`](broad-market-data-feature-gate.md).
+
 ## Adjustment and tuning review
 
 GitHub Actions intentionally reruns the same reviewed code. The code responds to changing market data through generated signals, refreshed universes, intraday logs, and candidate reports; it does **not** let live market data rewrite source code automatically.

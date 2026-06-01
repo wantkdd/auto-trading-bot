@@ -29,6 +29,7 @@ def _args(tmp_path: Path, **overrides):
         "intraday_log": str(tmp_path / "intraday.jsonl"),
         "adaptive_search": str(tmp_path / "adaptive.json"),
         "broker_preflight": str(tmp_path / "broker-preflight.json"),
+        "market_feature_gate": str(tmp_path / "market-feature.json"),
         "run_url": "https://example.test/run",
         "output": str(tmp_path / "discord.json"),
         "markdown": str(tmp_path / "discord.md"),
@@ -113,6 +114,19 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
             "static_baseline_summary": {"median_excess": 0.085},
         },
     )
+
+    _write(
+        tmp_path / "market-feature.json",
+        {
+            "summary": {
+                "status": "review",
+                "usable_assets": 142,
+                "regime": "conflicted",
+                "recommendation": "review_only_market_signals_are_conflicted",
+            },
+            "breadth": {"coverage_ratio": 0.94},
+        },
+    )
     _write(
         tmp_path / "broker-preflight.json",
         {
@@ -161,6 +175,8 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
     assert "보정/튜닝 상태" in report["message"]
     assert "adaptive 후보 상태: `review`" in report["message"]
     assert "자동 교체/실거래 반영: `False`" in report["message"]
+    assert "방대한 시장 데이터 게이트" in report["message"]
+    assert "사용 가능 자산: `142`개" in report["message"]
     assert "브로커 API 연결 준비도" in report["message"]
     assert "API preflight: `blocked`" in report["message"]
     assert "adapter ticket 수: `2`" in report["message"]
