@@ -30,6 +30,7 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "us_dynamic_liquid_watchlist.txt" in workflow
     assert "us-dynamic-liquid-universe-latest" in workflow
     assert "--symbols-file data/universe/us_dynamic_liquid_watchlist.txt" in workflow
+    assert "--min-history-rows 1100" in workflow
     assert "--min-selected-symbols 10" in workflow
     assert "no-order-preview-latest" in workflow
     assert "paper-challenger-selection-latest" in workflow

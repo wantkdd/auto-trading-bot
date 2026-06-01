@@ -69,6 +69,7 @@ def test_rank_symbols_orders_by_recent_dollar_volume(tmp_path: Path) -> None:
             end=datetime(2026, 1, 2).date(),
             data_dir=tmp_path,
             force_refresh=False,
+            min_history_rows=2,
         )
 
     assert [item.symbol for item in ranked] == ["MSFT", "AAPL"]
@@ -100,7 +101,9 @@ def test_build_report_requires_minimum_10_selected_symbols(tmp_path: Path) -> No
                 markdown=str(tmp_path / "out.md"),
                 data_dir=str(tmp_path),
                 end="2026-01-02",
+                history_start="2015-01-01",
                 lookback_days=45,
+                min_history_rows=1100,
                 max_rank_candidates=300,
                 max_output_symbols=150,
                 min_selected_symbols=10,

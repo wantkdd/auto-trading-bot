@@ -13,7 +13,7 @@ import json
 import urllib.request
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from datetime import UTC, date, datetime, timedelta
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -73,11 +73,13 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--markdown", default=DEFAULT_MARKDOWN)
     parser.add_argument("--data-dir", default="data/external")
     parser.add_argument("--end", default=date.today().isoformat())
+    parser.add_argument("--history-start", default="2015-01-01")
     parser.add_argument("--lookback-days", type=int, default=45)
+    parser.add_argument("--min-history-rows", type=int, default=1100)
     parser.add_argument("--max-rank-candidates", type=int, default=300)
     parser.add_argument("--max-output-symbols", type=int, default=150)
     parser.add_argument("--min-selected-symbols", type=int, default=10)
-    parser.add_argument("--always-include", nargs="*", default=["AAPL", "GLD"])
+    parser.add_argument("--always-include", nargs="*", default=["SPY", "QQQ", "DIA", "AAPL", "GLD"])
     parser.add_argument("--force-refresh", action="store_true")
     parser.add_argument("--skip-remote", action="store_true")
     return parser.parse_args(argv)
@@ -101,7 +103,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 def build_report(args: argparse.Namespace) -> dict[str, Any]:
     end = date.fromisoformat(args.end)
-    start = end - timedelta(days=int(args.lookback_days))
+    start = date.fromisoformat(args.history_start)
     source_symbols = collect_source_symbols(Path(args.seed), skip_remote=bool(args.skip_remote))
     candidate_symbols = [symbol for symbol in source_symbols if not looks_leveraged(symbol)]
     ranked = rank_symbols(
@@ -110,6 +112,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         end=end,
         data_dir=Path(args.data_dir),
         force_refresh=bool(args.force_refresh),
+        min_history_rows=int(args.min_history_rows),
     )
     selected = select_symbols(
         ranked,
@@ -134,6 +137,8 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "min_selected_symbols": min_selected_symbols,
             "blocked_leveraged_or_inverse": len(blocked),
             "lookback_days": int(args.lookback_days),
+            "history_start": start.isoformat(),
+            "min_history_rows": int(args.min_history_rows),
             "max_output_symbols": int(args.max_output_symbols),
         },
         "source_counts": source_counts(source_symbols),
@@ -256,7 +261,13 @@ class TableParser(html.parser.HTMLParser):
 
 
 def rank_symbols(
-    symbols: Sequence[str], *, start: date, end: date, data_dir: Path, force_refresh: bool
+    symbols: Sequence[str],
+    *,
+    start: date,
+    end: date,
+    data_dir: Path,
+    force_refresh: bool,
+    min_history_rows: int,
 ) -> list[RankedSymbol]:
     ranked: list[RankedSymbol] = []
     for symbol in symbols:
@@ -277,6 +288,19 @@ def rank_symbols(
                     latest_close=None,
                     latest_volume=None,
                     error=str(metadata.get("error", "")),
+                )
+            )
+            continue
+        if len(bars) < min_history_rows:
+            ranked.append(
+                RankedSymbol(
+                    symbol=symbol,
+                    source="Yahoo Finance chart endpoint",
+                    status="insufficient_history",
+                    average_dollar_volume=0.0,
+                    latest_close=bars[-1].close,
+                    latest_volume=bars[-1].volume,
+                    error=f"rows={len(bars)} min_history_rows={min_history_rows}",
                 )
             )
             continue

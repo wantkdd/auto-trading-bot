@@ -77,6 +77,7 @@ jobs:
           uv run python scripts/build_us_liquid_universe.py \
             --max-rank-candidates 300 \
             --max-output-symbols 150 \
+            --min-history-rows 1100 \
             --min-selected-symbols 10
           uv run python scripts/market_universe_candidate_scan.py \
             --symbols-file data/universe/us_dynamic_liquid_watchlist.txt \
