@@ -148,7 +148,20 @@ def evaluate_market_data_staleness(
             "observed_lag_days": None,
             "source_bar_dates": {},
         }
-    as_of = date.fromisoformat(str(paper_signal.get("as_of_date")))
+    raw_as_of = paper_signal.get("as_of_date")
+    try:
+        as_of = date.fromisoformat(str(raw_as_of))
+    except ValueError:
+        return {
+            "status": "blocked",
+            "halt_required": True,
+            "blockers": ["paper_signal_as_of_date_invalid"],
+            "max_calendar_lag_days": max_calendar_lag_days,
+            "observed_lag_days": None,
+            "as_of_date": raw_as_of,
+            "source_bar_dates": {},
+            "stale_symbols": [],
+        }
     observed_lag_days = (generated_date - as_of).days
     if observed_lag_days < 0:
         blockers.append("paper_signal_as_of_date_in_future")
@@ -185,7 +198,10 @@ def extract_source_bar_dates(paper_signal: Mapping[str, Any]) -> dict[str, date]
         timestamp = raw_bar.get("timestamp")
         if timestamp is None:
             continue
-        dates[str(symbol)] = datetime.fromisoformat(str(timestamp)).date()
+        try:
+            dates[str(symbol)] = datetime.fromisoformat(str(timestamp)).date()
+        except ValueError:
+            continue
     return dates
 
 
@@ -264,22 +280,34 @@ def evaluate_kill_switch(
 def evaluate_trade_intent_safety(trade_intents: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     blockers: list[str] = []
     created_orders = []
+    authorized_rows = []
     for index, row in enumerate(trade_intents):
         intents = row.get("trade_intents", [])
         if not isinstance(intents, list):
             blockers.append("trade_intents_shape_invalid")
             continue
         for intent in intents:
-            if isinstance(intent, Mapping) and intent.get("order_created") is not False:
+            if not isinstance(intent, Mapping):
+                blockers.append("trade_intents_shape_invalid")
+                continue
+            if intent.get("order_created") is not False:
                 created_orders.append(index)
+            if (
+                intent.get("live_trading_authorized") is True
+                or intent.get("paper_api_authorized") is True
+            ):
+                authorized_rows.append(index)
     if created_orders:
         blockers.append("trade_intent_order_created_not_false")
+    if authorized_rows:
+        blockers.append("trade_intent_authorization_flag_present")
     return {
         "status": "pass" if not blockers else "halt",
         "halt_required": bool(blockers),
         "blockers": blockers,
         "trade_intent_rows": len(trade_intents),
         "created_order_rows": created_orders,
+        "authorized_rows": authorized_rows,
     }
 
 

@@ -176,6 +176,7 @@ def build_intents_from_trade_rows(
 
     intents: list[PaperOrderIntent] = []
     for row in rows:
+        _validate_no_order_source_row(row)
         side = str(row.get("side", ""))
         if side not in {OrderIntentSide.WOULD_BUY.value, OrderIntentSide.WOULD_SELL.value}:
             raise BrokerContractError(f"unsupported paper side: {side}")
@@ -192,6 +193,18 @@ def build_intents_from_trade_rows(
             )
         )
     return tuple(intents)
+
+
+def _validate_no_order_source_row(row: Mapping[str, object]) -> None:
+    """Reject tainted source rows before building local no-order intents."""
+
+    if row.get("order_created") not in (None, False):
+        raise BrokerContractError("paper intent row must keep order_created=false")
+    if row.get("live_trading_authorized") is True or row.get("paper_api_authorized") is True:
+        raise BrokerContractError("paper intent row cannot authorize broker API trading")
+    for field in ("broker_order_id", "broker_execution_id", "order_id", "execution_id"):
+        if row.get(field):
+            raise BrokerContractError(f"paper intent row cannot include {field}")
 
 
 def intent_to_dict(intent: PaperOrderIntent) -> dict[str, object]:

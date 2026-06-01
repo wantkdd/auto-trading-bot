@@ -32,6 +32,20 @@ trading credentials, read accounts, or route orders.
    use public data-source API keys, so any future script-wide scanner needs an
    explicit allowlist for non-trading data providers and a denylist for broker or
    order-routing capabilities.
+6. **Readiness naming can overstate evidence if operational evidence is missing.**
+   `scripts/live_readiness_gate.py` separates live blockers from paper dry-run
+   candidate status, but `paper_dry_run_ready` should remain clearly distinct
+   from live readiness and should fail closed when operational-risk or
+   independent-price reports are missing or blocked.
+7. **No-order source rows must fail closed when tainted.**
+   Paper intent logs are upstream inputs to preview reports, so malformed
+   `as_of_date` values, `order_created=true`, live/paper authorization flags, or
+   broker execution identifiers must be blocked before a clean-looking preview
+   can be generated.
+8. **Scheduled dry-run dates need market-session determinism.**
+   `scripts/paper_signal_dry_run.py` should eventually use an explicit market
+   date or a timezone-stable latest-session resolver instead of relying only on a
+   local `date.today()` default around UTC/KST boundaries.
 
 ## Implemented no-order hardening from this inspection
 
@@ -46,6 +60,9 @@ trading credentials, read accounts, or route orders.
 - Persist `.omx/features` to the scheduled state branch along with reports so the
   SEC fundamental feature snapshot copied by the workflow is not dropped before
   the force-push.
+- Fail closed on malformed paper-signal dates, live/paper authorization flags,
+  broker execution identifiers, and any `order_created` value other than `false`
+  in the no-order operational and preview paths.
 
 ## Next safe improvements
 
@@ -60,3 +77,8 @@ trading credentials, read accounts, or route orders.
 4. Keep all future broker-sandbox discussion behind `docs/future-live-trading-gate.md`
    and `docs/api-operational-risk-gate.md`; documentation alone must not
    authorize code that connects accounts or places orders.
+5. Wire live-readiness reporting to explicit paper-observation day counts and
+   keep paper-candidate labels separate from any live-readiness wording.
+6. Add an explicit `--as-of`/market-session option for scheduled dry-run signal
+   generation so timezone boundaries cannot silently change the observation
+   window.
