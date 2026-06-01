@@ -34,7 +34,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--environment", choices=["paper", "live"], default="paper")
     parser.add_argument("--max-order-notional", type=float, default=1_000.0)
     parser.add_argument("--max-total-notional", type=float, default=2_000.0)
-    parser.add_argument("--min-paper-observation-days", type=int, default=30)
+    parser.add_argument("--min-paper-observation-days", type=int, default=22)
     parser.add_argument("--allowed-symbols", nargs="*", default=None)
     parser.add_argument("--blocked-symbols", nargs="*", default=[])
     parser.add_argument("--human-approved", action="store_true")

@@ -9,6 +9,7 @@ from scripts.live_readiness_gate import (
     independent_price_readiness_blockers,
     main,
     operational_readiness_blockers,
+    paper_observation_window_blockers,
     paper_signal_blockers,
 )
 
@@ -124,6 +125,27 @@ def test_independent_price_readiness_requires_passing_replication() -> None:
         == []
     )
 
+
+
+def test_paper_observation_window_targets_july_1_not_30_trading_days() -> None:
+    blockers = paper_observation_window_blockers(
+        {"observed_days": 22, "live_trading_authorized": False},
+        min_days=22,
+        target_live_pilot_date="2026-01-01",
+    )
+
+    assert blockers == []
+
+
+def test_paper_observation_window_blocks_before_target_or_too_few_days() -> None:
+    blockers = paper_observation_window_blockers(
+        {"observed_days": 1, "live_trading_authorized": False},
+        min_days=22,
+        target_live_pilot_date="2999-07-01",
+    )
+
+    assert "live_pilot_target_date_not_reached" in blockers
+    assert "minimum_paper_observation_window_missing" in blockers
 
 def test_live_readiness_missing_fundamental_report_is_structured_blocker(tmp_path) -> None:
     output = tmp_path / "live-readiness.json"

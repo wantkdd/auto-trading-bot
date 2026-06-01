@@ -13,6 +13,10 @@ This MVP cannot place orders and is not approval for live trading. The current s
 
 The current MVP must not include broker SDKs, exchange clients, network market-data clients, credential handling, account reads, paper/live adapters, or live-order paths.
 
+## Activation schedule
+
+The current calendar for moving from no-order observation to broker sandbox and a possible tightly capped live pilot is tracked in [`docs/live-pilot-activation-schedule.md`](live-pilot-activation-schedule.md). That schedule sets the operator-requested live-pilot review target at 2026-07-01 KST and keeps live trading blocked unless all approval, sandbox, reconciliation, kill-switch, tax/cost/liquidity, and legal/adviser-status gates pass.
+
 ## Current readiness automation
 
 The repository may generate a local readiness-blocker report with:
@@ -25,7 +29,7 @@ That report can mark a candidate as `paper_dry_run_candidate` when offline gates
 and dry-run target logging line up, but it must keep `live_trading_authorized=false`.
 It is a blocker checklist for future human/legal review, not permission to connect
 a broker or place trades. Current mandatory live blockers include independent
-data-source replication, at least 30 trading days of dry-run observation, drift
+data-source replication, the 2026-07-01 paper-observation target window, drift
 monitoring, tax/cost/liquidity review, human approval, and legal/adviser-status
 review for automated investment advice.
 

@@ -124,7 +124,8 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         "trade_intent_safety": trade_intent_gate,
         "blockers": blockers,
         "required_next_evidence": [
-            "Keep collecting no-order paper observations until at least 30 trading days exist.",
+            "Keep collecting no-order paper observations through the 2026-07-01 "
+            "live-pilot review target.",
             "Review any halt_required=true report before changing thresholds.",
             "Before broker sandbox work, add latency, idempotency, partial-fill, and "
             "reconciliation tests.",

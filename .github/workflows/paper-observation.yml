@@ -117,7 +117,7 @@ jobs:
           summary = {
               "status": "blocked",
               "observed_days": 0,
-              "required_days": 30,
+              "required_days": 22,
               "latest_as_of_date": None,
               "latest_strategy": None,
               "latest_virtual_equity": None,

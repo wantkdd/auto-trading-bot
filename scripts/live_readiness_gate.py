@@ -9,7 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 from collections.abc import Mapping, Sequence
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -44,6 +44,12 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--markdown", default=".omx/reports/live-readiness-gate-latest.md")
     parser.add_argument("--min-passing-candidates", type=int, default=3)
     parser.add_argument("--max-single-asset-weight", type=float, default=0.75)
+    parser.add_argument(
+        "--paper-observation-summary",
+        default=".omx/reports/paper-observation-summary-latest.json",
+    )
+    parser.add_argument("--min-paper-observation-days", type=int, default=22)
+    parser.add_argument("--target-live-pilot-date", default="2026-07-01")
     return parser.parse_args(argv)
 
 
@@ -80,6 +86,11 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         if Path(args.independent_price_report).exists()
         else None
     )
+    paper_observation_summary = (
+        read_json(Path(args.paper_observation_summary))
+        if Path(args.paper_observation_summary).exists()
+        else None
+    )
     candidates = tuple(fundamental_report.get("candidate_gates", ())) if fundamental_report else ()
     passed = tuple(row for row in candidates if row.get("status") == "pass")
     top = passed[0] if passed else None
@@ -97,12 +108,17 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     paper_blockers = paper_signal_blockers(top, paper_signal, expected_as_of=report_as_of)
     operational_blockers = operational_readiness_blockers(operational_risk_report)
     independent_price_blockers = independent_price_readiness_blockers(independent_price_report)
+    observation_window_blockers = paper_observation_window_blockers(
+        paper_observation_summary,
+        min_days=args.min_paper_observation_days,
+        target_live_pilot_date=args.target_live_pilot_date,
+    )
     live_blockers = [
         *candidate_blockers,
         *paper_blockers,
         *operational_blockers,
         *independent_price_blockers,
-        "minimum_30_trading_day_paper_observation_missing",
+        *observation_window_blockers,
         "tax_cost_and_liquidity_review_missing",
         "human_approval_missing",
         "legal_or_registered_adviser_review_missing_for_automated_investment_advice",
@@ -144,6 +160,11 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
                 if independent_price_report
                 else "missing"
             ),
+            "paper_observation_days": (
+                paper_observation_summary.get("observed_days") if paper_observation_summary else 0
+            ),
+            "minimum_paper_observation_days": args.min_paper_observation_days,
+            "target_live_pilot_date": args.target_live_pilot_date,
             "live_trading_authorized": False,
         },
         "candidate_gate": {
@@ -175,9 +196,16 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
                 independent_price_report.get("summary") if independent_price_report else None
             ),
         },
+        "paper_observation_window_gate": {
+            "source_report": str(args.paper_observation_summary),
+            "signal_present": paper_observation_summary is not None,
+            "observation_window_blockers": observation_window_blockers,
+            "summary": paper_observation_summary,
+        },
         "live_blockers": live_blockers,
         "required_next_evidence": [
-            "Run at least 30 trading days of dry-run target logging with no broker connection.",
+            "Collect no-order dry-run target logging through the 2026-07-01 "
+            "live-pilot review target.",
             "Replicate price history with an independent licensed or official data source.",
             "Keep operational risk gate passing: drift monitor, loss limits, stale-data halt, "
             "and manual kill switch.",
@@ -187,6 +215,30 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         ],
     }
 
+
+def paper_observation_window_blockers(
+    paper_summary: Mapping[str, Any] | None,
+    *,
+    min_days: int,
+    target_live_pilot_date: str,
+) -> list[str]:
+    blockers: list[str] = []
+    if min_days < 0:
+        raise ValueError("min_days must be nonnegative")
+    try:
+        target_date = date.fromisoformat(target_live_pilot_date)
+    except ValueError as exc:
+        raise ValueError("target_live_pilot_date must be YYYY-MM-DD") from exc
+    if datetime.now(tz=UTC).date() < target_date:
+        blockers.append("live_pilot_target_date_not_reached")
+    if paper_summary is None:
+        return [*blockers, "paper_observation_summary_missing"]
+    observed_days = int(paper_summary.get("observed_days", 0) or 0)
+    if observed_days < min_days:
+        blockers.append("minimum_paper_observation_window_missing")
+    if paper_summary.get("live_trading_authorized") is True:
+        blockers.append("paper_summary_must_not_authorize_live_trading")
+    return blockers
 
 def operational_readiness_blockers(
     operational_risk_report: Mapping[str, Any] | None,
@@ -329,6 +381,9 @@ def write_markdown(path: Path, report: Mapping[str, Any]) -> None:
         f"- Live trading authorized: {report['live_trading_authorized']}",
         f"- Promotion level: {report['promotion_level']}",
         f"- Paper dry-run ready: {report['summary']['paper_dry_run_ready']}",
+        f"- Paper observation days: {report['summary']['paper_observation_days']} / "
+        f"{report['summary']['minimum_paper_observation_days']}",
+        f"- Target live pilot date: {report['summary']['target_live_pilot_date']}",
         f"- Top candidate: {report['summary']['top_candidate']}",
         f"- Passing candidates: {report['summary']['passing_candidates']}",
         f"- Operational risk status: {report['summary']['operational_risk_status']}",
