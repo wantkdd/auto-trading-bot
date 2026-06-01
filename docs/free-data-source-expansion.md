@@ -17,7 +17,7 @@ Safety boundary: this is research/paper infrastructure only. It does not approve
 | 2 | SEC EDGAR APIs | Free, no key | US filings, company facts, 8-K/10-Q/10-K events | Feature snapshot implemented from cache; broader refresh next |
 | 3 | Stooq historical data | Free captcha-issued key | Independent daily OHLCV replication | Planned; user/key step required |
 | 4 | GDELT DOC API | Free, no key | Global news attention/article-count features | Rate-limit-safe collector implemented |
-| 5 | BLS Public Data API | Free, no key for low volume; registration key for higher limits | Labor/CPI/PPI macro features | Planned |
+| 5 | BLS Public Data API | Free, no key for low volume; registration key for higher limits | Labor/CPI/PPI macro features | No-key snapshot implemented |
 | 6 | OpenDART | Free key | Korean filings and financial statements | Planned; key required |
 | 7 | KRX data portal | Free public portal | Korean listed-symbol/reference data | Planned; access behavior needs validation |
 | 8 | Bank of Korea ECOS | Free key | Korean macro regime features | Planned; key required |
@@ -48,6 +48,7 @@ Fine-tuning comes after data maturity. First the bot needs dated, auditable exam
 - GDELT DOC API: https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/
 - GDELT collector script: `scripts/gdelt_news_attention_snapshot.py`
 - BLS Public Data API: https://www.bls.gov/developers/
+- BLS macro snapshot script: `scripts/bls_macro_snapshot.py`
 - OpenDART guide: https://opendart.fss.or.kr/guide/main.do
 - KRX data portal: https://data.krx.co.kr/
 - Bank of Korea ECOS API: https://ecos.bok.or.kr/api/

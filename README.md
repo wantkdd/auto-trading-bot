@@ -108,6 +108,14 @@ uv run python scripts/point_in_time_dataset.py
 
 This writes `.omx/datasets/point-in-time-daily.csv` plus `.omx/reports/point-in-time-dataset-latest.json` / `.md`. Features use only data available at each `as_of_date`; forward labels are for offline evaluation only.
 
+Collect a no-key BLS macro snapshot with:
+
+```bash
+uv run python scripts/bls_macro_snapshot.py
+```
+
+This writes `.omx/reports/bls-macro-snapshot-latest.json` / `.md` for CPI, unemployment, and nonfarm payroll context without API keys.
+
 Collect a no-key GDELT news-attention snapshot with rate-limit-safe reporting:
 
 ```bash
