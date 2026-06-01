@@ -16,6 +16,7 @@ def test_format_percent_handles_numbers_and_missing_values() -> None:
 def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     summary = tmp_path / "summary.json"
     readiness = tmp_path / "readiness.json"
+    dynamic_universe = tmp_path / "dynamic-universe.json"
     market_scan = tmp_path / "market-scan.json"
     bls_macro = tmp_path / "bls-macro.json"
     no_order_preview = tmp_path / "no-order-preview.json"
@@ -43,6 +44,31 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
                 "live_trading_authorized": False,
                 "summary": {"paper_dry_run_ready": True},
                 "live_blockers": ["human_approval_missing"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    dynamic_universe.write_text(
+        json.dumps(
+            {
+                "summary": {
+                    "selected": 150,
+                    "ranked": 143,
+                    "sources": 512,
+                    "blocked_leveraged_or_inverse": 4,
+                },
+                "top_selected_symbols": [
+                    "AAPL",
+                    "GLD",
+                    "NVDA",
+                    "MSFT",
+                    "AMZN",
+                    "META",
+                    "GOOGL",
+                    "AVGO",
+                    "LLY",
+                    "JPM",
+                ],
             }
         ),
         encoding="utf-8",
@@ -132,6 +158,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
         argparse.Namespace(
             summary=str(summary),
             readiness=str(readiness),
+            dynamic_universe=str(dynamic_universe),
             market_scan=str(market_scan),
             bls_macro=str(bls_macro),
             no_order_preview=str(no_order_preview),
@@ -147,6 +174,9 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
 
     assert "5 / 30" in body
     assert "live trading authorized: `False`" in body
+    assert "동적 universe 선정/검증/원천: `150 / 143 / 512`" in body
+    assert "동적 universe 레버리지/인버스 차단: `4`" in body
+    assert "우선 관찰 10종목: `AAPL, GLD, NVDA" in body
     assert "시장 후보군 스캔 종목수: `82`" in body
     assert "NVDA_0.3_GLD_0.7" in body
     assert "BLS macro status: `ok`" in body
@@ -176,6 +206,7 @@ def test_build_issue_body_supports_action_needed_mode(tmp_path) -> None:
         argparse.Namespace(
             summary=str(tmp_path / "missing-summary.json"),
             readiness=str(tmp_path / "missing-readiness.json"),
+            dynamic_universe=str(tmp_path / "missing-dynamic-universe.json"),
             market_scan=str(tmp_path / "missing-market.json"),
             bls_macro=str(tmp_path / "missing-bls.json"),
             no_order_preview=str(tmp_path / "missing-preview.json"),

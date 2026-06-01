@@ -22,6 +22,10 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Create/update paper observation status issue.")
     parser.add_argument("--summary", default=".omx/reports/paper-observation-summary-latest.json")
     parser.add_argument("--readiness", default=".omx/reports/live-readiness-gate-latest.json")
+    parser.add_argument(
+        "--dynamic-universe",
+        default=".omx/reports/us-dynamic-liquid-universe-latest.json",
+    )
     parser.add_argument("--market-scan", default=".omx/reports/market-universe-scan-latest.json")
     parser.add_argument("--bls-macro", default=".omx/reports/bls-macro-snapshot-latest.json")
     parser.add_argument("--no-order-preview", default=".omx/reports/no-order-preview-latest.json")
@@ -68,6 +72,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 def build_issue_body(args: argparse.Namespace) -> str:
     summary = read_json_if_exists(Path(args.summary))
     readiness = read_json_if_exists(Path(args.readiness))
+    dynamic_universe = read_json_if_exists(Path(args.dynamic_universe))
     market_scan = read_json_if_exists(Path(args.market_scan))
     bls_macro = read_json_if_exists(Path(args.bls_macro))
     no_order_preview = read_json_if_exists(Path(args.no_order_preview))
@@ -87,6 +92,17 @@ def build_issue_body(args: argparse.Namespace) -> str:
         readiness.get("live_blockers", []) if readiness else ["readiness_report_missing"]
     )
     paper_ready = readiness.get("summary", {}).get("paper_dry_run_ready") if readiness else None
+    dynamic_universe_summary = dynamic_universe.get("summary", {}) if dynamic_universe else {}
+    dynamic_selected = dynamic_universe_summary.get("selected", "unknown")
+    dynamic_ranked = dynamic_universe_summary.get("ranked", "unknown")
+    dynamic_sources = dynamic_universe_summary.get("sources", "unknown")
+    dynamic_blocked = dynamic_universe_summary.get("blocked_leveraged_or_inverse", "unknown")
+    dynamic_first_symbols = (
+        dynamic_universe.get("top_selected_symbols", []) if dynamic_universe else []
+    )
+    if not isinstance(dynamic_first_symbols, list):
+        dynamic_first_symbols = []
+    dynamic_first_10 = ", ".join(str(symbol) for symbol in dynamic_first_symbols[:10]) or "unknown"
     market_summary = market_scan.get("summary", {}) if market_scan else {}
     top_market_candidate = market_summary.get("top_candidate", "unknown")
     market_passed = market_summary.get("passed", "unknown")
@@ -157,6 +173,12 @@ def build_issue_body(args: argparse.Namespace) -> str:
             f"- 최대낙폭: `{format_percent(drawdown)}`",
             f"- paper ready: `{paper_ready}`",
             f"- live trading authorized: `{live_authorized}`",
+            (
+                "- 동적 universe 선정/검증/원천: "
+                f"`{dynamic_selected} / {dynamic_ranked} / {dynamic_sources}`"
+            ),
+            f"- 동적 universe 레버리지/인버스 차단: `{dynamic_blocked}`",
+            f"- 우선 관찰 10종목: `{dynamic_first_10}`",
             f"- 시장 후보군 스캔 종목수: `{market_symbols}`",
             f"- 시장 후보군 통과 후보: `{market_passed}`",
             f"- 시장 후보군 top candidate: `{top_market_candidate}`",

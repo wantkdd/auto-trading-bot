@@ -23,6 +23,7 @@ def _args(tmp_path: Path, **overrides):
         "no_order_preview": str(tmp_path / "preview.json"),
         "readiness": str(tmp_path / "readiness.json"),
         "gate_status": str(tmp_path / "gate.json"),
+        "dynamic_universe": str(tmp_path / "dynamic-universe.json"),
         "market_scan": str(tmp_path / "market.json"),
         "challenger_selection": str(tmp_path / "selection.json"),
         "run_url": "https://example.test/run",
@@ -78,6 +79,24 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
         },
     )
     _write(tmp_path / "gate.json", {"summary": {"status": "pass"}})
+    _write(
+        tmp_path / "dynamic-universe.json",
+        {
+            "summary": {"selected": 150, "ranked": 142, "sources": 510},
+            "top_selected_symbols": [
+                "AAPL",
+                "GLD",
+                "NVDA",
+                "MSFT",
+                "AMZN",
+                "META",
+                "GOOGL",
+                "AVGO",
+                "LLY",
+                "JPM",
+            ],
+        },
+    )
     _write(tmp_path / "market.json", {"summary": {"top_candidate": "LLY_0.4_GLD_0.6"}})
     _write(tmp_path / "selection.json", {"summary": {"challenger_strategy": "LLY_0.4_GLD_0.6"}})
 
@@ -87,6 +106,9 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
     assert "자동매매 가정 일일 리포트" in report["message"]
     assert "주간 요약" in report["message"]
     assert "3주 최종 점검" in report["message"]
+    assert "동적 universe: `150`종목" in report["message"]
+    assert "우선 관찰 10종목" in report["message"]
+    assert "NVDA" in report["message"]
     assert "실금액 자동매매는 아직 승인되지 않았습니다" in report["message"]
 
 

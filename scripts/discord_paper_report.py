@@ -21,6 +21,7 @@ DEFAULT_CHALLENGER_SUMMARY = ".omx/reports/paper-challenger-observation-summary-
 DEFAULT_PREVIEW = ".omx/reports/no-order-preview-latest.json"
 DEFAULT_READINESS = ".omx/reports/live-readiness-gate-latest.json"
 DEFAULT_GATE_STATUS = ".omx/reports/no-order-gate-status-latest.json"
+DEFAULT_DYNAMIC_UNIVERSE = ".omx/reports/us-dynamic-liquid-universe-latest.json"
 DEFAULT_MARKET_SCAN = ".omx/reports/market-universe-scan-latest.json"
 DEFAULT_CHALLENGER_SELECTION = ".omx/reports/paper-challenger-selection-latest.json"
 DEFAULT_OUTPUT = ".omx/reports/discord-paper-report-latest.json"
@@ -36,6 +37,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--no-order-preview", default=DEFAULT_PREVIEW)
     parser.add_argument("--readiness", default=DEFAULT_READINESS)
     parser.add_argument("--gate-status", default=DEFAULT_GATE_STATUS)
+    parser.add_argument("--dynamic-universe", default=DEFAULT_DYNAMIC_UNIVERSE)
     parser.add_argument("--market-scan", default=DEFAULT_MARKET_SCAN)
     parser.add_argument("--challenger-selection", default=DEFAULT_CHALLENGER_SELECTION)
     parser.add_argument("--run-url", default=os.environ.get("GITHUB_RUN_URL", ""))
@@ -74,6 +76,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     preview = read_json_if_exists(Path(args.no_order_preview)) or {}
     readiness = read_json_if_exists(Path(args.readiness)) or {}
     gate_status = read_json_if_exists(Path(args.gate_status)) or {}
+    dynamic_universe = read_json_if_exists(Path(args.dynamic_universe)) or {}
     market_scan = read_json_if_exists(Path(args.market_scan)) or {}
     challenger_selection = read_json_if_exists(Path(args.challenger_selection)) or {}
     sections = report_sections(
@@ -85,6 +88,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         preview=preview,
         readiness=readiness,
         gate_status=gate_status,
+        dynamic_universe=dynamic_universe,
         market_scan=market_scan,
         challenger_selection=challenger_selection,
         sections=sections,
@@ -104,6 +108,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "no_order_preview": str(args.no_order_preview),
             "readiness": str(args.readiness),
             "gate_status": str(args.gate_status),
+            "dynamic_universe": str(args.dynamic_universe),
             "market_scan": str(args.market_scan),
             "challenger_selection": str(args.challenger_selection),
         },
@@ -132,6 +137,7 @@ def render_message(
     preview: Mapping[str, Any],
     readiness: Mapping[str, Any],
     gate_status: Mapping[str, Any],
+    dynamic_universe: Mapping[str, Any],
     market_scan: Mapping[str, Any],
     challenger_selection: Mapping[str, Any],
     sections: Sequence[str],
@@ -141,6 +147,10 @@ def render_message(
     preview_summary = mapping(preview.get("summary"))
     readiness_summary = mapping(readiness.get("summary"))
     gate_summary = mapping(gate_status.get("summary"))
+    dynamic_summary = mapping(dynamic_universe.get("summary"))
+    dynamic_first_symbols = dynamic_universe.get("top_selected_symbols", [])
+    if not isinstance(dynamic_first_symbols, list):
+        dynamic_first_symbols = []
     market_summary = mapping(market_scan.get("summary"))
     challenger_selection_summary = mapping(challenger_selection.get("summary"))
     title = "📊 자동매매 가정 일일 리포트 (NO-ORDER)"
@@ -165,6 +175,17 @@ def render_message(
         f"- 가정 거래금액: `{money(preview_summary.get('total_notional'))}`",
         "",
         "**시장 스캔 Challenger**",
+        (
+            "- 동적 universe: `{selected}`종목 선정 / "
+            "`{ranked}`종목 가격검증 / `{sources}`개 원천심볼"
+        ).format(
+            selected=dynamic_summary.get("selected", "unknown"),
+            ranked=dynamic_summary.get("ranked", "unknown"),
+            sources=dynamic_summary.get("sources", "unknown"),
+        ),
+        "- 우선 관찰 10종목: `{symbols}`".format(
+            symbols=", ".join(str(symbol) for symbol in dynamic_first_symbols[:10]) or "unknown"
+        ),
         f"- 시장 top: `{market_summary.get('top_candidate', 'unknown')}`",
         "- 추적 challenger: `{strategy}`".format(
             strategy=challenger_selection_summary.get("challenger_strategy", "unknown")

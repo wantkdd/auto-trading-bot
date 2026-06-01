@@ -74,7 +74,13 @@ jobs:
           uv run python scripts/fundamental_macro_recent_gate.py --top-candidates 8
           uv run python scripts/sec_fundamental_feature_snapshot.py
           uv run python scripts/bls_macro_snapshot.py
-          uv run python scripts/market_universe_candidate_scan.py --top-candidates 20
+          uv run python scripts/build_us_liquid_universe.py \
+            --max-rank-candidates 300 \
+            --max-output-symbols 150 \
+            --min-selected-symbols 10
+          uv run python scripts/market_universe_candidate_scan.py \
+            --symbols-file data/universe/us_dynamic_liquid_watchlist.txt \
+            --top-candidates 30
 
       - name: Generate dry-run target weights with no orders
         run: |
@@ -129,6 +135,9 @@ jobs:
             .omx/reports/sec-fundamental-feature-snapshot-latest.md
             .omx/reports/bls-macro-snapshot-latest.json
             .omx/reports/bls-macro-snapshot-latest.md
+            data/universe/us_dynamic_liquid_watchlist.txt
+            .omx/reports/us-dynamic-liquid-universe-latest.json
+            .omx/reports/us-dynamic-liquid-universe-latest.md
             .omx/reports/market-universe-scan-latest.json
             .omx/reports/market-universe-scan-latest.md
             .omx/reports/paper-observation-summary-latest.json
@@ -154,7 +163,7 @@ jobs:
         run: |
           set -euo pipefail
           tmp_state="$(mktemp -d)"
-          mkdir -p "${tmp_state}/reports" "${tmp_state}/.omx/reports"
+          mkdir -p "${tmp_state}/reports" "${tmp_state}/.omx/reports" "${tmp_state}/data/universe"
           cp -f reports/paper-dry-run-signal-latest.json "${tmp_state}/reports/"
           cp -f reports/paper-challenger-signal-latest.json "${tmp_state}/reports/"
           cp -f reports/paper-observation-log.jsonl "${tmp_state}/reports/"
@@ -165,6 +174,8 @@ jobs:
           cp -f .omx/reports/fundamental-macro-recent-gate-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/sec-fundamental-feature-snapshot-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/bls-macro-snapshot-latest.* "${tmp_state}/.omx/reports/"
+          cp -f data/universe/us_dynamic_liquid_watchlist.txt "${tmp_state}/data/universe/"
+          cp -f .omx/reports/us-dynamic-liquid-universe-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/market-universe-scan-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/paper-observation-summary-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/paper-challenger-observation-summary-latest.* "${tmp_state}/.omx/reports/"
@@ -179,7 +190,7 @@ jobs:
           git -C "${tmp_state}" checkout -b "${STATE_BRANCH}"
           git -C "${tmp_state}" config user.name "github-actions[bot]"
           git -C "${tmp_state}" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git -C "${tmp_state}" add -f reports .omx/reports .omx/features
+          git -C "${tmp_state}" add -f reports .omx/reports .omx/features data/universe
           git -C "${tmp_state}" commit -m "Update paper observation state ${GITHUB_RUN_ID}"
           git -C "${tmp_state}" remote add origin \
             "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git"

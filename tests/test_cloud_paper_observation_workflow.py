@@ -20,12 +20,17 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "independent_price_replication_gate.py" in workflow
     assert "sec_fundamental_feature_snapshot.py" in workflow
     assert "bls_macro_snapshot.py" in workflow
+    assert "build_us_liquid_universe.py" in workflow
     assert "market_universe_candidate_scan.py" in workflow
     assert "live_readiness_gate.py" in workflow
     assert "no_order_gate_status.py" in workflow
     assert "paper-observation-state" in workflow
     assert "STRATEGY_WEIGHTS" in workflow
     assert "market-universe-scan-latest" in workflow
+    assert "us_dynamic_liquid_watchlist.txt" in workflow
+    assert "us-dynamic-liquid-universe-latest" in workflow
+    assert "--symbols-file data/universe/us_dynamic_liquid_watchlist.txt" in workflow
+    assert "--min-selected-symbols 10" in workflow
     assert "no-order-preview-latest" in workflow
     assert "paper-challenger-selection-latest" in workflow
     assert "paper-challenger-signal-latest" in workflow
@@ -40,7 +45,7 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "sec-fundamental-feature-snapshot-latest" in workflow
     assert "bls-macro-snapshot-latest" in workflow
     assert ".omx/features/sec-fundamental-snapshot.csv" in workflow
-    assert 'add -f reports .omx/reports .omx/features' in workflow
+    assert 'add -f reports .omx/reports .omx/features data/universe' in workflow
     assert "broker" not in workflow.lower()
     assert "ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}" in workflow
     assert "BROKER" not in workflow
