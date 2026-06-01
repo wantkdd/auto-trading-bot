@@ -28,6 +28,7 @@ COLUMNS = [
     "forward_return_20d",
     "forward_excess_return_20d",
     "forward_max_drawdown_20d",
+    "bls_macro_points_available",
 ]
 
 
@@ -63,6 +64,7 @@ def row(symbol: str, day: str, *, momentum: float, forward: float) -> dict[str, 
         "forward_return_20d": forward,
         "forward_excess_return_20d": forward - 0.01,
         "forward_max_drawdown_20d": min(forward, -0.01),
+        "bls_macro_points_available": 3 if day >= "2024-01-03" else "",
     }
 
 
@@ -99,8 +101,14 @@ def test_build_report_selects_top_score_and_compares_universe(tmp_path: Path) ->
     assert summary["selected_avg_forward_return_20d"] == pytest.approx(0.07)
     assert summary["universe_avg_forward_return_20d"] == pytest.approx(0.0225)
     assert summary["selected_minus_universe_forward_return_20d"] == pytest.approx(0.0475)
+    assert summary["bls_macro_dates_with_points"] == 1
+    assert summary["bls_macro_coverage_ratio"] == pytest.approx(0.5)
+    assert summary["macro_regime_groups"] == 2
     assert summary["order_created"] is False
     assert report["date_metrics_sample"][0]["selected_symbols"] == ["AAA"]
+    assert report["macro_regime_metrics"][0]["bls_macro_points_available"] == "3"
+    assert report["macro_regime_metrics"][0]["validation_dates"] == 1
+    assert report["macro_regime_metrics"][1]["bls_macro_points_available"] == "missing"
 
 
 def test_script_writes_json_and_markdown(tmp_path: Path) -> None:
@@ -129,4 +137,6 @@ def test_script_writes_json_and_markdown(tmp_path: Path) -> None:
 
     payload = json.loads(output.read_text(encoding="utf-8"))
     assert payload["summary"]["selected_hit_rate_20d"] == 1.0
-    assert "Scorecard baseline report" in markdown.read_text(encoding="utf-8")
+    markdown_text = markdown.read_text(encoding="utf-8")
+    assert "Scorecard baseline report" in markdown_text
+    assert "BLS macro availability regimes" in markdown_text

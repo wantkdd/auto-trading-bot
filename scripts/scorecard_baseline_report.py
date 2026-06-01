@@ -38,6 +38,7 @@ class ScoredRow:
     forward_return_20d: float
     forward_excess_return_20d: float
     forward_max_drawdown_20d: float
+    bls_macro_points_available: int | None = None
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -86,6 +87,13 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     universe_returns = [metric["universe_forward_return_20d"] for metric in date_metrics]
     selected_excess = [metric["selected_excess_return_20d"] for metric in date_metrics]
     drawdowns = [metric["selected_forward_max_drawdown_20d"] for metric in date_metrics]
+    macro_regime_metrics = build_macro_regime_metrics(date_metrics)
+    macro_dates = [
+        metric
+        for metric in date_metrics
+        if isinstance(metric.get("bls_macro_points_available"), int)
+        and int(metric["bls_macro_points_available"]) > 0
+    ]
     summary = {
         "status": "ok",
         "validation_start": validation_start.isoformat(),
@@ -99,6 +107,9 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         "selected_avg_forward_excess_return_20d": mean(selected_excess),
         "selected_hit_rate_20d": mean([1.0 if value > 0 else 0.0 for value in selected_returns]),
         "selected_avg_forward_max_drawdown_20d": mean(drawdowns),
+        "bls_macro_dates_with_points": len(macro_dates),
+        "bls_macro_coverage_ratio": len(macro_dates) / len(date_metrics),
+        "macro_regime_groups": len(macro_regime_metrics),
         "order_created": False,
         "live_trading_authorized": False,
     }
@@ -110,6 +121,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         ),
         "summary": summary,
         "feature_weights": FEATURE_WEIGHTS,
+        "macro_regime_metrics": macro_regime_metrics,
         "date_metrics_sample": date_metrics[:5],
         "date_metrics_tail": date_metrics[-5:],
         "live_trading_authorized": False,
@@ -132,6 +144,9 @@ def read_scored_rows(path: Path) -> list[ScoredRow]:
                     forward_return_20d=float(raw["forward_return_20d"]),
                     forward_excess_return_20d=float(raw["forward_excess_return_20d"]),
                     forward_max_drawdown_20d=float(raw["forward_max_drawdown_20d"]),
+                    bls_macro_points_available=parse_optional_int(
+                        raw.get("bls_macro_points_available")
+                    ),
                 )
             )
     return rows
@@ -144,6 +159,11 @@ def score_row(row: Mapping[str, str]) -> float:
 def evaluate_date(day: date, rows: Sequence[ScoredRow], top_n: int) -> dict[str, Any]:
     ranked = sorted(rows, key=lambda row: row.score, reverse=True)
     selected = ranked[: min(top_n, len(ranked))]
+    macro_points = [
+        row.bls_macro_points_available
+        for row in rows
+        if row.bls_macro_points_available is not None
+    ]
     return {
         "as_of_date": day.isoformat(),
         "symbols_available": len(rows),
@@ -154,8 +174,51 @@ def evaluate_date(day: date, rows: Sequence[ScoredRow], top_n: int) -> dict[str,
         "selected_forward_max_drawdown_20d": mean(
             [row.forward_max_drawdown_20d for row in selected]
         ),
+        "bls_macro_points_available": max(macro_points) if macro_points else None,
         "top_score": selected[0].score if selected else 0.0,
     }
+
+
+def build_macro_regime_metrics(date_metrics: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[str, list[Mapping[str, Any]]] = defaultdict(list)
+    for metric in date_metrics:
+        raw_points = metric.get("bls_macro_points_available")
+        group_key = "missing" if raw_points is None else str(int(raw_points))
+        grouped[group_key].append(metric)
+
+    regimes: list[dict[str, Any]] = []
+    for group_key, metrics in sorted(grouped.items(), key=macro_group_sort_key):
+        selected_returns = [float(metric["selected_forward_return_20d"]) for metric in metrics]
+        universe_returns = [float(metric["universe_forward_return_20d"]) for metric in metrics]
+        selected_excess = [float(metric["selected_excess_return_20d"]) for metric in metrics]
+        regimes.append(
+            {
+                "bls_macro_points_available": group_key,
+                "validation_dates": len(metrics),
+                "selected_avg_forward_return_20d": mean(selected_returns),
+                "universe_avg_forward_return_20d": mean(universe_returns),
+                "selected_minus_universe_forward_return_20d": mean(selected_returns)
+                - mean(universe_returns),
+                "selected_avg_forward_excess_return_20d": mean(selected_excess),
+                "selected_hit_rate_20d": mean(
+                    [1.0 if value > 0 else 0.0 for value in selected_returns]
+                ),
+            }
+        )
+    return regimes
+
+
+def macro_group_sort_key(item: tuple[str, list[Mapping[str, Any]]]) -> tuple[int, str]:
+    key = item[0]
+    if key == "missing":
+        return (1_000_000, key)
+    return (int(key), key)
+
+
+def parse_optional_int(value: str | None) -> int | None:
+    if value in (None, "", "None"):
+        return None
+    return int(float(value))
 
 
 def mean(values: Sequence[float]) -> float:
@@ -197,9 +260,25 @@ def write_markdown(path: Path, report: Mapping[str, Any]) -> None:
             "- Selected avg 20d max drawdown: "
             f"`{percent(summary['selected_avg_forward_max_drawdown_20d'])}`"
         ),
+        f"- BLS macro dates with points: `{summary['bls_macro_dates_with_points']}`",
+        f"- BLS macro coverage ratio: `{percent(summary['bls_macro_coverage_ratio'])}`",
+        f"- Macro regime groups: `{summary['macro_regime_groups']}`",
         f"- Order created: `{summary['order_created']}`",
         f"- Live trading authorized: `{summary['live_trading_authorized']}`",
     ]
+    macro_regimes = report.get("macro_regime_metrics", [])
+    if macro_regimes:
+        lines.extend(["", "## BLS macro availability regimes", ""])
+        for regime in macro_regimes:
+            lines.append(
+                
+                    "- points="
+                    f"`{regime['bls_macro_points_available']}` dates="
+                    f"`{regime['validation_dates']}` selected-minus-universe="
+                    f"`{percent(regime['selected_minus_universe_forward_return_20d'])}` "
+                    f"hit-rate=`{percent(regime['selected_hit_rate_20d'])}`"
+                
+            )
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
