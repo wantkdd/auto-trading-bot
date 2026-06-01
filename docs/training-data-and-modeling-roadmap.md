@@ -22,7 +22,7 @@ The final bot should be a layered decision system:
 | Group | Data | Purpose | Current status |
 | --- | --- | --- | --- |
 | Price/volume | Daily and later intraday OHLCV, corporate-action-adjusted prices, volume | trend, volatility, drawdown, relative strength, labels | daily Yahoo cache exists; point-in-time dataset builder exists; Nasdaq Trader universe refresh exists; independent OHLCV source still needed |
-| Fundamentals | SEC companyfacts and submissions | quality, profitability, balance-sheet, filing-event gates | partially implemented |
+| Fundamentals | SEC companyfacts and submissions | quality, profitability, balance-sheet, filing-event gates | cached feature snapshot implemented; broader refresh next |
 | Macro regime | FRED/ALFRED rates, yield curve, inflation, labor, credit proxies | market regime and risk throttle | planned; API key may be required |
 | News/events | News API, SEC 8-K/10-Q/10-K, earnings calendar | event risk, sentiment/attention, thesis-break flags | SEC event count exists; news not collected yet |
 | Portfolio state | paper positions, target weights, drift, drawdown | convert scores into buy/sell/hold with risk caps | paper intent logging exists |

@@ -66,6 +66,7 @@ jobs:
         run: |
           set -euo pipefail
           uv run python scripts/fundamental_macro_recent_gate.py --top-candidates 8
+          uv run python scripts/sec_fundamental_feature_snapshot.py
           uv run python scripts/market_universe_candidate_scan.py --top-candidates 20
 
       - name: Generate dry-run target weights with no orders
@@ -95,6 +96,9 @@ jobs:
             reports/paper-trade-intent-log.jsonl
             .omx/reports/fundamental-macro-recent-gate-latest.json
             .omx/reports/fundamental-macro-recent-gate-latest.md
+            .omx/features/sec-fundamental-snapshot.csv
+            .omx/reports/sec-fundamental-feature-snapshot-latest.json
+            .omx/reports/sec-fundamental-feature-snapshot-latest.md
             .omx/reports/market-universe-scan-latest.json
             .omx/reports/market-universe-scan-latest.md
             .omx/reports/paper-observation-summary-latest.json
@@ -112,7 +116,10 @@ jobs:
           cp -f reports/paper-dry-run-signal-latest.json "${tmp_state}/reports/"
           cp -f reports/paper-observation-log.jsonl "${tmp_state}/reports/"
           cp -f reports/paper-trade-intent-log.jsonl "${tmp_state}/reports/"
+          mkdir -p "${tmp_state}/.omx/features"
+          cp -f .omx/features/sec-fundamental-snapshot.csv "${tmp_state}/.omx/features/"
           cp -f .omx/reports/fundamental-macro-recent-gate-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/sec-fundamental-feature-snapshot-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/market-universe-scan-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/paper-observation-summary-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/no-order-preview-latest.* "${tmp_state}/.omx/reports/"

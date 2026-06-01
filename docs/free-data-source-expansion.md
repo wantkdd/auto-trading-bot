@@ -14,7 +14,7 @@ Safety boundary: this is research/paper infrastructure only. It does not approve
 | Priority | Source | Cost/key | Use | Implementation status |
 | --- | --- | --- | --- | --- |
 | 1 | Nasdaq Trader symbol directories | Free, no key | Broad US listed-symbol universe, ETF/test issue filtering | Implemented |
-| 2 | SEC EDGAR APIs | Free, no key | US filings, company facts, 8-K/10-Q/10-K events | Partially implemented |
+| 2 | SEC EDGAR APIs | Free, no key | US filings, company facts, 8-K/10-Q/10-K events | Feature snapshot implemented from cache; broader refresh next |
 | 3 | Stooq historical data | Free captcha-issued key | Independent daily OHLCV replication | Planned; user/key step required |
 | 4 | GDELT DOC API | Free, no key | Global news attention/article-count features | Planned |
 | 5 | BLS Public Data API | Free, no key for low volume; registration key for higher limits | Labor/CPI/PPI macro features | Planned |
@@ -42,6 +42,7 @@ Fine-tuning comes after data maturity. First the bot needs dated, auditable exam
 - Nasdaq listed directory: https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqlisted.txt
 - Other listed directory: https://www.nasdaqtrader.com/dynamic/SymDir/otherlisted.txt
 - SEC EDGAR APIs: https://www.sec.gov/edgar/sec-api-documentation
+- SEC feature snapshot script: `scripts/sec_fundamental_feature_snapshot.py`
 - SEC fair access: https://www.sec.gov/search-filings/edgar-search-assistance/accessing-edgar-data
 - Stooq historical data: https://stooq.com/db/h/
 - GDELT DOC API: https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/

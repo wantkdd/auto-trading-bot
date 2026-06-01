@@ -108,6 +108,14 @@ uv run python scripts/point_in_time_dataset.py
 
 This writes `.omx/datasets/point-in-time-daily.csv` plus `.omx/reports/point-in-time-dataset-latest.json` / `.md`. Features use only data available at each `as_of_date`; forward labels are for offline evaluation only.
 
+Build the cached SEC fundamental feature snapshot with:
+
+```bash
+uv run python scripts/sec_fundamental_feature_snapshot.py --as-of 2026-05-29
+```
+
+This writes `.omx/features/sec-fundamental-snapshot.csv` plus a latest report. It uses SEC filed dates as the point-in-time boundary and defaults to local cache-only mode.
+
 Evaluate the first auditable no-order scorecard baseline with:
 
 ```bash
