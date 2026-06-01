@@ -35,6 +35,8 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "no-order-preview-latest" in workflow
     assert "paper-challenger-selection-latest" in workflow
     assert "paper-challenger-signal-latest" in workflow
+    assert 'if [[ -f reports/paper-challenger-signal-latest.json ]]' in workflow
+    assert "market_scan_has_no_safe_passed_challenger" in workflow
     assert "paper-challenger-observation-log.jsonl" in workflow
     assert "paper-challenger-observation-summary-latest" in workflow
     assert "operational-risk-gate-latest" in workflow

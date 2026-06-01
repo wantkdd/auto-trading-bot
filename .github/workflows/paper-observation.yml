@@ -96,11 +96,42 @@ jobs:
         run: |
           set -euo pipefail
           uv run python scripts/paper_observation_log.py
-          uv run python scripts/paper_observation_log.py \
-            --signal reports/paper-challenger-signal-latest.json \
-            --log reports/paper-challenger-observation-log.jsonl \
-            --summary .omx/reports/paper-challenger-observation-summary-latest.json \
-            --markdown .omx/reports/paper-challenger-observation-summary-latest.md
+          if [[ -f reports/paper-challenger-signal-latest.json ]]; then
+            uv run python scripts/paper_observation_log.py \
+              --signal reports/paper-challenger-signal-latest.json \
+              --log reports/paper-challenger-observation-log.jsonl \
+              --summary .omx/reports/paper-challenger-observation-summary-latest.json \
+              --markdown .omx/reports/paper-challenger-observation-summary-latest.md
+          else
+            uv run python - <<'PY'
+          import json
+          from datetime import UTC, datetime
+          from pathlib import Path
+
+          summary = {
+              "status": "blocked",
+              "observed_days": 0,
+              "required_days": 30,
+              "latest_as_of_date": None,
+              "latest_strategy": None,
+              "latest_virtual_equity": None,
+              "total_return_since_first_observation": None,
+              "max_drawdown_since_first_observation": None,
+              "generated_at": datetime.now(tz=UTC).isoformat(),
+              "blockers": ["market_scan_has_no_safe_passed_challenger"],
+              "safety": "challenger observation blocked; no orders; no trading venue; no advice",
+          }
+          out = Path(".omx/reports/paper-challenger-observation-summary-latest.json")
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+          Path(".omx/reports/paper-challenger-observation-summary-latest.md").write_text(
+              "# Paper challenger observation\n\n"
+              "Status: blocked\n\n"
+              "- market_scan_has_no_safe_passed_challenger\n",
+              encoding="utf-8",
+          )
+          PY
+          fi
           uv run python scripts/paper_trade_intent_log.py
           uv run python scripts/no_order_preview_report.py
           uv run python scripts/operational_risk_gate.py
@@ -166,9 +197,9 @@ jobs:
           tmp_state="$(mktemp -d)"
           mkdir -p "${tmp_state}/reports" "${tmp_state}/.omx/reports" "${tmp_state}/data/universe"
           cp -f reports/paper-dry-run-signal-latest.json "${tmp_state}/reports/"
-          cp -f reports/paper-challenger-signal-latest.json "${tmp_state}/reports/"
+          cp -f reports/paper-challenger-signal-latest.json "${tmp_state}/reports/" || true
           cp -f reports/paper-observation-log.jsonl "${tmp_state}/reports/"
-          cp -f reports/paper-challenger-observation-log.jsonl "${tmp_state}/reports/"
+          cp -f reports/paper-challenger-observation-log.jsonl "${tmp_state}/reports/" || true
           cp -f reports/paper-trade-intent-log.jsonl "${tmp_state}/reports/"
           mkdir -p "${tmp_state}/.omx/features"
           cp -f .omx/features/sec-fundamental-snapshot.csv "${tmp_state}/.omx/features/"
