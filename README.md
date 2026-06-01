@@ -162,6 +162,14 @@ uv run python scripts/no_order_preview_report.py
 
 The report is written to `.omx/reports/no-order-preview-latest.json` and `.md` and is also persisted by the scheduled paper-observation workflow.
 
+Generate the latest no-order operational risk gate with:
+
+```bash
+uv run python scripts/operational_risk_gate.py
+```
+
+This writes `.omx/reports/operational-risk-gate-latest.json` and `.md` with stale-data, drift/loss-limit, manual kill-switch, and trade-intent safety checks. It can only halt or block promotion; it cannot approve live trading.
+
 ## Future live-trading work
 
 Any paper or live trading proposal must pass a separate approval gate before design or implementation. See `docs/future-live-trading-gate.md`. Until that gate is approved, this repository remains local-simulator-only and must not add broker SDKs, network clients, credential storage, account reads, or order-routing paths.

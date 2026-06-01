@@ -25,6 +25,10 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--market-scan", default=".omx/reports/market-universe-scan-latest.json")
     parser.add_argument("--bls-macro", default=".omx/reports/bls-macro-snapshot-latest.json")
     parser.add_argument("--no-order-preview", default=".omx/reports/no-order-preview-latest.json")
+    parser.add_argument(
+        "--operational-risk",
+        default=".omx/reports/operational-risk-gate-latest.json",
+    )
     parser.add_argument("--run-url", default=os.environ.get("GITHUB_RUN_URL", ""))
     parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", ""))
     parser.add_argument("--mode", choices=("success", "failure"), default="success")
@@ -51,6 +55,7 @@ def build_issue_body(args: argparse.Namespace) -> str:
     market_scan = read_json_if_exists(Path(args.market_scan))
     bls_macro = read_json_if_exists(Path(args.bls_macro))
     no_order_preview = read_json_if_exists(Path(args.no_order_preview))
+    operational_risk = read_json_if_exists(Path(args.operational_risk))
     observed_days = summary.get("observed_days", "unknown") if summary else "unknown"
     required_days = summary.get("required_days", "unknown") if summary else "unknown"
     status = summary.get("status", "missing_summary") if summary else "missing_summary"
@@ -76,6 +81,12 @@ def build_issue_body(args: argparse.Namespace) -> str:
     no_order_rejected = no_order_summary.get("rejected", "unknown")
     no_order_total_notional = no_order_summary.get("total_notional", "unknown")
     no_order_created = no_order_summary.get("order_created", False)
+    operational_summary = operational_risk.get("summary", {}) if operational_risk else {}
+    operational_status = operational_summary.get("status", "missing")
+    operational_halt = operational_summary.get("halt_required", "unknown")
+    staleness_status = operational_summary.get("market_data_staleness_gate", "unknown")
+    drift_status = operational_summary.get("drift_monitor", "unknown")
+    kill_switch_status = operational_summary.get("kill_switch", "unknown")
     issue_state = "실패/확인 필요" if args.mode == "failure" else "정상 관찰 중"
     return "\n".join(
         [
@@ -98,6 +109,11 @@ def build_issue_body(args: argparse.Namespace) -> str:
             f"- no-order preview status: `{no_order_status}`",
             f"- no-order accepted/rejected: `{no_order_accepted} / {no_order_rejected}`",
             f"- no-order accepted notional: `{no_order_total_notional}`",
+            f"- operational risk status: `{operational_status}`",
+            f"- operational halt required: `{operational_halt}`",
+            f"- market-data staleness gate: `{staleness_status}`",
+            f"- drift monitor: `{drift_status}`",
+            f"- kill switch: `{kill_switch_status}`",
             f"- order created: `{no_order_created}`",
             f"- GitHub run: {args.run_url or 'n/a'}",
             "",

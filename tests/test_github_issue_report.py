@@ -19,6 +19,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     market_scan = tmp_path / "market-scan.json"
     bls_macro = tmp_path / "bls-macro.json"
     no_order_preview = tmp_path / "no-order-preview.json"
+    operational_risk = tmp_path / "operational-risk.json"
     summary.write_text(
         json.dumps(
             {
@@ -73,6 +74,20 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
         ),
         encoding="utf-8",
     )
+    operational_risk.write_text(
+        json.dumps(
+            {
+                "summary": {
+                    "status": "monitoring",
+                    "halt_required": False,
+                    "market_data_staleness_gate": "pass",
+                    "drift_monitor": "pass",
+                    "kill_switch": "armed",
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
 
     body = build_issue_body(
         argparse.Namespace(
@@ -81,6 +96,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
             market_scan=str(market_scan),
             bls_macro=str(bls_macro),
             no_order_preview=str(no_order_preview),
+            operational_risk=str(operational_risk),
             run_url="https://example.test/run",
             repo="wantkdd/auto-trading-bot",
             mode="success",
@@ -95,6 +111,9 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     assert "BLS macro latest points: `3`" in body
     assert "no-order preview status: `ok`" in body
     assert "no-order accepted/rejected: `2 / 0`" in body
+    assert "operational risk status: `monitoring`" in body
+    assert "market-data staleness gate: `pass`" in body
+    assert "kill switch: `armed`" in body
     assert "order created: `False`" in body
     assert "human_approval_missing" in body
     assert "실주문" in body

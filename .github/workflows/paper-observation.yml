@@ -84,6 +84,7 @@ jobs:
           uv run python scripts/paper_observation_log.py
           uv run python scripts/paper_trade_intent_log.py
           uv run python scripts/no_order_preview_report.py
+          uv run python scripts/operational_risk_gate.py
           uv run python scripts/live_readiness_gate.py
 
       - name: Upload observation artifacts
@@ -108,6 +109,8 @@ jobs:
             .omx/reports/paper-observation-summary-latest.md
             .omx/reports/no-order-preview-latest.json
             .omx/reports/no-order-preview-latest.md
+            .omx/reports/operational-risk-gate-latest.json
+            .omx/reports/operational-risk-gate-latest.md
             .omx/reports/live-readiness-gate-latest.json
             .omx/reports/live-readiness-gate-latest.md
 
@@ -127,6 +130,7 @@ jobs:
           cp -f .omx/reports/market-universe-scan-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/paper-observation-summary-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/no-order-preview-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/operational-risk-gate-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/live-readiness-gate-latest.* "${tmp_state}/.omx/reports/"
           git -C "${tmp_state}" init
           git -C "${tmp_state}" checkout -b "${STATE_BRANCH}"

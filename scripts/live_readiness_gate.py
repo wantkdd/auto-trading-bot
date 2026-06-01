@@ -32,6 +32,10 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         default=".omx/reports/fundamental-macro-recent-gate-latest.json",
     )
     parser.add_argument("--paper-signal", default="reports/paper-dry-run-signal-latest.json")
+    parser.add_argument(
+        "--operational-risk-report",
+        default=".omx/reports/operational-risk-gate-latest.json",
+    )
     parser.add_argument("--output", default=".omx/reports/live-readiness-gate-latest.json")
     parser.add_argument("--markdown", default=".omx/reports/live-readiness-gate-latest.md")
     parser.add_argument("--min-passing-candidates", type=int, default=3)
@@ -62,6 +66,11 @@ def main(argv: Sequence[str] | None = None) -> int:
 def build_report(args: argparse.Namespace) -> dict[str, Any]:
     fundamental_report = read_json(Path(args.fundamental_report))
     paper_signal = read_json(Path(args.paper_signal)) if Path(args.paper_signal).exists() else None
+    operational_risk_report = (
+        read_json(Path(args.operational_risk_report))
+        if Path(args.operational_risk_report).exists()
+        else None
+    )
     candidates = tuple(fundamental_report.get("candidate_gates", ()))
     passed = tuple(row for row in candidates if row.get("status") == "pass")
     top = passed[0] if passed else None
@@ -73,18 +82,18 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     )
     report_as_of = str(fundamental_report.get("as_of_date") or "")
     paper_blockers = paper_signal_blockers(top, paper_signal, expected_as_of=report_as_of)
+    operational_blockers = operational_readiness_blockers(operational_risk_report)
     live_blockers = [
         *candidate_blockers,
         *paper_blockers,
+        *operational_blockers,
         "independent_non_yahoo_data_replication_missing",
         "minimum_30_trading_day_paper_observation_missing",
-        "drift_monitor_and_kill_switch_not_implemented",
         "tax_cost_and_liquidity_review_missing",
         "human_approval_missing",
         "legal_or_registered_adviser_review_missing_for_automated_investment_advice",
         "broker_sandbox_and_order_reconciliation_intentionally_not_connected",
         "broker_api_latency_budget_not_defined",
-        "market_data_latency_and_staleness_gate_missing",
         "slippage_and_spread_model_not_validated_against_live_quotes",
         "partial_fill_rejection_cancel_replace_handling_missing",
         "idempotency_keys_and_duplicate_order_prevention_missing",
@@ -111,6 +120,11 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "top_candidate": top.get("name") if top else None,
             "top_candidate_symbols": top.get("symbols") if top else [],
             "top_candidate_weights": top.get("weights") if top else [],
+            "operational_risk_status": (
+                operational_risk_report.get("summary", {}).get("status")
+                if operational_risk_report
+                else "missing"
+            ),
             "live_trading_authorized": False,
         },
         "candidate_gate": {
@@ -125,16 +139,47 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "paper_blockers": paper_blockers,
             "paper_signal": compact_paper_signal(paper_signal),
         },
+        "operational_risk_gate": {
+            "source_report": str(args.operational_risk_report),
+            "signal_present": operational_risk_report is not None,
+            "operational_blockers": operational_blockers,
+            "summary": (
+                operational_risk_report.get("summary") if operational_risk_report else None
+            ),
+        },
         "live_blockers": live_blockers,
         "required_next_evidence": [
             "Run at least 30 trading days of dry-run target logging with no broker connection.",
             "Replicate price history with an independent licensed or official data source.",
-            "Add drift monitor, loss limits, stale-data halt, and manual kill switch tests.",
+            "Keep operational risk gate passing: drift monitor, loss limits, stale-data halt, "
+            "and manual kill switch.",
             "Define broker API latency budget, stale-quote halt, idempotent order model, "
             "partial-fill handling, and reconciliation tests before any broker sandbox.",
             "Complete tax/cost/liquidity and legal/adviser-status review before any real capital.",
         ],
     }
+
+
+def operational_readiness_blockers(
+    operational_risk_report: Mapping[str, Any] | None,
+) -> list[str]:
+    if operational_risk_report is None:
+        return [
+            "operational_risk_gate_missing",
+            "drift_monitor_and_kill_switch_not_implemented",
+            "market_data_latency_and_staleness_gate_missing",
+        ]
+    summary = operational_risk_report.get("summary", {})
+    blockers: list[str] = []
+    if summary.get("drift_monitor") not in {"pass", "collecting"}:
+        blockers.append("drift_monitor_halt_or_invalid")
+    if summary.get("kill_switch") not in {"armed", "halt"}:
+        blockers.append("kill_switch_not_armed")
+    if summary.get("market_data_staleness_gate") != "pass":
+        blockers.append("market_data_staleness_gate_not_passing")
+    if summary.get("halt_required") is True:
+        blockers.append("operational_halt_required")
+    return blockers
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -239,6 +284,7 @@ def write_markdown(path: Path, report: Mapping[str, Any]) -> None:
         f"- Paper dry-run ready: {report['summary']['paper_dry_run_ready']}",
         f"- Top candidate: {report['summary']['top_candidate']}",
         f"- Passing candidates: {report['summary']['passing_candidates']}",
+        f"- Operational risk status: {report['summary']['operational_risk_status']}",
         "",
         "## Passing candidates",
         "",

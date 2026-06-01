@@ -2,7 +2,11 @@
 
 from __future__ import annotations
 
-from scripts.live_readiness_gate import candidate_readiness_blockers, paper_signal_blockers
+from scripts.live_readiness_gate import (
+    candidate_readiness_blockers,
+    operational_readiness_blockers,
+    paper_signal_blockers,
+)
 
 
 def test_candidate_readiness_blocks_leverage_and_concentration() -> None:
@@ -62,3 +66,41 @@ def test_paper_signal_blocks_as_of_mismatch() -> None:
     assert paper_signal_blockers(top, signal, expected_as_of="2026-05-28") == [
         "paper_signal_as_of_date_mismatch"
     ]
+
+
+def test_operational_readiness_blocks_missing_report() -> None:
+    assert operational_readiness_blockers(None) == [
+        "operational_risk_gate_missing",
+        "drift_monitor_and_kill_switch_not_implemented",
+        "market_data_latency_and_staleness_gate_missing",
+    ]
+
+
+def test_operational_readiness_accepts_monitoring_gate() -> None:
+    report = {
+        "summary": {
+            "drift_monitor": "pass",
+            "kill_switch": "armed",
+            "market_data_staleness_gate": "pass",
+            "halt_required": False,
+        }
+    }
+
+    assert operational_readiness_blockers(report) == []
+
+
+def test_operational_readiness_blocks_halt_required() -> None:
+    report = {
+        "summary": {
+            "drift_monitor": "halt",
+            "kill_switch": "halt",
+            "market_data_staleness_gate": "blocked",
+            "halt_required": True,
+        }
+    }
+
+    blockers = operational_readiness_blockers(report)
+
+    assert "drift_monitor_halt_or_invalid" in blockers
+    assert "market_data_staleness_gate_not_passing" in blockers
+    assert "operational_halt_required" in blockers

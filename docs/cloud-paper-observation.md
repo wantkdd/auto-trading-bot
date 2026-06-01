@@ -27,11 +27,16 @@ Each scheduled run now also writes `.omx/reports/market-universe-scan-latest.jso
 
 After writing the hypothetical trade-intent log, the workflow also writes `.omx/reports/no-order-preview-latest.json` and `.md`. This runs the local no-order adapter contract against the latest `would_buy` / `would_sell` rows and records accepted/rejected intents, accepted notional, and `order_created: false`. It is a validation report only: no broker, no credentials, no API calls, and no orders.
 
+## Operational risk gate
+
+Each run also writes `.omx/reports/operational-risk-gate-latest.json` and `.md`. This checks market-data staleness, paper-equity drift/loss limits, the manual kill-switch flag path, and that hypothetical trade-intent rows still have `order_created: false`. The gate can only block or halt paper promotion; it cannot approve live trading and does not connect to any broker.
+
 ## State and artifacts
 
 - Durable observation log: `paper-observation-state:reports/paper-observation-log.jsonl`
 - Hypothetical trade-intent log: `paper-observation-state:reports/paper-trade-intent-log.jsonl`
 - Latest no-order preview: `paper-observation-state:.omx/reports/no-order-preview-latest.json`
+- Latest operational risk gate: `paper-observation-state:.omx/reports/operational-risk-gate-latest.json`
 - Latest generated reports: `paper-observation-state:.omx/reports/*latest*`
 - Per-run artifacts: uploaded by GitHub Actions with `retention-days: 90`
 
