@@ -17,6 +17,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     summary = tmp_path / "summary.json"
     readiness = tmp_path / "readiness.json"
     market_scan = tmp_path / "market-scan.json"
+    no_order_preview = tmp_path / "no-order-preview.json"
     summary.write_text(
         json.dumps(
             {
@@ -53,12 +54,27 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
         ),
         encoding="utf-8",
     )
+    no_order_preview.write_text(
+        json.dumps(
+            {
+                "summary": {
+                    "status": "ok",
+                    "accepted": 2,
+                    "rejected": 0,
+                    "total_notional": 9482.45,
+                    "order_created": False,
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
 
     body = build_issue_body(
         argparse.Namespace(
             summary=str(summary),
             readiness=str(readiness),
             market_scan=str(market_scan),
+            no_order_preview=str(no_order_preview),
             run_url="https://example.test/run",
             repo="wantkdd/auto-trading-bot",
             mode="success",
@@ -69,5 +85,8 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     assert "live trading authorized: `False`" in body
     assert "시장 후보군 스캔 종목수: `82`" in body
     assert "NVDA_0.3_GLD_0.7" in body
+    assert "no-order preview status: `ok`" in body
+    assert "no-order accepted/rejected: `2 / 0`" in body
+    assert "order created: `False`" in body
     assert "human_approval_missing" in body
     assert "실주문" in body

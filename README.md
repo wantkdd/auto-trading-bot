@@ -106,6 +106,14 @@ The current recommendation is to defer broker connection and start with a broker
 
 `src/auto_trading_bot/broker_contract.py` defines the current broker boundary: validated `would_buy` / `would_sell` paper intents can be previewed by a fixture adapter, but every plan keeps `order_created=false`, `paper_api_authorized=false`, and `live_trading_authorized=false`. The contract has no broker SDK, network client, credential lookup, or account access.
 
+Generate the latest local preview report from paper intent logs with:
+
+```bash
+uv run python scripts/no_order_preview_report.py
+```
+
+The report is written to `.omx/reports/no-order-preview-latest.json` and `.md` and is also persisted by the scheduled paper-observation workflow.
+
 ## Future live-trading work
 
 Any paper or live trading proposal must pass a separate approval gate before design or implementation. See `docs/future-live-trading-gate.md`. Until that gate is approved, this repository remains local-simulator-only and must not add broker SDKs, network clients, credential storage, account reads, or order-routing paths.

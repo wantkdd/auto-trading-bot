@@ -23,10 +23,15 @@ GitHub scheduled workflows run from the latest commit on the default branch. Sch
 
 Each scheduled run now also writes `.omx/reports/market-universe-scan-latest.json` and `.md`. This scans a broad non-leveraged large/liquid watchlist, but it does not automatically switch the locked paper strategy. Candidate replacement requires a separate promotion gate; the workflow remains no-order and not live trading.
 
+## No-order preview
+
+After writing the hypothetical trade-intent log, the workflow also writes `.omx/reports/no-order-preview-latest.json` and `.md`. This runs the local no-order adapter contract against the latest `would_buy` / `would_sell` rows and records accepted/rejected intents, accepted notional, and `order_created: false`. It is a validation report only: no broker, no credentials, no API calls, and no orders.
+
 ## State and artifacts
 
 - Durable observation log: `paper-observation-state:reports/paper-observation-log.jsonl`
 - Hypothetical trade-intent log: `paper-observation-state:reports/paper-trade-intent-log.jsonl`
+- Latest no-order preview: `paper-observation-state:.omx/reports/no-order-preview-latest.json`
 - Latest generated reports: `paper-observation-state:.omx/reports/*latest*`
 - Per-run artifacts: uploaded by GitHub Actions with `retention-days: 90`
 
