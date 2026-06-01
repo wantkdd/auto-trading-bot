@@ -30,6 +30,10 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         default=".omx/reports/paper-challenger-selection-latest.json",
     )
     parser.add_argument(
+        "--challenger-summary",
+        default=".omx/reports/paper-challenger-observation-summary-latest.json",
+    )
+    parser.add_argument(
         "--operational-risk",
         default=".omx/reports/operational-risk-gate-latest.json",
     )
@@ -68,6 +72,7 @@ def build_issue_body(args: argparse.Namespace) -> str:
     bls_macro = read_json_if_exists(Path(args.bls_macro))
     no_order_preview = read_json_if_exists(Path(args.no_order_preview))
     challenger_selection = read_json_if_exists(Path(args.challenger_selection))
+    challenger_observation = read_json_if_exists(Path(args.challenger_summary))
     operational_risk = read_json_if_exists(Path(args.operational_risk))
     independent_price = read_json_if_exists(Path(args.independent_price))
     observed_days = summary.get("observed_days", "unknown") if summary else "unknown"
@@ -99,6 +104,31 @@ def build_issue_body(args: argparse.Namespace) -> str:
     challenger_status = challenger_summary.get("status", "missing")
     challenger_strategy = challenger_summary.get("challenger_strategy", "unknown")
     primary_strategy_changed = challenger_summary.get("primary_strategy_changed", "unknown")
+    challenger_observation_status = (
+        challenger_observation.get("status", "missing")
+        if challenger_observation
+        else "missing"
+    )
+    challenger_observed_days = (
+        challenger_observation.get("observed_days", "unknown")
+        if challenger_observation
+        else "unknown"
+    )
+    challenger_latest_equity = (
+        challenger_observation.get("latest_virtual_equity", "unknown")
+        if challenger_observation
+        else "unknown"
+    )
+    challenger_total_return = (
+        challenger_observation.get("total_return_since_first_observation")
+        if challenger_observation
+        else None
+    )
+    challenger_drawdown = (
+        challenger_observation.get("max_drawdown_since_first_observation")
+        if challenger_observation
+        else None
+    )
     operational_summary = operational_risk.get("summary", {}) if operational_risk else {}
     operational_status = operational_summary.get("status", "missing")
     operational_halt = operational_summary.get("halt_required", "unknown")
@@ -138,6 +168,11 @@ def build_issue_body(args: argparse.Namespace) -> str:
             f"- challenger status: `{challenger_status}`",
             f"- challenger strategy: `{challenger_strategy}`",
             f"- primary strategy changed: `{primary_strategy_changed}`",
+            f"- challenger observation status: `{challenger_observation_status}`",
+            f"- challenger observed days: `{challenger_observed_days}`",
+            f"- challenger virtual equity: `{challenger_latest_equity}`",
+            f"- challenger total return: `{format_percent(challenger_total_return)}`",
+            f"- challenger max drawdown: `{format_percent(challenger_drawdown)}`",
             f"- operational risk status: `{operational_status}`",
             f"- operational halt required: `{operational_halt}`",
             f"- market-data staleness gate: `{staleness_status}`",

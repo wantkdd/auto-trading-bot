@@ -20,6 +20,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     bls_macro = tmp_path / "bls-macro.json"
     no_order_preview = tmp_path / "no-order-preview.json"
     challenger_selection = tmp_path / "challenger-selection.json"
+    challenger_summary = tmp_path / "challenger-summary.json"
     operational_risk = tmp_path / "operational-risk.json"
     independent_price = tmp_path / "independent-price.json"
     summary.write_text(
@@ -88,6 +89,18 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
         ),
         encoding="utf-8",
     )
+    challenger_summary.write_text(
+        json.dumps(
+            {
+                "status": "collecting",
+                "observed_days": 5,
+                "latest_virtual_equity": 10_250.0,
+                "total_return_since_first_observation": 0.025,
+                "max_drawdown_since_first_observation": -0.01,
+            }
+        ),
+        encoding="utf-8",
+    )
     operational_risk.write_text(
         json.dumps(
             {
@@ -123,6 +136,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
             bls_macro=str(bls_macro),
             no_order_preview=str(no_order_preview),
             challenger_selection=str(challenger_selection),
+            challenger_summary=str(challenger_summary),
             operational_risk=str(operational_risk),
             independent_price=str(independent_price),
             run_url="https://example.test/run",
@@ -142,6 +156,11 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     assert "challenger status: `pass`" in body
     assert "challenger strategy: `LLY_0.4_GLD_0.6`" in body
     assert "primary strategy changed: `False`" in body
+    assert "challenger observation status: `collecting`" in body
+    assert "challenger observed days: `5`" in body
+    assert "challenger virtual equity: `10250.0`" in body
+    assert "challenger total return: `2.50%`" in body
+    assert "challenger max drawdown: `-1.00%`" in body
     assert "operational risk status: `monitoring`" in body
     assert "market-data staleness gate: `pass`" in body
     assert "kill switch: `armed`" in body
@@ -161,6 +180,7 @@ def test_build_issue_body_supports_action_needed_mode(tmp_path) -> None:
             bls_macro=str(tmp_path / "missing-bls.json"),
             no_order_preview=str(tmp_path / "missing-preview.json"),
             challenger_selection=str(tmp_path / "missing-challenger.json"),
+            challenger_summary=str(tmp_path / "missing-challenger-summary.json"),
             operational_risk=str(tmp_path / "missing-operational.json"),
             independent_price=str(tmp_path / "missing-independent.json"),
             run_url="",
