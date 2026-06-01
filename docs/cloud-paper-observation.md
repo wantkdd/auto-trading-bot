@@ -42,6 +42,7 @@ The workflow writes `.omx/reports/independent-price-replication-latest.json` and
 - Latest no-order preview: `paper-observation-state:.omx/reports/no-order-preview-latest.json`
 - Latest operational risk gate: `paper-observation-state:.omx/reports/operational-risk-gate-latest.json`
 - Latest independent price replication: `paper-observation-state:.omx/reports/independent-price-replication-latest.json`
+- Latest SEC feature snapshot: `paper-observation-state:.omx/features/sec-fundamental-snapshot.csv`
 - Latest generated reports: `paper-observation-state:.omx/reports/*latest*`
 - Per-run artifacts: uploaded by GitHub Actions with `retention-days: 90`
 
