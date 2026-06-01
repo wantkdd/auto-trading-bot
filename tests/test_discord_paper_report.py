@@ -26,6 +26,7 @@ def _args(tmp_path: Path, **overrides):
         "dynamic_universe": str(tmp_path / "dynamic-universe.json"),
         "market_scan": str(tmp_path / "market.json"),
         "challenger_selection": str(tmp_path / "selection.json"),
+        "intraday_log": str(tmp_path / "intraday.jsonl"),
         "run_url": "https://example.test/run",
         "output": str(tmp_path / "discord.json"),
         "markdown": str(tmp_path / "discord.md"),
@@ -99,6 +100,26 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
     )
     _write(tmp_path / "market.json", {"summary": {"top_candidate": "LLY_0.4_GLD_0.6"}})
     _write(tmp_path / "selection.json", {"summary": {"challenger_strategy": "LLY_0.4_GLD_0.6"}})
+    (tmp_path / "intraday.jsonl").write_text(
+        "\n".join(
+            [
+                json.dumps(
+                    {
+                        "generated_at": "2026-06-05T14:00:00+00:00",
+                        "summary": {"status": "ok", "changes": 1, "notable": 0},
+                    }
+                ),
+                json.dumps(
+                    {
+                        "generated_at": "2026-06-05T14:05:00+00:00",
+                        "summary": {"status": "ok", "changes": 0, "notable": 2},
+                    }
+                ),
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
     report = build_report(_args(tmp_path))
 
@@ -108,6 +129,10 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
     assert "3주 최종 점검" in report["message"]
     assert "동적 universe: `150`종목" in report["message"]
     assert "우선 관찰 10종목" in report["message"]
+    assert "장중 5분 로그 요약" in report["message"]
+    assert "저장된 장중 체크: `2`회" in report["message"]
+    assert "판단 변화 합계: `1`" in report["message"]
+    assert "특이 움직임 합계: `2`" in report["message"]
     assert "NVDA" in report["message"]
     assert "실금액 자동매매는 아직 승인되지 않았습니다" in report["message"]
 

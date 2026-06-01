@@ -52,6 +52,11 @@ jobs:
             git show "${STATE_BRANCH}:reports/paper-trade-intent-log.jsonl" \
               > reports/paper-trade-intent-log.jsonl || true
           fi
+          git fetch origin intraday-no-order-state:intraday-no-order-state || true
+          if git show-ref --verify --quiet refs/heads/intraday-no-order-state; then
+            git show intraday-no-order-state:reports/intraday-no-order-log.jsonl \
+              > reports/intraday-no-order-log.jsonl || true
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -160,6 +165,7 @@ jobs:
             reports/paper-observation-log.jsonl
             reports/paper-challenger-observation-log.jsonl
             reports/paper-trade-intent-log.jsonl
+            reports/intraday-no-order-log.jsonl
             .omx/reports/fundamental-macro-recent-gate-latest.json
             .omx/reports/fundamental-macro-recent-gate-latest.md
             .omx/features/sec-fundamental-snapshot.csv

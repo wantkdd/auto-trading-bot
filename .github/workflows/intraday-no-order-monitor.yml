@@ -30,7 +30,6 @@ jobs:
       PYTHON_VERSION: "3.11"
       STATE_BRANCH: "intraday-no-order-state"
       FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
-      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
     steps:
       - name: Check out research repo
         uses: actions/checkout@v4
@@ -65,8 +64,7 @@ jobs:
           set -euo pipefail
           uv run python scripts/intraday_no_order_monitor.py \
             --max-symbols 10 \
-            --max-log-entries 1000 \
-            --send-discord
+            --max-log-entries 1000
 
       - name: Upload short-lived intraday artifacts
         uses: actions/upload-artifact@v4

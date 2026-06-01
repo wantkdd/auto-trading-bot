@@ -24,6 +24,7 @@ DEFAULT_GATE_STATUS = ".omx/reports/no-order-gate-status-latest.json"
 DEFAULT_DYNAMIC_UNIVERSE = ".omx/reports/us-dynamic-liquid-universe-latest.json"
 DEFAULT_MARKET_SCAN = ".omx/reports/market-universe-scan-latest.json"
 DEFAULT_CHALLENGER_SELECTION = ".omx/reports/paper-challenger-selection-latest.json"
+DEFAULT_INTRADAY_LOG = "reports/intraday-no-order-log.jsonl"
 DEFAULT_OUTPUT = ".omx/reports/discord-paper-report-latest.json"
 DEFAULT_MARKDOWN = ".omx/reports/discord-paper-report-latest.md"
 DISCORD_LIMIT = 2000
@@ -40,6 +41,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--dynamic-universe", default=DEFAULT_DYNAMIC_UNIVERSE)
     parser.add_argument("--market-scan", default=DEFAULT_MARKET_SCAN)
     parser.add_argument("--challenger-selection", default=DEFAULT_CHALLENGER_SELECTION)
+    parser.add_argument("--intraday-log", default=DEFAULT_INTRADAY_LOG)
     parser.add_argument("--run-url", default=os.environ.get("GITHUB_RUN_URL", ""))
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     parser.add_argument("--markdown", default=DEFAULT_MARKDOWN)
@@ -79,6 +81,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     dynamic_universe = read_json_if_exists(Path(args.dynamic_universe)) or {}
     market_scan = read_json_if_exists(Path(args.market_scan)) or {}
     challenger_selection = read_json_if_exists(Path(args.challenger_selection)) or {}
+    intraday = summarize_intraday_log(Path(args.intraday_log))
     sections = report_sections(
         paper, weekly_day=args.weekly_day, final_days=args.final_observed_days
     )
@@ -91,6 +94,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         dynamic_universe=dynamic_universe,
         market_scan=market_scan,
         challenger_selection=challenger_selection,
+        intraday=intraday,
         sections=sections,
         run_url=args.run_url,
         final_days=args.final_observed_days,
@@ -111,6 +115,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "dynamic_universe": str(args.dynamic_universe),
             "market_scan": str(args.market_scan),
             "challenger_selection": str(args.challenger_selection),
+            "intraday_log": str(args.intraday_log),
         },
     }
 
@@ -140,6 +145,7 @@ def render_message(
     dynamic_universe: Mapping[str, Any],
     market_scan: Mapping[str, Any],
     challenger_selection: Mapping[str, Any],
+    intraday: Mapping[str, Any],
     sections: Sequence[str],
     run_url: str,
     final_days: int,
@@ -173,6 +179,13 @@ def render_message(
         f"- would buy/sell 통과: `{preview_summary.get('accepted', 'unknown')}`건",
         f"- 거절: `{preview_summary.get('rejected', 'unknown')}`건",
         f"- 가정 거래금액: `{money(preview_summary.get('total_notional'))}`",
+        "",
+        "**장중 5분 로그 요약**",
+        f"- 저장된 장중 체크: `{intraday.get('entries', 0)}`회",
+        f"- 최근 장중 상태: `{intraday.get('latest_status', 'unknown')}`",
+        f"- 판단 변화 합계: `{intraday.get('total_changes', 0)}`",
+        f"- 특이 움직임 합계: `{intraday.get('total_notable', 0)}`",
+        f"- 최근 체크 시각: `{intraday.get('latest_generated_at', 'unknown')}`",
         "",
         "**시장 스캔 Challenger**",
         (
@@ -258,6 +271,46 @@ def read_json_if_exists(path: Path) -> dict[str, Any] | None:
         return None
     payload = json.loads(path.read_text(encoding="utf-8"))
     return payload if isinstance(payload, dict) else None
+
+
+def summarize_intraday_log(path: Path) -> dict[str, Any]:
+    rows = read_jsonl_if_exists(path)
+    if not rows:
+        return {
+            "entries": 0,
+            "latest_status": "missing",
+            "latest_generated_at": "unknown",
+            "total_changes": 0,
+            "total_notable": 0,
+        }
+    latest = rows[-1]
+    summaries = [mapping(row.get("summary")) for row in rows]
+    return {
+        "entries": len(rows),
+        "latest_status": mapping(latest.get("summary")).get(
+            "status", latest.get("status", "unknown")
+        ),
+        "latest_generated_at": latest.get("generated_at", "unknown"),
+        "total_changes": sum_int(summary.get("changes") for summary in summaries),
+        "total_notable": sum_int(summary.get("notable") for summary in summaries),
+    }
+
+
+def read_jsonl_if_exists(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    rows: list[dict[str, Any]] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        payload = json.loads(line)
+        if isinstance(payload, dict):
+            rows.append(payload)
+    return rows
+
+
+def sum_int(values: Sequence[Any]) -> int:
+    return sum(int(value) for value in values if isinstance(value, int | float))
 
 
 def write_outputs(report: Mapping[str, Any], output: Path, markdown: Path) -> None:
