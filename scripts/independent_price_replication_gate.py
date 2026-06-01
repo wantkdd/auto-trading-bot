@@ -69,16 +69,16 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 
 def build_report(args: argparse.Namespace) -> dict[str, Any]:
-    paper_signal = read_json_if_exists(Path(args.paper_signal))
+    paper_signal, paper_signal_blockers = read_paper_signal(Path(args.paper_signal))
     generated_at = datetime.now(tz=UTC)
     provider, provider_key, provider_blockers = resolve_provider(args)
-    blockers: list[str] = []
+    blockers: list[str] = [*paper_signal_blockers]
     comparisons: list[dict[str, Any]] = []
-    if paper_signal is None:
+    if paper_signal is None and not blockers:
         blockers.append("paper_signal_missing_for_independent_price_replication")
-    elif provider_blockers:
+    if paper_signal is not None and provider_blockers:
         blockers.extend(provider_blockers)
-    else:
+    elif paper_signal is not None:
         comparisons, blockers = compare_provider_to_signal(
             paper_signal,
             provider=provider,
@@ -121,11 +121,16 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     }
 
 
-def read_json_if_exists(path: Path) -> dict[str, Any] | None:
+def read_paper_signal(path: Path) -> tuple[dict[str, Any] | None, list[str]]:
     if not path.exists():
-        return None
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    return payload if isinstance(payload, dict) else None
+        return None, []
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None, ["paper_signal_json_invalid_for_independent_price_replication"]
+    return (
+        (payload, []) if isinstance(payload, dict) else (None, ["paper_signal_json_shape_invalid"])
+    )
 
 
 def resolve_provider(args: argparse.Namespace) -> tuple[str, str, list[str]]:
@@ -160,7 +165,10 @@ def compare_provider_to_signal(
 ) -> tuple[list[dict[str, Any]], list[str]]:
     blockers: list[str] = []
     comparisons: list[dict[str, Any]] = []
-    as_of = date.fromisoformat(str(paper_signal.get("as_of_date")))
+    try:
+        as_of = date.fromisoformat(str(paper_signal.get("as_of_date")))
+    except ValueError:
+        return [], ["paper_signal_as_of_date_invalid_for_independent_price_replication"]
     source_bars = paper_signal.get("source_bars", {})
     if not isinstance(source_bars, Mapping) or not source_bars:
         return [], ["paper_signal_source_bars_missing"]
@@ -170,7 +178,14 @@ def compare_provider_to_signal(
         if not isinstance(raw_bar, Mapping):
             blockers.append(f"source_bar_invalid:{symbol}")
             continue
-        yahoo_close = float(raw_bar.get("close", 0.0) or 0.0)
+        try:
+            yahoo_close = float(raw_bar.get("close", 0.0) or 0.0)
+        except (TypeError, ValueError):
+            blockers.append(f"source_bar_close_invalid:{symbol}")
+            continue
+        if yahoo_close <= 0:
+            blockers.append(f"source_bar_close_non_positive:{symbol}")
+            continue
         try:
             provider_row = fetch_provider_daily_row(
                 provider, str(symbol), as_of=as_of, api_key=api_key, timeout_seconds=timeout_seconds

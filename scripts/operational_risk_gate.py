@@ -58,9 +58,15 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 
 def build_report(args: argparse.Namespace) -> dict[str, Any]:
-    paper_signal = read_json_if_exists(Path(args.paper_signal))
-    observations = read_jsonl(Path(args.observation_log))
-    trade_intents = read_jsonl(Path(args.trade_intent_log))
+    paper_signal, paper_signal_load_blockers = read_paper_signal(Path(args.paper_signal))
+    observations, observation_load_blockers = read_jsonl(
+        Path(args.observation_log),
+        invalid_blocker="paper_observation_log_json_invalid",
+    )
+    trade_intents, trade_intent_load_blockers = read_jsonl(
+        Path(args.trade_intent_log),
+        invalid_blocker="paper_trade_intent_log_json_invalid",
+    )
     generated_at = datetime.now(tz=UTC)
     staleness = evaluate_market_data_staleness(
         paper_signal,
@@ -82,6 +88,9 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         require_trade_intents=paper_signal_present,
     )
     blockers = [
+        *paper_signal_load_blockers,
+        *observation_load_blockers,
+        *trade_intent_load_blockers,
         *staleness["blockers"],
         *drift["blockers"],
         *kill_switch["blockers"],
@@ -123,21 +132,36 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     }
 
 
-def read_json_if_exists(path: Path) -> dict[str, Any] | None:
+def read_paper_signal(path: Path) -> tuple[dict[str, Any] | None, list[str]]:
     if not path.exists():
-        return None
-    return json.loads(path.read_text(encoding="utf-8"))
+        return None, []
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None, ["paper_signal_json_invalid_for_operational_risk_gate"]
+    if not isinstance(payload, dict):
+        return None, ["paper_signal_json_shape_invalid_for_operational_risk_gate"]
+    return payload, []
 
 
-def read_jsonl(path: Path) -> list[dict[str, Any]]:
+def read_jsonl(path: Path, *, invalid_blocker: str) -> tuple[list[dict[str, Any]], list[str]]:
     if not path.exists():
-        return []
+        return [], []
     rows: list[dict[str, Any]] = []
+    blockers: list[str] = []
     for line in path.read_text(encoding="utf-8").splitlines():
         stripped = line.strip()
         if stripped:
-            rows.append(json.loads(stripped))
-    return rows
+            try:
+                payload = json.loads(stripped)
+            except json.JSONDecodeError:
+                blockers.append(invalid_blocker)
+                continue
+            if isinstance(payload, dict):
+                rows.append(payload)
+            else:
+                blockers.append(invalid_blocker)
+    return rows, sorted(set(blockers))
 
 
 def evaluate_market_data_staleness(

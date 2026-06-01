@@ -155,6 +155,34 @@ def test_build_report_fail_closes_missing_logs_when_paper_signal_exists(tmp_path
     assert "paper_trade_intent_log_missing_for_trade_intent_safety" in report["blockers"]
 
 
+def test_build_report_blocks_malformed_json_inputs_without_traceback(tmp_path: Path) -> None:
+    signal = tmp_path / "signal.json"
+    observation = tmp_path / "observation.jsonl"
+    intent = tmp_path / "intent.jsonl"
+    signal.write_text("{not valid json", encoding="utf-8")
+    observation.write_text("{not valid json\n", encoding="utf-8")
+    intent.write_text("[]\n", encoding="utf-8")
+    args = argparse.Namespace(
+        paper_signal=str(signal),
+        observation_log=str(observation),
+        trade_intent_log=str(intent),
+        manual_halt_file=str(tmp_path / "halt.flag"),
+        output=str(tmp_path / "report.json"),
+        markdown=str(tmp_path / "report.md"),
+        max_calendar_lag_days=999,
+        min_observation_days=1,
+        daily_loss_halt=-0.03,
+        drawdown_halt=-0.08,
+    )
+
+    report = build_report(args)
+
+    assert report["summary"]["status"] == "halt"
+    assert "paper_signal_json_invalid_for_operational_risk_gate" in report["blockers"]
+    assert "paper_observation_log_json_invalid" in report["blockers"]
+    assert "paper_trade_intent_log_json_invalid" in report["blockers"]
+
+
 def test_build_report_writes_monitoring_summary_without_orders(tmp_path: Path) -> None:
     signal = tmp_path / "signal.json"
     observation = tmp_path / "observation.jsonl"
