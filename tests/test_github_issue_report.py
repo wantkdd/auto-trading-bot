@@ -133,3 +133,24 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     assert "order created: `False`" in body
     assert "human_approval_missing" in body
     assert "실주문" in body
+
+
+def test_build_issue_body_supports_action_needed_mode(tmp_path) -> None:
+    body = build_issue_body(
+        argparse.Namespace(
+            summary=str(tmp_path / "missing-summary.json"),
+            readiness=str(tmp_path / "missing-readiness.json"),
+            market_scan=str(tmp_path / "missing-market.json"),
+            bls_macro=str(tmp_path / "missing-bls.json"),
+            no_order_preview=str(tmp_path / "missing-preview.json"),
+            operational_risk=str(tmp_path / "missing-operational.json"),
+            independent_price=str(tmp_path / "missing-independent.json"),
+            run_url="",
+            repo="wantkdd/auto-trading-bot",
+            mode="action-needed",
+        )
+    )
+
+    assert "게이트 확인 필요" in body
+    assert "readiness_report_missing" in body
+    assert "live trading authorized: `False`" in body

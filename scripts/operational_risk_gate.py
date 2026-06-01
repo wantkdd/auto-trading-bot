@@ -31,6 +31,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     parser.add_argument("--markdown", default=DEFAULT_MARKDOWN)
     parser.add_argument("--max-calendar-lag-days", type=int, default=5)
+    parser.add_argument("--min-observation-days", type=int, default=1)
     parser.add_argument("--daily-loss-halt", type=float, default=-0.03)
     parser.add_argument("--drawdown-halt", type=float, default=-0.08)
     return parser.parse_args(argv)
@@ -66,13 +67,20 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         generated_date=generated_at.date(),
         max_calendar_lag_days=int(args.max_calendar_lag_days),
     )
+    paper_signal_present = paper_signal is not None
     drift = evaluate_drift_monitor(
         observations,
         daily_loss_halt=float(args.daily_loss_halt),
         drawdown_halt=float(args.drawdown_halt),
+        required_observation_days=(
+            int(getattr(args, "min_observation_days", 1)) if paper_signal_present else 0
+        ),
     )
     kill_switch = evaluate_kill_switch(Path(args.manual_halt_file), drift, staleness)
-    trade_intent_gate = evaluate_trade_intent_safety(trade_intents)
+    trade_intent_gate = evaluate_trade_intent_safety(
+        trade_intents,
+        require_trade_intents=paper_signal_present,
+    )
     blockers = [
         *staleness["blockers"],
         *drift["blockers"],
@@ -210,13 +218,17 @@ def evaluate_drift_monitor(
     *,
     daily_loss_halt: float,
     drawdown_halt: float,
+    required_observation_days: int = 0,
 ) -> dict[str, Any]:
     if not observations:
+        blockers = ["paper_observation_log_missing_for_drift_monitor"]
+        halt_required = required_observation_days > 0
         return {
-            "status": "collecting",
-            "halt_required": False,
-            "blockers": ["paper_observation_log_missing_for_drift_monitor"],
+            "status": "blocked" if halt_required else "collecting",
+            "halt_required": halt_required,
+            "blockers": blockers,
             "observation_days": 0,
+            "required_observation_days": required_observation_days,
             "max_drawdown": 0.0,
             "worst_daily_return": 0.0,
             "daily_loss_halt": daily_loss_halt,
@@ -227,15 +239,23 @@ def evaluate_drift_monitor(
     max_drawdown = compute_max_drawdown(equities)
     worst_daily_return = min(daily_returns) if daily_returns else 0.0
     blockers: list[str] = []
+    if len(observations) < required_observation_days:
+        blockers.append("paper_observation_days_below_required")
     if worst_daily_return <= daily_loss_halt:
         blockers.append("daily_loss_halt_triggered")
     if max_drawdown <= drawdown_halt:
         blockers.append("drawdown_halt_triggered")
+    status = "pass"
+    if "paper_observation_days_below_required" in blockers:
+        status = "blocked"
+    elif blockers:
+        status = "halt"
     return {
-        "status": "pass" if not blockers else "halt",
+        "status": status,
         "halt_required": bool(blockers),
         "blockers": blockers,
         "observation_days": len(observations),
+        "required_observation_days": required_observation_days,
         "max_drawdown": max_drawdown,
         "worst_daily_return": worst_daily_return,
         "daily_loss_halt": daily_loss_halt,
@@ -277,8 +297,14 @@ def evaluate_kill_switch(
     }
 
 
-def evaluate_trade_intent_safety(trade_intents: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+def evaluate_trade_intent_safety(
+    trade_intents: Sequence[Mapping[str, Any]],
+    *,
+    require_trade_intents: bool = False,
+) -> dict[str, Any]:
     blockers: list[str] = []
+    if require_trade_intents and not trade_intents:
+        blockers.append("paper_trade_intent_log_missing_for_trade_intent_safety")
     created_orders = []
     authorized_rows = []
     for index, row in enumerate(trade_intents):

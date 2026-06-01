@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import json
+
 from scripts.live_readiness_gate import (
     candidate_readiness_blockers,
     independent_price_readiness_blockers,
+    main,
     operational_readiness_blockers,
     paper_signal_blockers,
 )
@@ -120,3 +123,34 @@ def test_independent_price_readiness_requires_passing_replication() -> None:
         )
         == []
     )
+
+
+def test_live_readiness_missing_fundamental_report_is_structured_blocker(tmp_path) -> None:
+    output = tmp_path / "live-readiness.json"
+    markdown = tmp_path / "live-readiness.md"
+
+    assert (
+        main(
+            [
+                "--fundamental-report",
+                str(tmp_path / "missing-fundamental.json"),
+                "--paper-signal",
+                str(tmp_path / "missing-paper-signal.json"),
+                "--operational-risk-report",
+                str(tmp_path / "missing-operational.json"),
+                "--independent-price-report",
+                str(tmp_path / "missing-independent.json"),
+                "--output",
+                str(output),
+                "--markdown",
+                str(markdown),
+            ]
+        )
+        == 0
+    )
+
+    report = json.loads(output.read_text(encoding="utf-8"))
+    assert report["candidate_gate"]["signal_present"] is False
+    assert "fundamental_recent_gate_missing" in report["live_blockers"]
+    assert "no_candidate_passed_fundamental_recent_gate" in report["live_blockers"]
+    assert report["summary"]["paper_dry_run_ready"] is False

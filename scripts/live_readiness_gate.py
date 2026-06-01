@@ -68,7 +68,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 
 def build_report(args: argparse.Namespace) -> dict[str, Any]:
-    fundamental_report = read_json(Path(args.fundamental_report))
+    fundamental_report = read_json_if_exists(Path(args.fundamental_report))
     paper_signal = read_json(Path(args.paper_signal)) if Path(args.paper_signal).exists() else None
     operational_risk_report = (
         read_json(Path(args.operational_risk_report))
@@ -80,16 +80,20 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         if Path(args.independent_price_report).exists()
         else None
     )
-    candidates = tuple(fundamental_report.get("candidate_gates", ()))
+    candidates = tuple(fundamental_report.get("candidate_gates", ())) if fundamental_report else ()
     passed = tuple(row for row in candidates if row.get("status") == "pass")
     top = passed[0] if passed else None
-    candidate_blockers = candidate_readiness_blockers(
-        passed,
-        top,
-        min_passing_candidates=args.min_passing_candidates,
-        max_single_asset_weight=args.max_single_asset_weight,
+    candidate_blockers = (
+        ["fundamental_recent_gate_missing", "no_candidate_passed_fundamental_recent_gate"]
+        if fundamental_report is None
+        else candidate_readiness_blockers(
+            passed,
+            top,
+            min_passing_candidates=args.min_passing_candidates,
+            max_single_asset_weight=args.max_single_asset_weight,
+        )
     )
-    report_as_of = str(fundamental_report.get("as_of_date") or "")
+    report_as_of = str(fundamental_report.get("as_of_date") or "") if fundamental_report else ""
     paper_blockers = paper_signal_blockers(top, paper_signal, expected_as_of=report_as_of)
     operational_blockers = operational_readiness_blockers(operational_risk_report)
     independent_price_blockers = independent_price_readiness_blockers(independent_price_report)
@@ -143,8 +147,9 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "live_trading_authorized": False,
         },
         "candidate_gate": {
-            "as_of_date": fundamental_report.get("as_of_date"),
+            "as_of_date": fundamental_report.get("as_of_date") if fundamental_report else None,
             "source_report": str(args.fundamental_report),
+            "signal_present": fundamental_report is not None,
             "passing_candidates": [compact_candidate(row) for row in passed],
             "candidate_blockers": candidate_blockers,
         },
@@ -220,6 +225,12 @@ def independent_price_readiness_blockers(
 
 def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def read_json_if_exists(path: Path) -> dict[str, Any] | None:
+    if not path.exists():
+        return None
+    return read_json(path)
 
 
 def candidate_readiness_blockers(

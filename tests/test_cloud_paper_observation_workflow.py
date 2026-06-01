@@ -20,12 +20,15 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "bls_macro_snapshot.py" in workflow
     assert "market_universe_candidate_scan.py" in workflow
     assert "live_readiness_gate.py" in workflow
+    assert "no_order_gate_status.py" in workflow
     assert "paper-observation-state" in workflow
     assert "STRATEGY_WEIGHTS" in workflow
     assert "market-universe-scan-latest" in workflow
     assert "no-order-preview-latest" in workflow
     assert "operational-risk-gate-latest" in workflow
     assert "independent-price-replication-latest" in workflow
+    assert "no-order-gate-status-latest" in workflow
+    assert 'steps.gate_status.outputs.mode }}" == "action-needed"' in workflow
     assert "sec-fundamental-feature-snapshot-latest" in workflow
     assert "bls-macro-snapshot-latest" in workflow
     assert ".omx/features/sec-fundamental-snapshot.csv" in workflow

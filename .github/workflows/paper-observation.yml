@@ -92,6 +92,12 @@ jobs:
           uv run python scripts/independent_price_replication_gate.py
           uv run python scripts/live_readiness_gate.py
 
+      - name: Summarize no-order gate status
+        id: gate_status
+        run: |
+          set -euo pipefail
+          uv run python scripts/no_order_gate_status.py --github-output "${GITHUB_OUTPUT}"
+
       - name: Upload observation artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -120,6 +126,8 @@ jobs:
             .omx/reports/independent-price-replication-latest.md
             .omx/reports/live-readiness-gate-latest.json
             .omx/reports/live-readiness-gate-latest.md
+            .omx/reports/no-order-gate-status-latest.json
+            .omx/reports/no-order-gate-status-latest.md
 
       - name: Persist latest observation state branch
         run: |
@@ -140,6 +148,7 @@ jobs:
           cp -f .omx/reports/operational-risk-gate-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/independent-price-replication-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/live-readiness-gate-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/no-order-gate-status-latest.* "${tmp_state}/.omx/reports/"
           git -C "${tmp_state}" init
           git -C "${tmp_state}" checkout -b "${STATE_BRANCH}"
           git -C "${tmp_state}" config user.name "github-actions[bot]"
@@ -160,6 +169,8 @@ jobs:
           mode="success"
           if [[ "${{ job.status }}" != "success" ]]; then
             mode="failure"
+          elif [[ "${{ steps.gate_status.outputs.mode }}" == "action-needed" ]]; then
+            mode="action-needed"
           fi
           uv run python scripts/github_issue_report.py --mode "${mode}"
 

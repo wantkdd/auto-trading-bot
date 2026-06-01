@@ -35,7 +35,11 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--run-url", default=os.environ.get("GITHUB_RUN_URL", ""))
     parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", ""))
-    parser.add_argument("--mode", choices=("success", "failure"), default="success")
+    parser.add_argument(
+        "--mode",
+        choices=("success", "failure", "action-needed"),
+        default="success",
+    )
     return parser.parse_args(argv)
 
 
@@ -96,7 +100,11 @@ def build_issue_body(args: argparse.Namespace) -> str:
     independent_price_status = independent_price_summary.get("status", "missing")
     independent_price_provider = independent_price_summary.get("provider", "unknown")
     independent_price_symbols = independent_price_summary.get("symbols_checked", "unknown")
-    issue_state = "실패/확인 필요" if args.mode == "failure" else "정상 관찰 중"
+    issue_state = {
+        "failure": "실패/확인 필요",
+        "action-needed": "게이트 확인 필요",
+        "success": "정상 관찰 중",
+    }[args.mode]
     return "\n".join(
         [
             "# Paper observation status",

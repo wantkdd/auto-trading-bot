@@ -61,12 +61,55 @@ BANNED_REMOTE_ORDER_NAMES = {
     "submit_order",
 }
 
+SCRIPT_BANNED_IMPORT_ROOTS = {
+    "alpaca",
+    "alpaca_trade_api",
+    "ib_insync",
+    "koreainvestment",
+    "pykiwoom",
+}
+
+SCRIPT_BANNED_BROKER_TEXT_TOKENS = {
+    "api.alpaca.markets",
+    "api.tradestation.com",
+    "apiportal.koreainvestment",
+    "broker_api_key",
+    "broker_secret_key",
+    "paper-api",
+    "secretkey",
+    "submit_order",
+}
+
+NO_ORDER_BROKER_DOC_REGISTRIES = {
+    Path("scripts/broker_api_comparison.py"),
+    Path("scripts/modeling_data_source_registry.py"),
+}
+
 
 def _production_files() -> list[Path]:
     assert (PROJECT_ROOT / "src").resolve() == PRODUCTION_SRC_ROOT
     assert PRODUCTION_SRC_ROOT.exists(), f"production src root is missing: {PRODUCTION_SRC_ROOT}"
     files = sorted(PRODUCTION_SRC_ROOT.rglob("*.py"))
     assert files, f"no production Python files found under {PRODUCTION_SRC_ROOT}"
+    return files
+
+
+def _repo_relative(path: Path) -> Path:
+    try:
+        return path.resolve().relative_to(PROJECT_ROOT)
+    except ValueError:
+        return path.resolve()
+
+
+def _script_files() -> list[Path]:
+    files = sorted((PROJECT_ROOT / "scripts").glob("*.py"))
+    assert files, "no scripts found for safety scan"
+    return files
+
+
+def _workflow_files() -> list[Path]:
+    files = sorted((PROJECT_ROOT / ".github" / "workflows").glob("*.yml"))
+    assert files, "no GitHub workflow files found for safety scan"
     return files
 
 
@@ -102,6 +145,22 @@ def _scan_banned_imports(files: list[Path]) -> list[str]:
     return violations
 
 
+def _scan_script_broker_imports(files: list[Path]) -> list[str]:
+    violations: list[str] = []
+    for path in files:
+        tree = _parse(path)
+        for node in ast.walk(tree):
+            imported: list[str] = []
+            if isinstance(node, ast.Import):
+                imported = [_import_root(alias.name) for alias in node.names]
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                imported = [_import_root(node.module)]
+            for root in imported:
+                if root in SCRIPT_BANNED_IMPORT_ROOTS:
+                    violations.append(f"{path}: banned broker SDK import {root}")
+    return violations
+
+
 def _dynamic_import_roots(node: ast.Call) -> list[str]:
     first_arg = _constant_string(node.args[0] if node.args else None)
     if not first_arg:
@@ -125,6 +184,19 @@ def _scan_banned_literals(files: list[Path]) -> list[str]:
         for token in BANNED_TEXT_TOKENS:
             if token in text:
                 violations.append(f"{path}: banned literal {token}")
+    return violations
+
+
+def _scan_script_broker_literals(files: list[Path]) -> list[str]:
+    violations: list[str] = []
+    for path in files:
+        rel = _repo_relative(path)
+        if rel in NO_ORDER_BROKER_DOC_REGISTRIES:
+            continue
+        text = path.read_text(encoding="utf-8").lower()
+        for token in SCRIPT_BANNED_BROKER_TEXT_TOKENS:
+            if token in text:
+                violations.append(f"{path}: banned broker literal {token}")
     return violations
 
 
@@ -250,6 +322,20 @@ def test_no_remote_order_submission_function_names_outside_local_simulator() -> 
     assert _scan_remote_order_names(_production_files()) == []
 
 
+def test_scripts_do_not_import_broker_sdks_or_trading_credentials() -> None:
+    scripts = _script_files()
+
+    assert _scan_script_broker_imports(scripts) == []
+    assert _scan_credential_env_reads(scripts) == []
+    assert _scan_remote_order_names(scripts) == []
+
+
+def test_scripts_and_workflows_have_no_unapproved_broker_endpoint_literals() -> None:
+    files = [*_script_files(), *_workflow_files()]
+
+    assert _scan_script_broker_literals(files) == []
+
+
 def test_safety_scan_root_cannot_be_redirected_by_environment() -> None:
     assert (PROJECT_ROOT / "src").resolve() == PRODUCTION_SRC_ROOT
 
@@ -277,5 +363,24 @@ def test_safety_scanner_catches_adversarial_network_and_credential_patterns(
 
     assert _scan_banned_imports(files)
     assert _scan_banned_literals(files)
+    assert _scan_credential_env_reads(files)
+    assert _scan_remote_order_names(files)
+
+
+def test_script_safety_scanner_catches_broker_sdk_and_endpoint_patterns(tmp_path: Path) -> None:
+    unsafe = tmp_path / "unsafe_script.py"
+    unsafe.write_text(
+        "import alpaca_trade_api\n"
+        "import os\n"
+        "BROKER_URL = 'https://paper-api.alpaca.markets'\n"
+        "BROKER_KEY = os.getenv('BROKER_API_KEY')\n"
+        "def submit_order():\n"
+        "    return BROKER_URL\n",
+        encoding="utf-8",
+    )
+
+    files = [unsafe]
+    assert _scan_script_broker_imports(files)
+    assert _scan_script_broker_literals(files)
     assert _scan_credential_env_reads(files)
     assert _scan_remote_order_names(files)
