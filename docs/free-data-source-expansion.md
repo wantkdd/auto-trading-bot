@@ -15,7 +15,7 @@ Safety boundary: this is research/paper infrastructure only. It does not approve
 | --- | --- | --- | --- | --- |
 | 1 | Nasdaq Trader symbol directories | Free, no key | Broad US listed-symbol universe, ETF/test issue filtering | Implemented |
 | 2 | SEC EDGAR APIs | Free, no key | US filings, company facts, 8-K/10-Q/10-K events | Partially implemented |
-| 3 | Stooq historical data | Free, no key | Independent daily OHLCV replication | Planned |
+| 3 | Stooq historical data | Free captcha-issued key | Independent daily OHLCV replication | Planned; user/key step required |
 | 4 | GDELT DOC API | Free, no key | Global news attention/article-count features | Planned |
 | 5 | BLS Public Data API | Free, no key for low volume; registration key for higher limits | Labor/CPI/PPI macro features | Planned |
 | 6 | OpenDART | Free key | Korean filings and financial statements | Planned; key required |
@@ -31,7 +31,7 @@ Fine-tuning comes after data maturity. First the bot needs dated, auditable exam
 ## Next collector order
 
 1. Archive dated Nasdaq Trader symbol snapshots on every research refresh.
-2. Add Stooq daily OHLCV replication for a small validation subset, then broaden if stable.
+2. Add Stooq daily OHLCV replication after a captcha-issued free key exists, first for a small validation subset, then broaden if stable.
 3. Extend SEC companyfacts/submissions into point-in-time fundamental features.
 4. Add GDELT article-count features with publication-time filtering and deduplication.
 5. Add Korean data only after free-key setup for OpenDART/ECOS or a no-key KRX path is confirmed.

@@ -195,8 +195,8 @@ def data_sources() -> tuple[DataSource, ...]:
             name="Stooq historical data",
             category="independent_historical_price_ohlcv",
             url=STOOQ_HISTORICAL_URL,
-            collection_status="candidate_no_key_independent_price_replication",
-            requires_api_key=False,
+            collection_status="candidate_free_captcha_key_independent_price_replication",
+            requires_api_key=True,
             current_repo_use="not yet collected",
             modeling_use=(
                 "independent daily OHLCV replication against Yahoo-derived caches",
@@ -208,6 +208,7 @@ def data_sources() -> tuple[DataSource, ...]:
             ),
             limitations=(
                 "coverage and adjustment methodology must be verified per symbol",
+                "CSV downloads currently require a captcha-issued free API key",
                 "terms/robots and rate behavior must be respected before bulk download",
             ),
         ),
