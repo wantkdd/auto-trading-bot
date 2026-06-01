@@ -1,0 +1,97 @@
+name: Intraday No-Order Monitor
+
+on:
+  schedule:
+    # Every 5 minutes on weekdays across the US regular session UTC envelope.
+    # The Python script exits safely outside real NYSE/Nasdaq market hours.
+    - cron: "*/5 13-21 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: intraday-no-order-monitor
+  cancel-in-progress: true
+
+jobs:
+  intraday:
+    name: Intraday quote monitor only
+    # Cost guard: scheduled runner work is allowed only after the repo is public.
+    # Manual dispatch remains available for explicit one-off private-repo checks.
+    if: ${{ github.repository_visibility == 'public' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      PYTHON_VERSION: "3.11"
+      STATE_BRANCH: "intraday-no-order-state"
+      FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+    steps:
+      - name: Check out research repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore intraday state
+        run: |
+          set -euo pipefail
+          mkdir -p reports .omx/reports data/universe
+          git fetch origin "${STATE_BRANCH}:${STATE_BRANCH}" || true
+          if git show-ref --verify --quiet "refs/heads/${STATE_BRANCH}"; then
+            git show "${STATE_BRANCH}:reports/intraday-no-order-log.jsonl" \
+              > reports/intraday-no-order-log.jsonl || true
+          fi
+          git fetch origin paper-observation-state:paper-observation-state || true
+          if git show-ref --verify --quiet refs/heads/paper-observation-state; then
+            git show paper-observation-state:data/universe/us_dynamic_liquid_watchlist.txt \
+              > data/universe/us_dynamic_liquid_watchlist.txt || true
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install uv
+        run: python -m pip install --upgrade uv
+
+      - name: Run intraday monitor with no orders
+        run: |
+          set -euo pipefail
+          uv run python scripts/intraday_no_order_monitor.py \
+            --max-symbols 10 \
+            --max-log-entries 1000 \
+            --send-discord
+
+      - name: Upload short-lived intraday artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: intraday-no-order-${{ github.run_id }}
+          retention-days: 1
+          if-no-files-found: ignore
+          path: |
+            reports/intraday-no-order-log.jsonl
+            .omx/reports/intraday-no-order-latest.json
+            .omx/reports/intraday-no-order-latest.md
+
+      - name: Persist intraday state branch
+        run: |
+          set -euo pipefail
+          tmp_state="$(mktemp -d)"
+          mkdir -p "${tmp_state}/reports" "${tmp_state}/.omx/reports"
+          cp -f reports/intraday-no-order-log.jsonl "${tmp_state}/reports/" || true
+          cp -f .omx/reports/intraday-no-order-latest.* "${tmp_state}/.omx/reports/"
+          git -C "${tmp_state}" init
+          git -C "${tmp_state}" checkout -b "${STATE_BRANCH}"
+          git -C "${tmp_state}" config user.name "github-actions[bot]"
+          git -C "${tmp_state}" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C "${tmp_state}" add -f reports .omx/reports
+          git -C "${tmp_state}" commit -m "Update intraday no-order state ${GITHUB_RUN_ID}"
+          git -C "${tmp_state}" remote add origin \
+            "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git"
+          git -C "${tmp_state}" push --force origin "${STATE_BRANCH}:${STATE_BRANCH}"

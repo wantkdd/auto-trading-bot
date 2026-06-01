@@ -43,6 +43,7 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "independent-price-replication-latest" in workflow
     assert "no-order-gate-status-latest" in workflow
     assert "discord-paper-report-latest" in workflow
+    assert "retention-days: 1" in workflow
     assert 'steps.gate_status.outputs.mode }}" == "action-needed"' in workflow
     assert "DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}" in workflow
     assert "sec-fundamental-feature-snapshot-latest" in workflow
@@ -51,6 +52,25 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert 'add -f reports .omx/reports .omx/features data/universe' in workflow
     assert "broker" not in workflow.lower()
     assert "ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}" in workflow
+    assert "BROKER" not in workflow
+
+
+def test_intraday_no_order_workflow_runs_five_minute_public_guard() -> None:
+    workflow = (
+        PROJECT_ROOT / ".github" / "workflows" / "intraday-no-order-monitor.yml"
+    ).read_text(encoding="utf-8")
+
+    assert '*/5 13-21 * * 1-5' in workflow
+    assert "intraday_no_order_monitor.py" in workflow
+    assert "--max-symbols 10" in workflow
+    assert "--max-log-entries 1000" in workflow
+    assert "retention-days: 1" in workflow
+    assert "github.repository_visibility == 'public'" in workflow
+    assert "cancel-in-progress: true" in workflow
+    assert "DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}" in workflow
+    assert "FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}" in workflow
+    assert "intraday-no-order-state" in workflow
+    assert "broker" not in workflow.lower()
     assert "BROKER" not in workflow
 
 
