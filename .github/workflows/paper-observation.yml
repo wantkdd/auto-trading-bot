@@ -29,6 +29,10 @@ jobs:
       STRATEGY_NAME: "AAPL_0.3_GLD_0.7"
       STRATEGY_WEIGHTS: "AAPL=0.3 GLD=0.7"
       STATE_BRANCH: "paper-observation-state"
+      ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
+      FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+      FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+      NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
     steps:
       - name: Check out research repo
         uses: actions/checkout@v4
@@ -85,6 +89,7 @@ jobs:
           uv run python scripts/paper_trade_intent_log.py
           uv run python scripts/no_order_preview_report.py
           uv run python scripts/operational_risk_gate.py
+          uv run python scripts/independent_price_replication_gate.py
           uv run python scripts/live_readiness_gate.py
 
       - name: Upload observation artifacts
@@ -111,6 +116,8 @@ jobs:
             .omx/reports/no-order-preview-latest.md
             .omx/reports/operational-risk-gate-latest.json
             .omx/reports/operational-risk-gate-latest.md
+            .omx/reports/independent-price-replication-latest.json
+            .omx/reports/independent-price-replication-latest.md
             .omx/reports/live-readiness-gate-latest.json
             .omx/reports/live-readiness-gate-latest.md
 
@@ -131,6 +138,7 @@ jobs:
           cp -f .omx/reports/paper-observation-summary-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/no-order-preview-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/operational-risk-gate-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/independent-price-replication-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/live-readiness-gate-latest.* "${tmp_state}/.omx/reports/"
           git -C "${tmp_state}" init
           git -C "${tmp_state}" checkout -b "${STATE_BRANCH}"

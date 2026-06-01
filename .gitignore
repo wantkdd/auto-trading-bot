@@ -20,3 +20,7 @@ reports/
 
 # Cached external market data downloaded by research scripts
 data/external/
+# Local API keys and secrets
+.env
+.env.*
+!.env.example

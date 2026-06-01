@@ -20,6 +20,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     bls_macro = tmp_path / "bls-macro.json"
     no_order_preview = tmp_path / "no-order-preview.json"
     operational_risk = tmp_path / "operational-risk.json"
+    independent_price = tmp_path / "independent-price.json"
     summary.write_text(
         json.dumps(
             {
@@ -88,6 +89,18 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
         ),
         encoding="utf-8",
     )
+    independent_price.write_text(
+        json.dumps(
+            {
+                "summary": {
+                    "status": "pass",
+                    "provider": "alpha_vantage",
+                    "symbols_checked": 2,
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
 
     body = build_issue_body(
         argparse.Namespace(
@@ -97,6 +110,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
             bls_macro=str(bls_macro),
             no_order_preview=str(no_order_preview),
             operational_risk=str(operational_risk),
+            independent_price=str(independent_price),
             run_url="https://example.test/run",
             repo="wantkdd/auto-trading-bot",
             mode="success",
@@ -114,6 +128,8 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     assert "operational risk status: `monitoring`" in body
     assert "market-data staleness gate: `pass`" in body
     assert "kill switch: `armed`" in body
+    assert "independent price status: `pass`" in body
+    assert "independent price provider: `alpha_vantage`" in body
     assert "order created: `False`" in body
     assert "human_approval_missing" in body
     assert "실주문" in body

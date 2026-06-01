@@ -170,6 +170,14 @@ uv run python scripts/operational_risk_gate.py
 
 This writes `.omx/reports/operational-risk-gate-latest.json` and `.md` with stale-data, drift/loss-limit, manual kill-switch, and trade-intent safety checks. It can only halt or block promotion; it cannot approve live trading.
 
+Generate the latest independent price replication gate with:
+
+```bash
+uv run python scripts/independent_price_replication_gate.py
+```
+
+This compares the latest Yahoo-derived paper-signal closes with an independent provider. `ALPHA_VANTAGE_API_KEY` is used in auto mode when present; `STOOQ_API_KEY` remains optional and is not required if the captcha-based Stooq key is unavailable.
+
 ## Future live-trading work
 
 Any paper or live trading proposal must pass a separate approval gate before design or implementation. See `docs/future-live-trading-gate.md`. Until that gate is approved, this repository remains local-simulator-only and must not add broker SDKs, network clients, credential storage, account reads, or order-routing paths.

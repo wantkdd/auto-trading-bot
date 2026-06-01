@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from scripts.live_readiness_gate import (
     candidate_readiness_blockers,
+    independent_price_readiness_blockers,
     operational_readiness_blockers,
     paper_signal_blockers,
 )
@@ -104,3 +105,18 @@ def test_operational_readiness_blocks_halt_required() -> None:
     assert "drift_monitor_halt_or_invalid" in blockers
     assert "market_data_staleness_gate_not_passing" in blockers
     assert "operational_halt_required" in blockers
+
+
+def test_independent_price_readiness_requires_passing_replication() -> None:
+    assert independent_price_readiness_blockers(None) == [
+        "independent_non_yahoo_data_replication_missing"
+    ]
+    assert independent_price_readiness_blockers({"summary": {"status": "blocked"}}) == [
+        "independent_non_yahoo_data_replication_missing"
+    ]
+    assert (
+        independent_price_readiness_blockers(
+            {"summary": {"status": "pass", "symbols_checked": 2}}
+        )
+        == []
+    )

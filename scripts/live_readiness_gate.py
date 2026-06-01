@@ -36,6 +36,10 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         "--operational-risk-report",
         default=".omx/reports/operational-risk-gate-latest.json",
     )
+    parser.add_argument(
+        "--independent-price-report",
+        default=".omx/reports/independent-price-replication-latest.json",
+    )
     parser.add_argument("--output", default=".omx/reports/live-readiness-gate-latest.json")
     parser.add_argument("--markdown", default=".omx/reports/live-readiness-gate-latest.md")
     parser.add_argument("--min-passing-candidates", type=int, default=3)
@@ -71,6 +75,11 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         if Path(args.operational_risk_report).exists()
         else None
     )
+    independent_price_report = (
+        read_json(Path(args.independent_price_report))
+        if Path(args.independent_price_report).exists()
+        else None
+    )
     candidates = tuple(fundamental_report.get("candidate_gates", ()))
     passed = tuple(row for row in candidates if row.get("status") == "pass")
     top = passed[0] if passed else None
@@ -83,11 +92,12 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     report_as_of = str(fundamental_report.get("as_of_date") or "")
     paper_blockers = paper_signal_blockers(top, paper_signal, expected_as_of=report_as_of)
     operational_blockers = operational_readiness_blockers(operational_risk_report)
+    independent_price_blockers = independent_price_readiness_blockers(independent_price_report)
     live_blockers = [
         *candidate_blockers,
         *paper_blockers,
         *operational_blockers,
-        "independent_non_yahoo_data_replication_missing",
+        *independent_price_blockers,
         "minimum_30_trading_day_paper_observation_missing",
         "tax_cost_and_liquidity_review_missing",
         "human_approval_missing",
@@ -125,6 +135,11 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
                 if operational_risk_report
                 else "missing"
             ),
+            "independent_price_status": (
+                independent_price_report.get("summary", {}).get("status")
+                if independent_price_report
+                else "missing"
+            ),
             "live_trading_authorized": False,
         },
         "candidate_gate": {
@@ -145,6 +160,14 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "operational_blockers": operational_blockers,
             "summary": (
                 operational_risk_report.get("summary") if operational_risk_report else None
+            ),
+        },
+        "independent_price_gate": {
+            "source_report": str(args.independent_price_report),
+            "signal_present": independent_price_report is not None,
+            "independent_price_blockers": independent_price_blockers,
+            "summary": (
+                independent_price_report.get("summary") if independent_price_report else None
             ),
         },
         "live_blockers": live_blockers,
@@ -180,6 +203,19 @@ def operational_readiness_blockers(
     if summary.get("halt_required") is True:
         blockers.append("operational_halt_required")
     return blockers
+
+
+def independent_price_readiness_blockers(
+    independent_price_report: Mapping[str, Any] | None,
+) -> list[str]:
+    if independent_price_report is None:
+        return ["independent_non_yahoo_data_replication_missing"]
+    summary = independent_price_report.get("summary", {})
+    if summary.get("status") != "pass":
+        return ["independent_non_yahoo_data_replication_missing"]
+    if int(summary.get("symbols_checked", 0) or 0) <= 0:
+        return ["independent_non_yahoo_data_replication_missing"]
+    return []
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -285,6 +321,7 @@ def write_markdown(path: Path, report: Mapping[str, Any]) -> None:
         f"- Top candidate: {report['summary']['top_candidate']}",
         f"- Passing candidates: {report['summary']['passing_candidates']}",
         f"- Operational risk status: {report['summary']['operational_risk_status']}",
+        f"- Independent price status: {report['summary']['independent_price_status']}",
         "",
         "## Passing candidates",
         "",

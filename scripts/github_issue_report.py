@@ -29,6 +29,10 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         "--operational-risk",
         default=".omx/reports/operational-risk-gate-latest.json",
     )
+    parser.add_argument(
+        "--independent-price",
+        default=".omx/reports/independent-price-replication-latest.json",
+    )
     parser.add_argument("--run-url", default=os.environ.get("GITHUB_RUN_URL", ""))
     parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", ""))
     parser.add_argument("--mode", choices=("success", "failure"), default="success")
@@ -56,6 +60,7 @@ def build_issue_body(args: argparse.Namespace) -> str:
     bls_macro = read_json_if_exists(Path(args.bls_macro))
     no_order_preview = read_json_if_exists(Path(args.no_order_preview))
     operational_risk = read_json_if_exists(Path(args.operational_risk))
+    independent_price = read_json_if_exists(Path(args.independent_price))
     observed_days = summary.get("observed_days", "unknown") if summary else "unknown"
     required_days = summary.get("required_days", "unknown") if summary else "unknown"
     status = summary.get("status", "missing_summary") if summary else "missing_summary"
@@ -87,6 +92,10 @@ def build_issue_body(args: argparse.Namespace) -> str:
     staleness_status = operational_summary.get("market_data_staleness_gate", "unknown")
     drift_status = operational_summary.get("drift_monitor", "unknown")
     kill_switch_status = operational_summary.get("kill_switch", "unknown")
+    independent_price_summary = independent_price.get("summary", {}) if independent_price else {}
+    independent_price_status = independent_price_summary.get("status", "missing")
+    independent_price_provider = independent_price_summary.get("provider", "unknown")
+    independent_price_symbols = independent_price_summary.get("symbols_checked", "unknown")
     issue_state = "실패/확인 필요" if args.mode == "failure" else "정상 관찰 중"
     return "\n".join(
         [
@@ -114,6 +123,9 @@ def build_issue_body(args: argparse.Namespace) -> str:
             f"- market-data staleness gate: `{staleness_status}`",
             f"- drift monitor: `{drift_status}`",
             f"- kill switch: `{kill_switch_status}`",
+            f"- independent price status: `{independent_price_status}`",
+            f"- independent price provider: `{independent_price_provider}`",
+            f"- independent price symbols checked: `{independent_price_symbols}`",
             f"- order created: `{no_order_created}`",
             f"- GitHub run: {args.run_url or 'n/a'}",
             "",
