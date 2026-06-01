@@ -28,6 +28,8 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "independent-price-replication-latest" in workflow
     assert "sec-fundamental-feature-snapshot-latest" in workflow
     assert "bls-macro-snapshot-latest" in workflow
+    assert ".omx/features/sec-fundamental-snapshot.csv" in workflow
+    assert 'add -f reports .omx/reports .omx/features' in workflow
     assert "broker" not in workflow.lower()
     assert "ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}" in workflow
     assert "BROKER" not in workflow
@@ -46,6 +48,7 @@ def test_cloud_observation_docs_explain_macbook_not_required_and_no_orders() -> 
     assert "operational-risk-gate-latest" in text
     assert "manual kill-switch" in text
     assert "independent-price-replication-latest" in text
+    assert "sec-fundamental-snapshot.csv" in text
     assert "Alpha Vantage" in text
 
 

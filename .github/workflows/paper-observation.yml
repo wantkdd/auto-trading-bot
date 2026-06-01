@@ -144,7 +144,7 @@ jobs:
           git -C "${tmp_state}" checkout -b "${STATE_BRANCH}"
           git -C "${tmp_state}" config user.name "github-actions[bot]"
           git -C "${tmp_state}" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git -C "${tmp_state}" add -f reports .omx/reports
+          git -C "${tmp_state}" add -f reports .omx/reports .omx/features
           git -C "${tmp_state}" commit -m "Update paper observation state ${GITHUB_RUN_ID}"
           git -C "${tmp_state}" remote add origin \
             "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git"

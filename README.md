@@ -178,6 +178,10 @@ uv run python scripts/independent_price_replication_gate.py
 
 This compares the latest Yahoo-derived paper-signal closes with an independent provider. `ALPHA_VANTAGE_API_KEY` is used in auto mode when present; `STOOQ_API_KEY` remains optional and is not required if the captcha-based Stooq key is unavailable.
 
+## No-order blocker review
+
+The current blocker and improvement queue is tracked in `docs/no-order-blockers-and-improvements.md`. It records live-readiness blockers, paper-only evidence gaps, and safe follow-up work while preserving `order_created=false`, `paper_api_authorized=false`, and `live_trading_authorized=false`.
+
 ## Future live-trading work
 
 Any paper or live trading proposal must pass a separate approval gate before design or implementation. See `docs/future-live-trading-gate.md`. Until that gate is approved, this repository remains local-simulator-only and must not add broker SDKs, network clients, credential storage, account reads, or order-routing paths.

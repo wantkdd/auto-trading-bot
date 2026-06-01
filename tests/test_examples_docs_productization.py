@@ -150,3 +150,62 @@ def test_docs_document_offline_boundary_and_example_command() -> None:
     )
     for phrase in required_boundary_phrases:
         assert phrase in combined
+
+
+def test_readme_pins_no_order_paper_workflow_boundary() -> None:
+    readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
+
+    required_no_order_phrases = (
+        "Market-wide paper observation",
+        "hypothetical `would_buy`, `would_sell`, or `would_hold` intents only",
+        "No-order broker adapter contract",
+        "order_created=false",
+        "paper_api_authorized=false",
+        "live_trading_authorized=false",
+        "operational-risk-gate-latest",
+        "can only halt or block promotion; it cannot approve live trading",
+        "docs/no-order-blockers-and-improvements.md",
+    )
+    for phrase in required_no_order_phrases:
+        assert phrase in readme
+
+
+def test_future_api_operational_risk_gate_stays_blocking() -> None:
+    text = (PROJECT_ROOT / "docs" / "api-operational-risk-gate.md").read_text(
+        encoding="utf-8"
+    )
+
+    required_blockers = (
+        "does not trade live",
+        "max broker API round-trip latency",
+        "stale market data",
+        "partial fills",
+        "cancel/replace races",
+        "idempotency keys",
+        "duplicate orders",
+        "Reconcile broker account cash, positions, open orders",
+        "manual kill-switch",
+        "Passing backtests or paper observation does not close this gate.",
+        "broker sandbox tests before any real capital is considered",
+    )
+    for blocker in required_blockers:
+        assert blocker in text
+
+
+def test_no_order_blocker_queue_documents_safe_followups() -> None:
+    text = (PROJECT_ROOT / "docs" / "no-order-blockers-and-improvements.md").read_text(
+        encoding="utf-8"
+    )
+
+    required_phrases = (
+        "not approval to connect a broker",
+        "live_trading_authorized=false",
+        "order_created=false",
+        "paper_api_authorized=false",
+        "Static production safety is strong but intentionally narrow.",
+        "script/workflow safety scanner",
+        "generated no-order evidence index",
+        "documentation alone must not authorize code that connects accounts or places orders",
+    )
+    for phrase in required_phrases:
+        assert phrase in text
