@@ -53,7 +53,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--markdown", default=DEFAULT_MARKDOWN)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--weekly-day", type=int, default=4, help="0=Monday ... 4=Friday")
-    parser.add_argument("--final-observed-days", type=int, default=15)
+    parser.add_argument("--final-observed-days", type=int, default=12)
     return parser.parse_args(argv)
 
 

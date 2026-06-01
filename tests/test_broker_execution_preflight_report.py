@@ -17,7 +17,7 @@ def args(tmp_path, **overrides):
         "environment": "paper",
         "max_order_notional": 1_000.0,
         "max_total_notional": 2_000.0,
-        "min_paper_observation_days": 22,
+        "min_paper_observation_days": 12,
         "allowed_symbols": None,
         "blocked_symbols": [],
         "human_approved": False,
@@ -70,7 +70,7 @@ def test_build_report_blocks_without_required_approvals(tmp_path) -> None:
 
 
 def test_build_report_can_be_paper_api_attachable_after_approvals(tmp_path) -> None:
-    write_inputs(tmp_path, observed_days=22)
+    write_inputs(tmp_path, observed_days=12)
 
     report = build_report(
         args(

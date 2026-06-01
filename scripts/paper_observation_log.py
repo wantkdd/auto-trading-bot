@@ -32,7 +32,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--summary", default=".omx/reports/paper-observation-summary-latest.json")
     parser.add_argument("--markdown", default=".omx/reports/paper-observation-summary-latest.md")
     parser.add_argument("--initial-equity", type=float, default=10_000.0)
-    parser.add_argument("--required-days", type=int, default=22)
+    parser.add_argument("--required-days", type=int, default=12)
     parser.add_argument("--early-checkpoint-days", type=int, default=5)
     return parser.parse_args(argv)
 

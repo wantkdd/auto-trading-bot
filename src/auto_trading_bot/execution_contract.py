@@ -148,7 +148,7 @@ class ExecutionPreflightPolicy:
 
     max_order_notional: float = 1_000.0
     max_total_notional: float = 2_000.0
-    min_paper_observation_days: int = 22
+    min_paper_observation_days: int = 12
     allowed_symbols: frozenset[str] = field(default_factory=frozenset)
     blocked_symbols: frozenset[str] = field(default_factory=frozenset)
 

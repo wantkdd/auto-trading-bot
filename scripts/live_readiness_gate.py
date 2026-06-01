@@ -48,8 +48,8 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         "--paper-observation-summary",
         default=".omx/reports/paper-observation-summary-latest.json",
     )
-    parser.add_argument("--min-paper-observation-days", type=int, default=22)
-    parser.add_argument("--target-live-pilot-date", default="2026-07-01")
+    parser.add_argument("--min-paper-observation-days", type=int, default=12)
+    parser.add_argument("--target-live-pilot-date", default="2026-06-16")
     return parser.parse_args(argv)
 
 
@@ -204,7 +204,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         },
         "live_blockers": live_blockers,
         "required_next_evidence": [
-            "Collect no-order dry-run target logging through the 2026-07-01 "
+            "Collect no-order dry-run target logging through the 2026-06-16 "
             "live-pilot review target.",
             "Replicate price history with an independent licensed or official data source.",
             "Keep operational risk gate passing: drift monitor, loss limits, stale-data halt, "

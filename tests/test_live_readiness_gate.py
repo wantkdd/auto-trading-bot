@@ -127,10 +127,10 @@ def test_independent_price_readiness_requires_passing_replication() -> None:
 
 
 
-def test_paper_observation_window_targets_july_1_not_30_trading_days() -> None:
+def test_paper_observation_window_targets_two_week_live_pilot_window() -> None:
     blockers = paper_observation_window_blockers(
-        {"observed_days": 22, "live_trading_authorized": False},
-        min_days=22,
+        {"observed_days": 12, "live_trading_authorized": False},
+        min_days=12,
         target_live_pilot_date="2026-01-01",
     )
 
@@ -140,8 +140,8 @@ def test_paper_observation_window_targets_july_1_not_30_trading_days() -> None:
 def test_paper_observation_window_blocks_before_target_or_too_few_days() -> None:
     blockers = paper_observation_window_blockers(
         {"observed_days": 1, "live_trading_authorized": False},
-        min_days=22,
-        target_live_pilot_date="2999-07-01",
+        min_days=12,
+        target_live_pilot_date="2999-06-16",
     )
 
     assert "live_pilot_target_date_not_reached" in blockers

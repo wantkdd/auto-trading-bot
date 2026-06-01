@@ -15,7 +15,7 @@ Why this is the default:
 
 ## Schedule
 
-The live-pilot activation calendar is tracked separately in [`docs/live-pilot-activation-schedule.md`](live-pilot-activation-schedule.md). Daily paper observation remains the source of evidence for the operator-requested 2026-07-01 target; the workflow itself remains no-order and cannot authorize live trading.
+The live-pilot activation calendar is tracked separately in [`docs/live-pilot-activation-schedule.md`](live-pilot-activation-schedule.md). Daily paper observation remains the source of evidence for the operator-requested 2026-06-16 two-week target; the workflow itself remains no-order and cannot authorize live trading.
 
 The workflow runs at `02:30 UTC` Tuesday-Saturday, which is `11:30 KST`. That is after the regular US market close window and gives free data sources time to publish the prior US session bar.
 
