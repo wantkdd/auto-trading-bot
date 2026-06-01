@@ -19,19 +19,23 @@ def test_broker_comparison_preserves_no_order_boundary() -> None:
     assert "live order routing" in report["decision"]["rejected_now"]
 
 
-def test_broker_comparison_covers_alpaca_ibkr_tradier() -> None:
+def test_broker_comparison_covers_official_us_broker_candidates() -> None:
     names = {candidate["name"] for candidate in build_report()["candidates"]}
 
     assert "Alpaca Trading API" in names
     assert "Interactive Brokers API" in names
     assert "Tradier API" in names
+    assert "TradeStation API" in names
+    assert "tastytrade API" in names
+    assert "E*TRADE API" in names
+    assert "Charles Schwab Trader API" in names
 
 
 def test_broker_comparison_recommends_no_connection_yet() -> None:
     report = build_report()
 
     assert report["summary"]["recommendation"] == (
-        "defer_broker_connection_start_with_no_order_adapter_contract"
+        "start_with_alpaca_paper_only_after_no_order_adapter_contract"
     )
     assert "no-order adapter" in report["decision"]["next_safe_action"]
 
@@ -44,7 +48,7 @@ def test_broker_comparison_script_writes_json_and_markdown(tmp_path) -> None:
 
     payload = json.loads(output.read_text(encoding="utf-8"))
     text = markdown.read_text(encoding="utf-8")
-    assert payload["summary"]["candidates"] == 3
+    assert payload["summary"]["candidates"] == 7
     assert "Universal preconditions" in text
     assert "no broker SDKs" in text
 
@@ -57,4 +61,8 @@ def test_broker_api_docs_capture_selected_broker_compare_path() -> None:
     assert "Alpaca" in text
     assert "Interactive Brokers" in text
     assert "Tradier" in text
+    assert "TradeStation" in text
+    assert "tastytrade" in text
+    assert "E*TRADE" in text
+    assert "Schwab" in text
     assert "no order routing" in text

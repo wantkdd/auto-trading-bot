@@ -48,6 +48,12 @@ IBKR_WEB_API_DOCS = "https://www.interactivebrokers.com/campus/ibkr-api-page/web
 IBKR_CPAPI_DOCS = "https://www.interactivebrokers.com/campus/ibkr-api-page/cpapi-v1/"
 TRADIER_TRADING_DOCS = "https://docs.tradier.com/docs/trading"
 TRADIER_ENDPOINTS_DOCS = "https://docs.tradier.com/docs/endpoints"
+TRADESTATION_SIM_DOCS = "https://api.tradestation.com/docs/fundamentals/sim-vs-live/"
+TRADESTATION_AUTH_DOCS = "https://api.tradestation.com/docs/fundamentals/authentication/auth-overview/"
+TASTYTRADE_SANDBOX_DOCS = "https://developer.tastytrade.com/sandbox/"
+ETRADE_ORDER_DOCS = "https://apisb.etrade.com/docs/api/order/api-order-v1.html"
+ETRADE_AUTH_DOCS = "https://apisb.etrade.com/docs/api/authorization/get_access_token.html"
+SCHWAB_TRADER_API_DOCS = "https://developer.schwab.com/products/trader-api--individual"
 FINRA_DAY_TRADING = (
     "https://www.finra.org/investors/investing/investment-products/stocks/day-trading"
 )
@@ -81,23 +87,27 @@ def main(argv: Sequence[str] | None = None) -> int:
 def build_report() -> dict[str, Any]:
     candidates = broker_candidates()
     decision = BrokerDecision(
-        recommendation="defer_broker_connection_start_with_no_order_adapter_contract",
+        recommendation="start_with_alpaca_paper_only_after_no_order_adapter_contract",
         rationale=(
             "User chose broker comparison, not credentialed integration.",
             "Alpaca appears simplest for a future paper-first US equities API path, "
-            "but supported-country/live-account eligibility must be confirmed by the user.",
-            "IBKR is broad and powerful but has higher operational complexity and gateway/session handling.",
-            "Tradier has clear sandbox/live base URL separation but requires a Tradier Brokerage account.",
+            "because official docs describe a paper-only account, separate paper keys, and a separate paper endpoint.",
+            "tastytrade and TradeStation have strong sandbox/SIM separation, but introduce delayed-data, daily-reset, "
+            "or API-key/account setup constraints that make them better second-phase candidates.",
+            "Tradier and E*TRADE document sandbox endpoints but require brokerage/OAuth/account plumbing before safe use.",
+            "IBKR is broad and powerful but has higher operational complexity and gateway/session handling; Schwab was "
+            "not selected because no official public paper/sandbox evidence was verifiable from the accessed portal pages.",
         ),
         rejected_now=(
             "live order routing",
+            "paper order routing",
             "reading API keys from environment",
             "adding broker SDK dependencies",
             "storing account IDs or credentials",
         ),
         next_safe_action=(
-            "Implement a broker-neutral no-order adapter interface and fixtures only after user confirms "
-            "which candidate can be opened/used for paper trading."
+            "Keep the broker-neutral no-order adapter contract as the next implementation gate; if paper API work is "
+            "later approved, prototype Alpaca paper-only first with hard-coded live-endpoint rejection tests."
         ),
     )
     return {
@@ -123,6 +133,12 @@ def build_report() -> dict[str, Any]:
             "ibkr_client_portal_v1": IBKR_CPAPI_DOCS,
             "tradier_trading": TRADIER_TRADING_DOCS,
             "tradier_endpoints": TRADIER_ENDPOINTS_DOCS,
+            "tradestation_sim": TRADESTATION_SIM_DOCS,
+            "tradestation_auth": TRADESTATION_AUTH_DOCS,
+            "tastytrade_sandbox": TASTYTRADE_SANDBOX_DOCS,
+            "etrade_order": ETRADE_ORDER_DOCS,
+            "etrade_auth": ETRADE_AUTH_DOCS,
+            "schwab_trader_api": SCHWAB_TRADER_API_DOCS,
             "finra_day_trading": FINRA_DAY_TRADING,
         },
         "live_trading_authorized": False,
@@ -198,6 +214,135 @@ def broker_candidates() -> tuple[BrokerCandidate, ...]:
                 "funded live account requirement unresolved",
                 "gateway/session reset handling missing",
                 "market-data subscription and paper sharing unverified",
+            ),
+        ),
+        BrokerCandidate(
+            name="TradeStation API",
+            official_docs=TRADESTATION_SIM_DOCS,
+            account_requirement=(
+                "Official docs expose a v3 brokerage/market-data API and simulator/live base URLs; API-key/account "
+                "setup still must be confirmed before any integration."
+            ),
+            paper_support=(
+                "Simulator API is documented as a paper-trading environment with fake funded accounts, simulated "
+                "executions, and a separate `https://sim-api.tradestation.com/v3` base URL."
+            ),
+            live_support="Live v3 API uses `https://api.tradestation.com/v3` after account/API authorization.",
+            market_data_notes=(
+                "Official rate-limit docs define separate quotas by resource category; streaming should be preferred "
+                "for frequent quote/account updates."
+            ),
+            auth_boundary=(
+                "OAuth/API-key setup is required; SIM and live base URLs must be blocked from runtime switching "
+                "without an explicit future approval gate."
+            ),
+            integration_complexity="medium",
+            fit_for_this_project=(
+                "Strong second-phase sandbox/SIM candidate, especially if multi-asset support matters, but not safer "
+                "than Alpaca for the first equities-only paper path because account/API-key setup is heavier."
+            ),
+            required_user_checks=(
+                "Confirm TradeStation account/API-key eligibility.",
+                "Confirm whether SIM accounts are available before live funding or only after account approval.",
+                "Confirm rate-limit fit for planned polling/streaming cadence.",
+            ),
+            blockers_before_any_live_use=(
+                "API-key/account eligibility unresolved",
+                "SIM/live base URL guard missing",
+                "rate-limit backoff and stream reconnect logic missing",
+            ),
+        ),
+        BrokerCandidate(
+            name="tastytrade API",
+            official_docs=TASTYTRADE_SANDBOX_DOCS,
+            account_requirement=(
+                "Official sandbox docs require signing in with sandbox user credentials; production account/API "
+                "eligibility must be separately confirmed."
+            ),
+            paper_support=(
+                "Sandbox is documented as a controlled open-API system with separate REST and websocket hosts; "
+                "trades, transactions, positions, and balances reset every 24 hours."
+            ),
+            live_support="Production trading exists through the tastytrade API but is out of scope for this review.",
+            market_data_notes="Sandbox quotes are documented as always 15 minutes delayed.",
+            auth_boundary=(
+                "Sandbox credentials and production credentials must never share storage, config keys, logs, or runtime paths."
+            ),
+            integration_complexity="medium",
+            fit_for_this_project=(
+                "Good sandbox lab candidate, but daily resets and delayed quotes make it less suitable than Alpaca "
+                "for continuous paper-observation history."
+            ),
+            required_user_checks=(
+                "Confirm sandbox account creation and API terms.",
+                "Confirm delayed quotes are acceptable.",
+                "Confirm daily reset behavior will not invalidate observation metrics.",
+            ),
+            blockers_before_any_live_use=(
+                "production eligibility unresolved",
+                "daily-reset reconciliation not modeled",
+                "delayed market-data labeling missing",
+            ),
+        ),
+        BrokerCandidate(
+            name="E*TRADE API",
+            official_docs=ETRADE_ORDER_DOCS,
+            account_requirement=(
+                "Official docs require OAuth access tokens and account keys for account/order APIs."
+            ),
+            paper_support=(
+                "Official docs publish sandbox URLs for accounts and orders, including preview and place-order endpoints."
+            ),
+            live_support="Live URLs are documented beside sandbox URLs for the same order/account resources.",
+            market_data_notes=(
+                "Quote docs indicate real-time market data requires a market-data agreement and OAuth; otherwise "
+                "data may be delayed."
+            ),
+            auth_boundary=(
+                "OAuth 1.0a token lifecycle and callback flow add complexity; preview IDs are required before place order."
+            ),
+            integration_complexity="medium_to_high",
+            fit_for_this_project=(
+                "Useful only after a no-order preview contract exists; sandbox support is clear but OAuth/account-key "
+                "handling is heavier than Alpaca for first paper work."
+            ),
+            required_user_checks=(
+                "Confirm developer access and sandbox account fixtures.",
+                "Confirm callback/OAuth flow can be completed without storing secrets in repo.",
+                "Confirm market-data agreement/delay expectations.",
+            ),
+            blockers_before_any_live_use=(
+                "OAuth callback/token storage design missing",
+                "preview-id expiry/retry behavior not modeled",
+                "account-key handling not approved",
+            ),
+        ),
+        BrokerCandidate(
+            name="Charles Schwab Trader API",
+            official_docs=SCHWAB_TRADER_API_DOCS,
+            account_requirement=(
+                "Official developer portal exists, but the accessed public portal pages did not expose crawlable details "
+                "for account, paper, or sandbox requirements in this environment."
+            ),
+            paper_support=(
+                "No official public paper/sandbox support evidence was verified during this review."
+            ),
+            live_support="Not evaluated beyond the official Trader API portal because paper/sandbox evidence was missing.",
+            market_data_notes="Not evaluated; official public paper/sandbox source evidence was unavailable.",
+            auth_boundary="OAuth/app approval details must be verified from Schwab official docs before any design work.",
+            integration_complexity="unknown_high",
+            fit_for_this_project=(
+                "Not a safe first candidate until official paper/sandbox documentation is available and reviewed."
+            ),
+            required_user_checks=(
+                "Confirm from Schwab official docs whether an individual paper/sandbox environment exists.",
+                "Confirm account and app approval requirements.",
+                "Confirm market-data and order-preview constraints.",
+            ),
+            blockers_before_any_live_use=(
+                "official paper/sandbox support not verified",
+                "official auth/app approval requirements not captured",
+                "no no-order contract mapping",
             ),
         ),
         BrokerCandidate(
