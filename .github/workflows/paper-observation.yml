@@ -43,6 +43,8 @@ jobs:
           if git show-ref --verify --quiet "refs/heads/${STATE_BRANCH}"; then
             git show "${STATE_BRANCH}:reports/paper-observation-log.jsonl" \
               > reports/paper-observation-log.jsonl || true
+            git show "${STATE_BRANCH}:reports/paper-trade-intent-log.jsonl" \
+              > reports/paper-trade-intent-log.jsonl || true
           fi
 
       - name: Set up Python
@@ -77,6 +79,7 @@ jobs:
         run: |
           set -euo pipefail
           uv run python scripts/paper_observation_log.py
+          uv run python scripts/paper_trade_intent_log.py
           uv run python scripts/live_readiness_gate.py
 
       - name: Upload observation artifacts
@@ -87,6 +90,7 @@ jobs:
           path: |
             reports/paper-dry-run-signal-latest.json
             reports/paper-observation-log.jsonl
+            reports/paper-trade-intent-log.jsonl
             .omx/reports/fundamental-macro-recent-gate-latest.json
             .omx/reports/fundamental-macro-recent-gate-latest.md
             .omx/reports/paper-observation-summary-latest.json
@@ -101,6 +105,7 @@ jobs:
           mkdir -p "${tmp_state}/reports" "${tmp_state}/.omx/reports"
           cp -f reports/paper-dry-run-signal-latest.json "${tmp_state}/reports/"
           cp -f reports/paper-observation-log.jsonl "${tmp_state}/reports/"
+          cp -f reports/paper-trade-intent-log.jsonl "${tmp_state}/reports/"
           cp -f .omx/reports/fundamental-macro-recent-gate-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/paper-observation-summary-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/live-readiness-gate-latest.* "${tmp_state}/.omx/reports/"

@@ -22,6 +22,7 @@ GitHub scheduled workflows run from the latest commit on the default branch. Sch
 ## State and artifacts
 
 - Durable observation log: `paper-observation-state:reports/paper-observation-log.jsonl`
+- Hypothetical trade-intent log: `paper-observation-state:reports/paper-trade-intent-log.jsonl`
 - Latest generated reports: `paper-observation-state:.omx/reports/*latest*`
 - Per-run artifacts: uploaded by GitHub Actions with `retention-days: 90`
 
