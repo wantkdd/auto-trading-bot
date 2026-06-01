@@ -21,7 +21,7 @@ The final bot should be a layered decision system:
 
 | Group | Data | Purpose | Current status |
 | --- | --- | --- | --- |
-| Price/volume | Daily and later intraday OHLCV, corporate-action-adjusted prices, volume | trend, volatility, drawdown, relative strength, labels | daily Yahoo cache exists; independent source still needed |
+| Price/volume | Daily and later intraday OHLCV, corporate-action-adjusted prices, volume | trend, volatility, drawdown, relative strength, labels | daily Yahoo cache exists; point-in-time dataset builder exists; independent source still needed |
 | Fundamentals | SEC companyfacts and submissions | quality, profitability, balance-sheet, filing-event gates | partially implemented |
 | Macro regime | FRED/ALFRED rates, yield curve, inflation, labor, credit proxies | market regime and risk throttle | planned; API key may be required |
 | News/events | News API, SEC 8-K/10-Q/10-K, earnings calendar | event risk, sentiment/attention, thesis-break flags | SEC event count exists; news not collected yet |
@@ -73,9 +73,8 @@ Fine-tuning becomes reasonable only when:
 ## Next implementation sequence
 
 1. Generate a data-source registry report.
-2. Build a point-in-time feature dataset for daily decisions over the existing 90-symbol universe.
-3. Add forward-label generation with no-lookahead tests.
+2. Build a point-in-time feature dataset for daily decisions over the existing 90-symbol universe. **Done for cached daily price/volume via `scripts/point_in_time_dataset.py`.**
+3. Add forward-label generation with no-lookahead tests. **Done for 1/5/20-day returns, 20-day benchmark excess return, and 20-day forward max drawdown.**
 4. Compare scorecard/logistic baselines against current static defensive pairs.
 5. Add news/event collection only after source/API constraints are explicit.
 6. Add intraday no-order observer only after market-data source freshness and cost are known.
-

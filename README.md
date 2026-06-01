@@ -92,6 +92,14 @@ uv run python scripts/modeling_data_source_registry.py
 
 The registry records which price, SEC, macro, news, and portfolio-risk data sources are candidates for future no-order modeling.
 
+Build the current point-in-time daily feature/label dataset from cached OHLCV data with:
+
+```bash
+uv run python scripts/point_in_time_dataset.py
+```
+
+This writes `.omx/datasets/point-in-time-daily.csv` plus `.omx/reports/point-in-time-dataset-latest.json` / `.md`. Features use only data available at each `as_of_date`; forward labels are for offline evaluation only.
+
 ## Broker API comparison
 
 Broker API work is gated before credentials or orders. See `docs/broker-api-comparison.md` and generate the current comparison report with:
