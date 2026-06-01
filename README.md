@@ -82,6 +82,16 @@ The report bundle includes the strategy name, local data period, assumptions, co
 
 The cloud paper workflow can scan a broad non-leveraged large/liquid universe while keeping the current strategy as a locked paper baseline. See `docs/market-wide-paper-trading-plan.md`. The scan logs hypothetical `would_buy`, `would_sell`, or `would_hold` intents only; it never creates broker orders.
 
+## Data and modeling roadmap
+
+The next research layer is point-in-time data modeling, not immediate LLM fine-tuning. See `docs/training-data-and-modeling-roadmap.md` and generate the source registry with:
+
+```bash
+uv run python scripts/modeling_data_source_registry.py
+```
+
+The registry records which price, SEC, macro, news, and portfolio-risk data sources are candidates for future no-order modeling.
+
 ## Future live-trading work
 
 Any paper or live trading proposal must pass a separate approval gate before design or implementation. See `docs/future-live-trading-gate.md`. Until that gate is approved, this repository remains local-simulator-only and must not add broker SDKs, network clients, credential storage, account reads, or order-routing paths.
