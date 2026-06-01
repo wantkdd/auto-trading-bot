@@ -170,6 +170,14 @@ uv run python scripts/operational_risk_gate.py
 
 This writes `.omx/reports/operational-risk-gate-latest.json` and `.md` with stale-data, drift/loss-limit, manual kill-switch, and trade-intent safety checks. It can only halt or block promotion; it cannot approve live trading.
 
+Generate the broker API attachment preflight with:
+
+```bash
+uv run python scripts/broker_execution_preflight_report.py
+```
+
+This converts accepted no-order preview intents into broker-neutral `BrokerOrderTicket` records with deterministic `client_order_id` values, then checks approval, kill-switch, account-reconciliation, freshness, paper-observation, and notional gates. The output is `.omx/reports/broker-execution-preflight-latest.json` and `.md`. It is the intended seam where a future Alpaca/IBKR/etc. adapter would implement `BrokerExecutionAdapter`; the current code still has no broker SDK, no credentials, no network, and no submitted orders.
+
 Generate the latest independent price replication gate with:
 
 ```bash

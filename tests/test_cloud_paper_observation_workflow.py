@@ -24,6 +24,7 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "market_universe_candidate_scan.py" in workflow
     assert "adaptive_allocation_search.py" in workflow
     assert "live_readiness_gate.py" in workflow
+    assert "broker_execution_preflight_report.py" in workflow
     assert "no_order_gate_status.py" in workflow
     assert "paper-observation-state" in workflow
     assert "STRATEGY_WEIGHTS" in workflow
@@ -44,6 +45,7 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "operational-risk-gate-latest" in workflow
     assert "independent-price-replication-latest" in workflow
     assert "no-order-gate-status-latest" in workflow
+    assert "broker-execution-preflight-latest" in workflow
     assert "discord-paper-report-latest" in workflow
     assert "retention-days: 1" in workflow
     assert 'steps.gate_status.outputs.mode }}" == "action-needed"' in workflow
@@ -53,7 +55,8 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "bls-macro-snapshot-latest" in workflow
     assert ".omx/features/sec-fundamental-snapshot.csv" in workflow
     assert 'add -f reports .omx/reports .omx/features data/universe' in workflow
-    assert "broker" not in workflow.lower()
+    assert "broker_api_key" not in workflow.lower()
+    assert "broker_order_id" not in workflow.lower()
     assert "ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}" in workflow
     assert "BROKER" not in workflow
 

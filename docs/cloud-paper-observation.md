@@ -37,6 +37,10 @@ After writing the hypothetical trade-intent log, the workflow also writes `.omx/
 
 Each run also writes `.omx/reports/operational-risk-gate-latest.json` and `.md`. This checks market-data staleness, paper-equity drift/loss limits, the manual kill-switch flag path, and that hypothetical trade-intent rows still have `order_created: false`. The gate can only block or halt paper promotion; it cannot approve live trading and does not connect to any broker.
 
+## Broker API attachment preflight
+
+Each run writes `.omx/reports/broker-execution-preflight-latest.json` and `.md`. This is the handoff seam for a future broker-specific API adapter: accepted no-order intents become deterministic, idempotent `BrokerOrderTicket` payloads, then approval/account/kill-switch/freshness/notional gates decide whether the tickets are only `blocked` or theoretically `ready_for_paper_api_adapter`. The current automation never imports broker SDKs, reads broker credentials, opens broker network connections, or submits orders.
+
 ## Independent price replication
 
 The workflow writes `.omx/reports/independent-price-replication-latest.json` and `.md`. It can use `ALPHA_VANTAGE_API_KEY` first, then `STOOQ_API_KEY` if available, to compare the latest Yahoo-derived paper-signal closes with an independent data provider. Stooq is optional; if its captcha key is hard to obtain, Alpha Vantage can serve as the independent check subject to its free rate limits.
@@ -46,6 +50,7 @@ The workflow writes `.omx/reports/independent-price-replication-latest.json` and
 - Durable observation log: `paper-observation-state:reports/paper-observation-log.jsonl`
 - Hypothetical trade-intent log: `paper-observation-state:reports/paper-trade-intent-log.jsonl`
 - Latest no-order preview: `paper-observation-state:.omx/reports/no-order-preview-latest.json`
+- Latest broker execution preflight: `paper-observation-state:.omx/reports/broker-execution-preflight-latest.json`
 - Latest operational risk gate: `paper-observation-state:.omx/reports/operational-risk-gate-latest.json`
 - Latest independent price replication: `paper-observation-state:.omx/reports/independent-price-replication-latest.json`
 - Latest SEC feature snapshot: `paper-observation-state:.omx/features/sec-fundamental-snapshot.csv`

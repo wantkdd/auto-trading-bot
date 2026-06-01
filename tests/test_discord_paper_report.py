@@ -28,6 +28,7 @@ def _args(tmp_path: Path, **overrides):
         "challenger_selection": str(tmp_path / "selection.json"),
         "intraday_log": str(tmp_path / "intraday.jsonl"),
         "adaptive_search": str(tmp_path / "adaptive.json"),
+        "broker_preflight": str(tmp_path / "broker-preflight.json"),
         "run_url": "https://example.test/run",
         "output": str(tmp_path / "discord.json"),
         "markdown": str(tmp_path / "discord.md"),
@@ -112,6 +113,18 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
             "static_baseline_summary": {"median_excess": 0.085},
         },
     )
+    _write(
+        tmp_path / "broker-preflight.json",
+        {
+            "summary": {
+                "status": "blocked",
+                "ticket_count": 2,
+                "blockers": 6,
+                "order_created": False,
+                "submit_attempted": False,
+            }
+        },
+    )
     (tmp_path / "intraday.jsonl").write_text(
         "\n".join(
             [
@@ -148,6 +161,9 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
     assert "보정/튜닝 상태" in report["message"]
     assert "adaptive 후보 상태: `review`" in report["message"]
     assert "자동 교체/실거래 반영: `False`" in report["message"]
+    assert "브로커 API 연결 준비도" in report["message"]
+    assert "API preflight: `blocked`" in report["message"]
+    assert "adapter ticket 수: `2`" in report["message"]
     assert "NVDA" in report["message"]
     assert "실금액 자동매매는 아직 승인되지 않았습니다" in report["message"]
 

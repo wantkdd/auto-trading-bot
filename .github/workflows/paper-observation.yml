@@ -143,6 +143,7 @@ jobs:
           uv run python scripts/operational_risk_gate.py
           uv run python scripts/independent_price_replication_gate.py
           uv run python scripts/live_readiness_gate.py
+          uv run python scripts/broker_execution_preflight_report.py
 
       - name: Summarize no-order gate status
         id: gate_status
@@ -195,6 +196,8 @@ jobs:
             .omx/reports/independent-price-replication-latest.md
             .omx/reports/live-readiness-gate-latest.json
             .omx/reports/live-readiness-gate-latest.md
+            .omx/reports/broker-execution-preflight-latest.json
+            .omx/reports/broker-execution-preflight-latest.md
             .omx/reports/no-order-gate-status-latest.json
             .omx/reports/no-order-gate-status-latest.md
             .omx/reports/discord-paper-report-latest.json
@@ -226,6 +229,7 @@ jobs:
           cp -f .omx/reports/operational-risk-gate-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/independent-price-replication-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/live-readiness-gate-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/broker-execution-preflight-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/no-order-gate-status-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/discord-paper-report-latest.* "${tmp_state}/.omx/reports/"
           git -C "${tmp_state}" init
