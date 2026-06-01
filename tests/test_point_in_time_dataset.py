@@ -21,6 +21,35 @@ def write_prices(path: Path, closes: list[float], *, start: date = date(2024, 1,
     path.write_text("\n".join(rows) + "\n", encoding="utf-8")
 
 
+def write_bls_macro(path: Path) -> None:
+    payload = {
+        "series": [
+            {
+                "name": "cpi_all_urban_consumers",
+                "points": [
+                    {"year": "2024", "period": "M01", "value": 100.0},
+                    {"year": "2024", "period": "M02", "value": 200.0},
+                ],
+            },
+            {
+                "name": "unemployment_rate",
+                "points": [
+                    {"year": "2024", "period": "M01", "value": 4.0},
+                    {"year": "2024", "period": "M02", "value": 5.0},
+                ],
+            },
+            {
+                "name": "nonfarm_payrolls_all_employees",
+                "points": [
+                    {"year": "2024", "period": "M01", "value": 150000.0},
+                    {"year": "2024", "period": "M02", "value": 151000.0},
+                ],
+            },
+        ]
+    }
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+
 def args(tmp_path: Path, **overrides) -> argparse.Namespace:
     values = {
         "symbols": ["AAA"],
@@ -33,6 +62,8 @@ def args(tmp_path: Path, **overrides) -> argparse.Namespace:
         "output": str(tmp_path / "dataset.csv"),
         "summary": str(tmp_path / "summary.json"),
         "markdown": str(tmp_path / "summary.md"),
+        "bls_macro": str(tmp_path / "missing-bls.json"),
+        "bls_release_lag_days": 45,
     }
     values.update(overrides)
     return argparse.Namespace(**values)
@@ -91,6 +122,28 @@ def test_future_price_changes_do_not_change_same_date_features(tmp_path: Path) -
     for column in feature_columns:
         assert right_first[column] == pytest.approx(left_first[column])
     assert right_first["forward_return_5d"] != pytest.approx(left_first["forward_return_5d"])
+
+
+def test_bls_macro_features_join_only_after_release_lag(tmp_path: Path) -> None:
+    closes = [100 + offset for offset in range(90)]
+    benchmark = [200 + offset for offset in range(90)]
+    macro = tmp_path / "bls.json"
+    write_prices(tmp_path / "aaa_yahoo_daily_2015_2026.csv", closes)
+    write_prices(tmp_path / "spy_yahoo_daily_2015_2026.csv", benchmark)
+    write_bls_macro(macro)
+
+    result = build_dataset(args(tmp_path, bls_macro=str(macro), bls_release_lag_days=5))
+
+    first = result.rows[0]
+    after_feb_release = next(row for row in result.rows if row["as_of_date"] >= "2024-03-05")
+    assert first["as_of_date"] == "2024-02-21"
+    assert first["bls_cpi_all_urban_consumers"] == 100.0
+    assert first["bls_unemployment_rate"] == 4.0
+    assert first["bls_nonfarm_payrolls_all_employees"] == 150000.0
+    assert first["bls_macro_points_available"] == 3.0
+    assert after_feb_release["bls_cpi_all_urban_consumers"] == 200.0
+    assert result.summary["summary"]["bls_macro_series"] == 3
+    assert result.summary["summary"]["rows_with_all_bls_macro_points"] == 20
 
 
 def test_missing_and_leveraged_symbols_are_reported_without_rows(tmp_path: Path) -> None:

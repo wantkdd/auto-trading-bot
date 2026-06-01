@@ -23,7 +23,7 @@ The final bot should be a layered decision system:
 | --- | --- | --- | --- |
 | Price/volume | Daily and later intraday OHLCV, corporate-action-adjusted prices, volume | trend, volatility, drawdown, relative strength, labels | daily Yahoo cache exists; point-in-time dataset builder exists; Nasdaq Trader universe refresh exists; independent OHLCV source still needed |
 | Fundamentals | SEC companyfacts and submissions | quality, profitability, balance-sheet, filing-event gates | cached feature snapshot implemented; broader refresh next |
-| Macro regime | FRED/ALFRED rates, yield curve, inflation, labor, credit proxies | market regime and risk throttle | planned; API key may be required |
+| Macro regime | BLS CPI/labor data, FRED/ALFRED rates, yield curve, inflation, credit proxies | market regime and risk throttle | BLS no-key snapshot and point-in-time join implemented; FRED key later |
 | News/events | News API, SEC 8-K/10-Q/10-K, earnings calendar | event risk, sentiment/attention, thesis-break flags | SEC event count exists; news not collected yet |
 | Portfolio state | paper positions, target weights, drift, drawdown | convert scores into buy/sell/hold with risk caps | paper intent logging exists |
 
@@ -73,7 +73,7 @@ Fine-tuning becomes reasonable only when:
 ## Next implementation sequence
 
 1. Generate a data-source registry report. **Expanded to 13 free/free-key sources and a broad Nasdaq Trader US universe refresh.**
-2. Build a point-in-time feature dataset for daily decisions over the existing 90-symbol universe. **Done for cached daily price/volume via `scripts/point_in_time_dataset.py`.**
+2. Build a point-in-time feature dataset for daily decisions over the existing 90-symbol universe. **Done for cached daily price/volume plus conservative BLS macro joins via `scripts/point_in_time_dataset.py`.**
 3. Add forward-label generation with no-lookahead tests. **Done for 1/5/20-day returns, 20-day benchmark excess return, and 20-day forward max drawdown.**
 4. Compare scorecard/logistic baselines against current static defensive pairs. **Scorecard baseline evaluator exists via `scripts/scorecard_baseline_report.py`; logistic/regularized models remain later.**
 5. Add news/event collection only after source/API constraints are explicit.

@@ -100,13 +100,13 @@ uv run python scripts/us_symbol_universe_refresh.py
 
 The latest refresh found 12,708 listed rows and 5,386 common-equity candidates from Nasdaq Trader public directories. See `docs/free-data-source-expansion.md` for the full free/free-key source queue.
 
-Build the current point-in-time daily feature/label dataset from cached OHLCV data with:
+Build the current point-in-time daily feature/label dataset from cached OHLCV plus BLS macro context with:
 
 ```bash
 uv run python scripts/point_in_time_dataset.py
 ```
 
-This writes `.omx/datasets/point-in-time-daily.csv` plus `.omx/reports/point-in-time-dataset-latest.json` / `.md`. Features use only data available at each `as_of_date`; forward labels are for offline evaluation only.
+This writes `.omx/datasets/point-in-time-daily.csv` plus `.omx/reports/point-in-time-dataset-latest.json` / `.md`. Features use only data available at each `as_of_date`; BLS macro points are conservatively lagged before joining, and forward labels are for offline evaluation only.
 
 Collect a no-key BLS macro snapshot with:
 

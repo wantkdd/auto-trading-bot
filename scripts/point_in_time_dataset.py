@@ -14,7 +14,7 @@ import json
 import math
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from datetime import UTC, date, datetime
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -29,6 +29,13 @@ DEFAULT_SYMBOLS_FILE = "data/universe/us_large_liquid_watchlist.txt"
 DEFAULT_OUTPUT = ".omx/datasets/point-in-time-daily.csv"
 DEFAULT_SUMMARY = ".omx/reports/point-in-time-dataset-latest.json"
 DEFAULT_MARKDOWN = ".omx/reports/point-in-time-dataset-latest.md"
+DEFAULT_BLS_MACRO = ".omx/reports/bls-macro-snapshot-latest.json"
+MACRO_FEATURE_COLUMNS = (
+    "bls_cpi_all_urban_consumers",
+    "bls_unemployment_rate",
+    "bls_nonfarm_payrolls_all_employees",
+    "bls_macro_points_available",
+)
 FEATURE_COLUMNS = (
     "trailing_return_1d",
     "trailing_return_5d",
@@ -38,6 +45,7 @@ FEATURE_COLUMNS = (
     "close_to_sma_50",
     "volume_to_sma_20",
     "benchmark_trailing_return_20d",
+    *MACRO_FEATURE_COLUMNS,
 )
 LABEL_COLUMNS = (
     "forward_return_1d",
@@ -58,6 +66,34 @@ class DailyBar:
 
 
 @dataclass(frozen=True)
+class MacroPoint:
+    name: str
+    period: date
+    available_on: date
+    value: float
+
+
+@dataclass(frozen=True)
+class MacroSnapshot:
+    points_by_name: Mapping[str, tuple[MacroPoint, ...]]
+
+    def values_as_of(self, as_of_date: date) -> dict[str, float]:
+        values: dict[str, float] = {}
+        available_count = 0
+        for name in MACRO_FEATURE_COLUMNS[:-1]:
+            raw_name = name.removeprefix("bls_")
+            points = self.points_by_name.get(raw_name, ())
+            eligible = [point for point in points if point.available_on <= as_of_date]
+            if eligible:
+                values[name] = eligible[-1].value
+                available_count += 1
+            else:
+                values[name] = 0.0
+        values["bls_macro_points_available"] = float(available_count)
+        return values
+
+
+@dataclass(frozen=True)
 class DatasetResult:
     rows: list[dict[str, Any]]
     summary: dict[str, Any]
@@ -75,6 +111,8 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     parser.add_argument("--summary", default=DEFAULT_SUMMARY)
     parser.add_argument("--markdown", default=DEFAULT_MARKDOWN)
+    parser.add_argument("--bls-macro", default=DEFAULT_BLS_MACRO)
+    parser.add_argument("--bls-release-lag-days", type=int, default=45)
     return parser.parse_args(argv)
 
 
@@ -108,6 +146,9 @@ def build_dataset(args: argparse.Namespace) -> DatasetResult:
     benchmark = str(args.benchmark).strip().upper()
     benchmark_bars = load_symbol_bars(data_dir, benchmark)
     benchmark_features = benchmark_feature_maps(benchmark_bars, start, end)
+    macro_snapshot = load_bls_macro_snapshot(
+        Path(args.bls_macro), release_lag_days=int(args.bls_release_lag_days)
+    )
     rows: list[dict[str, Any]] = []
     missing: list[str] = []
     insufficient: list[str] = []
@@ -124,6 +165,7 @@ def build_dataset(args: argparse.Namespace) -> DatasetResult:
             end=end,
             min_history=args.min_history,
             benchmark_features=benchmark_features,
+            macro_snapshot=macro_snapshot,
         )
         if not symbol_rows:
             insufficient.append(symbol)
@@ -147,6 +189,14 @@ def build_dataset(args: argparse.Namespace) -> DatasetResult:
             "start": start.isoformat(),
             "end": end.isoformat(),
             "benchmark": benchmark,
+            "bls_macro_source": str(args.bls_macro),
+            "bls_release_lag_days": int(args.bls_release_lag_days),
+            "bls_macro_series": len(macro_snapshot.points_by_name),
+            "rows_with_all_bls_macro_points": sum(
+                1
+                for row in rows
+                if row.get("bls_macro_points_available") == float(len(MACRO_FEATURE_COLUMNS) - 1)
+            ),
             "order_created": False,
             "live_trading_authorized": False,
         },
@@ -218,6 +268,67 @@ def benchmark_feature_maps(
     return {"trailing_20": trailing_20, "forward_20": forward_20}
 
 
+def load_bls_macro_snapshot(path: Path, *, release_lag_days: int) -> MacroSnapshot:
+    if release_lag_days < 0:
+        raise SystemExit("bls-release-lag-days must be nonnegative")
+    if not path.exists():
+        return MacroSnapshot(points_by_name={})
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, Mapping):
+        return MacroSnapshot(points_by_name={})
+    series = payload.get("series", [])
+    if not isinstance(series, list):
+        return MacroSnapshot(points_by_name={})
+    points_by_name: dict[str, list[MacroPoint]] = {}
+    for series_row in series:
+        if not isinstance(series_row, Mapping):
+            continue
+        name = str(series_row.get("name") or series_row.get("series_id") or "")
+        points = series_row.get("points", [])
+        if not name or not isinstance(points, list):
+            continue
+        for point in points:
+            parsed = parse_bls_point(name, point, release_lag_days=release_lag_days)
+            if parsed is not None:
+                points_by_name.setdefault(name, []).append(parsed)
+    normalized = {
+        name: tuple(sorted(points, key=lambda point: point.available_on))
+        for name, points in points_by_name.items()
+    }
+    return MacroSnapshot(points_by_name=normalized)
+
+
+def parse_bls_point(name: str, point: object, *, release_lag_days: int) -> MacroPoint | None:
+    if not isinstance(point, Mapping):
+        return None
+    value = point.get("value")
+    if not isinstance(value, int | float):
+        return None
+    year = str(point.get("year") or "")
+    period = str(point.get("period") or "")
+    if not year.isdigit() or not period.startswith("M") or not period[1:].isdigit():
+        return None
+    month = int(period[1:])
+    if month < 1 or month > 12:
+        return None
+    period_month = date(int(year), month, 1)
+    period_end = month_end(period_month)
+    return MacroPoint(
+        name=name,
+        period=period_end,
+        available_on=period_end + timedelta(days=release_lag_days),
+        value=float(value),
+    )
+
+
+def month_end(first_day: date) -> date:
+    if first_day.month == 12:
+        next_month = date(first_day.year + 1, 1, 1)
+    else:
+        next_month = date(first_day.year, first_day.month + 1, 1)
+    return next_month - timedelta(days=1)
+
+
 def build_symbol_rows(
     *,
     symbol: str,
@@ -226,6 +337,7 @@ def build_symbol_rows(
     end: date,
     min_history: int,
     benchmark_features: Mapping[str, Mapping[date, float]],
+    macro_snapshot: MacroSnapshot,
 ) -> list[dict[str, Any]]:
     filtered = [bar for bar in bars if start <= bar.as_of_date <= end]
     rows: list[dict[str, Any]] = []
@@ -238,6 +350,7 @@ def build_symbol_rows(
         if bar.as_of_date not in benchmark_trailing or bar.as_of_date not in benchmark_forward:
             continue
         forward_20 = return_between(filtered, index, index + 20)
+        macro_values = macro_snapshot.values_as_of(bar.as_of_date)
         rows.append(
             {
                 "symbol": symbol,
@@ -252,6 +365,7 @@ def build_symbol_rows(
                 "close_to_sma_50": close_to_sma(filtered, index, 50),
                 "volume_to_sma_20": volume_to_sma(filtered, index, 20),
                 "benchmark_trailing_return_20d": benchmark_trailing[bar.as_of_date],
+                **macro_values,
                 "forward_return_1d": return_between(filtered, index, index + 1),
                 "forward_return_5d": return_between(filtered, index, index + 5),
                 "forward_return_20d": forward_20,
@@ -327,6 +441,8 @@ def write_markdown(path: Path, summary: Mapping[str, Any]) -> None:
         f"- Missing price data: `{data['missing_price_data']}`",
         f"- Insufficient history: `{data['insufficient_history']}`",
         f"- Benchmark: `{data['benchmark']}`",
+        f"- BLS macro series: `{data['bls_macro_series']}`",
+        f"- Rows with all BLS macro points: `{data['rows_with_all_bls_macro_points']}`",
         f"- Order created: `{data['order_created']}`",
         f"- Live trading authorized: `{data['live_trading_authorized']}`",
         "",
