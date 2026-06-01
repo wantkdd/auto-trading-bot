@@ -202,9 +202,14 @@ def _validate_no_order_source_row(row: Mapping[str, object]) -> None:
         raise BrokerContractError("paper intent row must keep order_created=false")
     if row.get("live_trading_authorized") is True or row.get("paper_api_authorized") is True:
         raise BrokerContractError("paper intent row cannot authorize broker API trading")
-    for field in ("broker_order_id", "broker_execution_id", "order_id", "execution_id"):
-        if row.get(field):
-            raise BrokerContractError(f"paper intent row cannot include {field}")
+    for metadata_field in (
+        "broker_order_id",
+        "broker_execution_id",
+        "order_id",
+        "execution_id",
+    ):
+        if row.get(metadata_field):
+            raise BrokerContractError(f"paper intent row cannot include {metadata_field}")
 
 
 def intent_to_dict(intent: PaperOrderIntent) -> dict[str, object]:

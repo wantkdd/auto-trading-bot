@@ -82,3 +82,5 @@ trading credentials, read accounts, or route orders.
 6. Add an explicit `--as-of`/market-session option for scheduled dry-run signal
    generation so timezone boundaries cannot silently change the observation
    window.
+
+documentation alone must not authorize code that connects accounts or places orders.

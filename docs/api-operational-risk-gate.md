@@ -4,7 +4,7 @@ This repository does not trade live. If a future human-approved proposal ever ad
 
 ## Latency and stale data
 
-- Define max acceptable market-data age before a signal is considered stale.
+- Define max acceptable stale market data age before a signal is considered stale.
 - Define max broker API round-trip latency before order placement is halted.
 - Use exchange calendars and market-hours checks; never infer tradability from a cached quote alone.
 - Halt on delayed quote feeds, missing bid/ask, crossed markets, zero volume, or large spread spikes.
@@ -27,7 +27,7 @@ This repository does not trade live. If a future human-approved proposal ever ad
 
 - Block leverage, shorting, margin, options, and inverse/leveraged products unless a separate approved gate exists.
 - Handle dividends, splits, corporate actions, symbol changes, halted securities, and holidays.
-- Enforce max allocation, max daily loss, max drawdown, stale-data halt, and manual kill switch.
+- Enforce max allocation, max daily loss, max drawdown, stale-data halt, and manual kill-switch.
 
 ## Approval boundary
 
