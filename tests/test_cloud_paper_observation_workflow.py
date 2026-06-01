@@ -22,11 +22,13 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "bls_macro_snapshot.py" in workflow
     assert "build_us_liquid_universe.py" in workflow
     assert "market_universe_candidate_scan.py" in workflow
+    assert "adaptive_allocation_search.py" in workflow
     assert "live_readiness_gate.py" in workflow
     assert "no_order_gate_status.py" in workflow
     assert "paper-observation-state" in workflow
     assert "STRATEGY_WEIGHTS" in workflow
     assert "market-universe-scan-latest" in workflow
+    assert "adaptive-allocation-search-latest" in workflow
     assert "us_dynamic_liquid_watchlist.txt" in workflow
     assert "us-dynamic-liquid-universe-latest" in workflow
     assert "--symbols-file data/universe/us_dynamic_liquid_watchlist.txt" in workflow

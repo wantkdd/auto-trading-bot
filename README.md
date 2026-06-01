@@ -178,6 +178,14 @@ uv run python scripts/independent_price_replication_gate.py
 
 This compares the latest Yahoo-derived paper-signal closes with an independent provider. `ALPHA_VANTAGE_API_KEY` is used in auto mode when present; `STOOQ_API_KEY` remains optional and is not required if the captcha-based Stooq key is unavailable.
 
+Generate the latest offline adaptive-allocation review with:
+
+```bash
+uv run python scripts/adaptive_allocation_search.py || true
+```
+
+This searches candidate QQQ/GLD risk-on/risk-off parameter policies on historical windows and writes `.omx/reports/adaptive-allocation-search-latest.json` and `.md`. A `review` exit/status is expected when the candidate improves one metric but fails a safety gate such as drawdown. Scheduled automation records the review in the daily Discord report, but it never self-modifies strategy code, promotes a challenger, or authorizes live trading.
+
 ## No-order blocker review
 
 The current blocker and improvement queue is tracked in `docs/no-order-blockers-and-improvements.md`. It records live-readiness blockers, paper-only evidence gaps, and safe follow-up work while preserving `order_created=false`, `paper_api_authorized=false`, and `live_trading_authorized=false`.

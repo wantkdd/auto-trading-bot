@@ -87,6 +87,7 @@ jobs:
           uv run python scripts/market_universe_candidate_scan.py \
             --symbols-file data/universe/us_dynamic_liquid_watchlist.txt \
             --top-candidates 30
+          uv run python scripts/adaptive_allocation_search.py || true
 
       - name: Generate dry-run target weights with no orders
         run: |
@@ -178,6 +179,8 @@ jobs:
             .omx/reports/us-dynamic-liquid-universe-latest.md
             .omx/reports/market-universe-scan-latest.json
             .omx/reports/market-universe-scan-latest.md
+            .omx/reports/adaptive-allocation-search-latest.json
+            .omx/reports/adaptive-allocation-search-latest.md
             .omx/reports/paper-observation-summary-latest.json
             .omx/reports/paper-observation-summary-latest.md
             .omx/reports/paper-challenger-observation-summary-latest.json
@@ -215,6 +218,7 @@ jobs:
           cp -f data/universe/us_dynamic_liquid_watchlist.txt "${tmp_state}/data/universe/"
           cp -f .omx/reports/us-dynamic-liquid-universe-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/market-universe-scan-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/adaptive-allocation-search-latest.* "${tmp_state}/.omx/reports/" || true
           cp -f .omx/reports/paper-observation-summary-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/paper-challenger-observation-summary-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/no-order-preview-latest.* "${tmp_state}/.omx/reports/"

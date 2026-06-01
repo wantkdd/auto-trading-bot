@@ -25,6 +25,7 @@ DEFAULT_DYNAMIC_UNIVERSE = ".omx/reports/us-dynamic-liquid-universe-latest.json"
 DEFAULT_MARKET_SCAN = ".omx/reports/market-universe-scan-latest.json"
 DEFAULT_CHALLENGER_SELECTION = ".omx/reports/paper-challenger-selection-latest.json"
 DEFAULT_INTRADAY_LOG = "reports/intraday-no-order-log.jsonl"
+DEFAULT_ADAPTIVE_SEARCH = ".omx/reports/adaptive-allocation-search-latest.json"
 DEFAULT_OUTPUT = ".omx/reports/discord-paper-report-latest.json"
 DEFAULT_MARKDOWN = ".omx/reports/discord-paper-report-latest.md"
 DISCORD_LIMIT = 2000
@@ -42,6 +43,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--market-scan", default=DEFAULT_MARKET_SCAN)
     parser.add_argument("--challenger-selection", default=DEFAULT_CHALLENGER_SELECTION)
     parser.add_argument("--intraday-log", default=DEFAULT_INTRADAY_LOG)
+    parser.add_argument("--adaptive-search", default=DEFAULT_ADAPTIVE_SEARCH)
     parser.add_argument("--run-url", default=os.environ.get("GITHUB_RUN_URL", ""))
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     parser.add_argument("--markdown", default=DEFAULT_MARKDOWN)
@@ -82,6 +84,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     market_scan = read_json_if_exists(Path(args.market_scan)) or {}
     challenger_selection = read_json_if_exists(Path(args.challenger_selection)) or {}
     intraday = summarize_intraday_log(Path(args.intraday_log))
+    adaptive_search = read_json_if_exists(Path(args.adaptive_search)) or {}
     sections = report_sections(
         paper, weekly_day=args.weekly_day, final_days=args.final_observed_days
     )
@@ -95,6 +98,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         market_scan=market_scan,
         challenger_selection=challenger_selection,
         intraday=intraday,
+        adaptive_search=adaptive_search,
         sections=sections,
         run_url=args.run_url,
         final_days=args.final_observed_days,
@@ -116,6 +120,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "market_scan": str(args.market_scan),
             "challenger_selection": str(args.challenger_selection),
             "intraday_log": str(args.intraday_log),
+            "adaptive_search": str(args.adaptive_search),
         },
     }
 
@@ -146,6 +151,7 @@ def render_message(
     market_scan: Mapping[str, Any],
     challenger_selection: Mapping[str, Any],
     intraday: Mapping[str, Any],
+    adaptive_search: Mapping[str, Any],
     sections: Sequence[str],
     run_url: str,
     final_days: int,
@@ -159,6 +165,8 @@ def render_message(
         dynamic_first_symbols = []
     market_summary = mapping(market_scan.get("summary"))
     challenger_selection_summary = mapping(challenger_selection.get("summary"))
+    adaptive_summary = mapping(adaptive_search.get("summary"))
+    adaptive_baseline = mapping(adaptive_search.get("static_baseline_summary"))
     title = "📊 자동매매 가정 일일 리포트 (NO-ORDER)"
     lines = [
         title,
@@ -186,6 +194,17 @@ def render_message(
         f"- 판단 변화 합계: `{intraday.get('total_changes', 0)}`",
         f"- 특이 움직임 합계: `{intraday.get('total_notable', 0)}`",
         f"- 최근 체크 시각: `{intraday.get('latest_generated_at', 'unknown')}`",
+        "",
+        "**보정/튜닝 상태**",
+        (
+            "- 코드는 자동 자기수정하지 않음: 로그 기반 후보를 만들고 "
+            "안전 게이트 통과 여부만 기록합니다."
+        ),
+        f"- adaptive 후보 상태: `{adaptive_summary.get('status', 'missing')}`",
+        f"- adaptive 중앙 초과수익: `{pct(adaptive_summary.get('median_excess'))}`",
+        f"- static 기준 중앙 초과수익: `{pct(adaptive_baseline.get('median_excess'))}`",
+        f"- adaptive 최악 MDD: `{pct(adaptive_summary.get('worst_max_drawdown'))}`",
+        "- 자동 교체/실거래 반영: `False`",
         "",
         "**시장 스캔 Challenger**",
         (

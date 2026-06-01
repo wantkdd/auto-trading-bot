@@ -27,6 +27,7 @@ def _args(tmp_path: Path, **overrides):
         "market_scan": str(tmp_path / "market.json"),
         "challenger_selection": str(tmp_path / "selection.json"),
         "intraday_log": str(tmp_path / "intraday.jsonl"),
+        "adaptive_search": str(tmp_path / "adaptive.json"),
         "run_url": "https://example.test/run",
         "output": str(tmp_path / "discord.json"),
         "markdown": str(tmp_path / "discord.md"),
@@ -100,6 +101,17 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
     )
     _write(tmp_path / "market.json", {"summary": {"top_candidate": "LLY_0.4_GLD_0.6"}})
     _write(tmp_path / "selection.json", {"summary": {"challenger_strategy": "LLY_0.4_GLD_0.6"}})
+    _write(
+        tmp_path / "adaptive.json",
+        {
+            "summary": {
+                "status": "review",
+                "median_excess": 0.054,
+                "worst_max_drawdown": -0.232,
+            },
+            "static_baseline_summary": {"median_excess": 0.085},
+        },
+    )
     (tmp_path / "intraday.jsonl").write_text(
         "\n".join(
             [
@@ -133,6 +145,9 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
     assert "저장된 장중 체크: `2`회" in report["message"]
     assert "판단 변화 합계: `1`" in report["message"]
     assert "특이 움직임 합계: `2`" in report["message"]
+    assert "보정/튜닝 상태" in report["message"]
+    assert "adaptive 후보 상태: `review`" in report["message"]
+    assert "자동 교체/실거래 반영: `False`" in report["message"]
     assert "NVDA" in report["message"]
     assert "실금액 자동매매는 아직 승인되지 않았습니다" in report["message"]
 

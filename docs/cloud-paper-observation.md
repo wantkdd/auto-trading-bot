@@ -23,6 +23,12 @@ GitHub scheduled workflows run from the latest commit on the default branch. Sch
 
 Each scheduled run now also writes `.omx/reports/market-universe-scan-latest.json` and `.md`. This scans a broad non-leveraged large/liquid watchlist, but it does not automatically switch the locked paper strategy. Candidate replacement requires a separate promotion gate; the workflow remains no-order and not live trading.
 
+## Adjustment and tuning review
+
+GitHub Actions intentionally reruns the same reviewed code. The code responds to changing market data through generated signals, refreshed universes, intraday logs, and candidate reports; it does **not** let live market data rewrite source code automatically.
+
+Each daily run also writes `.omx/reports/adaptive-allocation-search-latest.json` and `.md`. This is an offline parameter/policy review over historical windows. A candidate can be marked `pass`, `review`, or blocked, and its status is summarized in the daily Discord report. Promotion still requires a separate safety gate and explicit source-code/config change; no broker or live trading path is created.
+
 ## No-order preview
 
 After writing the hypothetical trade-intent log, the workflow also writes `.omx/reports/no-order-preview-latest.json` and `.md`. This runs the local no-order adapter contract against the latest `would_buy` / `would_sell` rows and records accepted/rejected intents, accepted notional, and `order_created: false`. It is a validation report only: no broker, no credentials, no API calls, and no orders.
@@ -44,7 +50,7 @@ The workflow writes `.omx/reports/independent-price-replication-latest.json` and
 - Latest independent price replication: `paper-observation-state:.omx/reports/independent-price-replication-latest.json`
 - Latest SEC feature snapshot: `paper-observation-state:.omx/features/sec-fundamental-snapshot.csv`
 - Latest generated reports: `paper-observation-state:.omx/reports/*latest*`
-- Per-run artifacts: uploaded by GitHub Actions with `retention-days: 90`
+- Per-run artifacts: uploaded by GitHub Actions with short retention, currently `retention-days: 1`
 
 The state branch is intentionally separate from `master/main` so generated logs do not pollute source commits.
 
