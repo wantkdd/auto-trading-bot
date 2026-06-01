@@ -51,6 +51,23 @@ def test_market_data_staleness_halts_on_old_or_mismatched_bars() -> None:
     assert "source_bar_date_mismatch" in report["blockers"]
 
 
+def test_market_data_staleness_blocks_malformed_as_of_date() -> None:
+    signal = {
+        "as_of_date": "not-a-date",
+        "source_bars": {"AAPL": {"timestamp": "2026-05-29T13:30:00"}},
+    }
+
+    report = evaluate_market_data_staleness(
+        signal,
+        generated_date=__import__("datetime").date(2026, 6, 1),
+        max_calendar_lag_days=5,
+    )
+
+    assert report["status"] == "blocked"
+    assert report["halt_required"] is True
+    assert report["blockers"] == ["paper_signal_as_of_date_invalid"]
+
+
 def test_drift_monitor_halts_on_loss_limits() -> None:
     observations = [
         {"virtual_equity": 10000.0, "daily_return": 0.0},
@@ -71,6 +88,30 @@ def test_trade_intent_safety_requires_order_created_false() -> None:
 
     assert report["halt_required"] is True
     assert report["blockers"] == ["trade_intent_order_created_not_false"]
+
+
+def test_trade_intent_safety_rejects_authorization_flags() -> None:
+    report = evaluate_trade_intent_safety(
+        [
+            {
+                "trade_intents": [
+                    {
+                        "symbol": "AAPL",
+                        "order_created": False,
+                        "paper_api_authorized": True,
+                    },
+                    {
+                        "symbol": "GLD",
+                        "order_created": False,
+                        "live_trading_authorized": True,
+                    },
+                ]
+            }
+        ]
+    )
+
+    assert report["halt_required"] is True
+    assert report["blockers"] == ["trade_intent_authorization_flag_present"]
 
 
 def test_build_report_writes_monitoring_summary_without_orders(tmp_path: Path) -> None:

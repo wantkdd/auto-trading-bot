@@ -106,3 +106,23 @@ def test_build_intents_rejects_real_order_like_side() -> None:
             [{"symbol": "AAPL", "side": "buy", "quantity": 1, "reference_price": 10.0}],
             created_at=datetime(2026, 6, 1),
         )
+
+
+def test_build_intents_rejects_tainted_live_order_metadata() -> None:
+    base_row = {
+        "symbol": "AAPL",
+        "side": "would_buy",
+        "quantity": 1,
+        "reference_price": 10.0,
+    }
+
+    tainted_rows = (
+        {**base_row, "order_created": True},
+        {**base_row, "live_trading_authorized": True},
+        {**base_row, "paper_api_authorized": True},
+        {**base_row, "broker_order_id": "abc123"},
+    )
+
+    for row in tainted_rows:
+        with pytest.raises(BrokerContractError):
+            build_intents_from_trade_rows([row], created_at=datetime(2026, 6, 1))
