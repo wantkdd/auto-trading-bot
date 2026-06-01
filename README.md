@@ -92,6 +92,16 @@ uv run python scripts/modeling_data_source_registry.py
 
 The registry records which price, SEC, macro, news, and portfolio-risk data sources are candidates for future no-order modeling.
 
+## Broker API comparison
+
+Broker API work is gated before credentials or orders. See `docs/broker-api-comparison.md` and generate the current comparison report with:
+
+```bash
+uv run python scripts/broker_api_comparison.py
+```
+
+The current recommendation is to defer broker connection and start with a broker-neutral no-order adapter contract only after explicit approval.
+
 ## Future live-trading work
 
 Any paper or live trading proposal must pass a separate approval gate before design or implementation. See `docs/future-live-trading-gate.md`. Until that gate is approved, this repository remains local-simulator-only and must not add broker SDKs, network clients, credential storage, account reads, or order-routing paths.
