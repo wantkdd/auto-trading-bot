@@ -57,6 +57,13 @@ FRED_DOC_URL = "https://fred.stlouisfed.org/docs/api/fred/"
 ALPHA_VANTAGE_DOC_URL = "https://www.alphavantage.co/documentation/"
 ALPACA_MARKET_DATA_DOC_URL = "https://docs.alpaca.markets/us/docs/about-market-data-api"
 POLYGON_STOCKS_DOC_URL = "https://polygon.io/docs/rest/stocks/overview/"
+NASDAQ_TRADER_SYMBOL_DIR_URL = "https://www.nasdaqtrader.com/trader.aspx?id=symboldirdefs"
+STOOQ_HISTORICAL_URL = "https://stooq.com/db/h/"
+GDELT_DOC_API_URL = "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/"
+OPENDART_API_URL = "https://opendart.fss.or.kr/guide/main.do"
+KRX_DATA_URL = "https://data.krx.co.kr/"
+BLS_API_URL = "https://www.bls.gov/developers/"
+BANK_OF_KOREA_ECOS_URL = "https://ecos.bok.or.kr/api/"
 FINRA_DAY_TRADING_URL = (
     "https://www.finra.org/investors/investing/investment-products/stocks/day-trading"
 )
@@ -148,6 +155,13 @@ def build_registry() -> dict[str, Any]:
             "alpha_vantage": ALPHA_VANTAGE_DOC_URL,
             "alpaca_market_data": ALPACA_MARKET_DATA_DOC_URL,
             "polygon_stocks": POLYGON_STOCKS_DOC_URL,
+            "nasdaq_trader_symbol_directory": NASDAQ_TRADER_SYMBOL_DIR_URL,
+            "stooq_historical_data": STOOQ_HISTORICAL_URL,
+            "gdelt_doc_api": GDELT_DOC_API_URL,
+            "opendart": OPENDART_API_URL,
+            "krx_data": KRX_DATA_URL,
+            "bls_api": BLS_API_URL,
+            "bank_of_korea_ecos": BANK_OF_KOREA_ECOS_URL,
             "finra_day_trading": FINRA_DAY_TRADING_URL,
             "cfa_reasonable_basis": CFA_REASONABLE_BASIS_URL,
         },
@@ -157,6 +171,46 @@ def build_registry() -> dict[str, Any]:
 
 def data_sources() -> tuple[DataSource, ...]:
     return (
+        DataSource(
+            name="Nasdaq Trader symbol directories",
+            category="us_symbol_universe",
+            url=NASDAQ_TRADER_SYMBOL_DIR_URL,
+            collection_status="used_for_broad_us_symbol_universe",
+            requires_api_key=False,
+            current_repo_use="official public symbol directory refresh for listed US candidates",
+            modeling_use=(
+                "expand beyond the seed watchlist into a broad US universe",
+                "separate listed symbols, ETFs, test issues, and exchange metadata",
+            ),
+            leakage_controls=(
+                "treat symbol membership as observed at refresh time",
+                "do not infer historical membership without dated directory snapshots",
+            ),
+            limitations=(
+                "not survivorship-bias-free for historical backtests unless snapshots are archived",
+                "does not provide prices, fundamentals, sectors, or liquidity metrics",
+            ),
+        ),
+        DataSource(
+            name="Stooq historical data",
+            category="independent_historical_price_ohlcv",
+            url=STOOQ_HISTORICAL_URL,
+            collection_status="candidate_no_key_independent_price_replication",
+            requires_api_key=False,
+            current_repo_use="not yet collected",
+            modeling_use=(
+                "independent daily OHLCV replication against Yahoo-derived caches",
+                "sanity-check stale, missing, split-adjusted, or vendor-revised bars",
+            ),
+            leakage_controls=(
+                "store ingestion timestamp and source URL for every cache refresh",
+                "never overwrite historical raw cache without preserving prior snapshot metadata",
+            ),
+            limitations=(
+                "coverage and adjustment methodology must be verified per symbol",
+                "terms/robots and rate behavior must be respected before bulk download",
+            ),
+        ),
         DataSource(
             name="Yahoo Finance chart endpoint cache",
             category="historical_price_ohlcv",
@@ -198,6 +252,46 @@ def data_sources() -> tuple[DataSource, ...]:
             ),
         ),
         DataSource(
+            name="OpenDART",
+            category="korea_fundamentals_and_filings",
+            url=OPENDART_API_URL,
+            collection_status="candidate_free_key_korea_filings",
+            requires_api_key=True,
+            current_repo_use="not yet collected",
+            modeling_use=(
+                "Korean company filings, financial statements, and disclosure events",
+                "domestic equity fundamental and event-risk features",
+            ),
+            leakage_controls=(
+                "filter every feature by receipt/disclosure timestamp <= decision timestamp",
+                "preserve corp code, report code, and receipt number for audit",
+            ),
+            limitations=(
+                "free API key setup is required",
+                "Korean taxonomy and report timing differ from SEC data",
+            ),
+        ),
+        DataSource(
+            name="KRX data portal",
+            category="korea_market_reference_data",
+            url=KRX_DATA_URL,
+            collection_status="candidate_manual_or_automated_korea_market_data",
+            requires_api_key=False,
+            current_repo_use="not yet collected",
+            modeling_use=(
+                "Korean listed symbol universe, market classification, and reference data",
+                "domestic liquidity filters before any Korean paper strategy",
+            ),
+            leakage_controls=(
+                "archive dated downloads and do not backfill future listing state",
+                "separate listing metadata from historical tradability assumptions",
+            ),
+            limitations=(
+                "automated access behavior may require endpoint-specific validation",
+                "not a replacement for licensed real-time KRX data",
+            ),
+        ),
+        DataSource(
             name="FRED/ALFRED API",
             category="macro_regime",
             url=FRED_DOC_URL,
@@ -215,6 +309,66 @@ def data_sources() -> tuple[DataSource, ...]:
             limitations=(
                 "API key/login required for normal use",
                 "macro data frequency is lower than intraday equity decisions",
+            ),
+        ),
+        DataSource(
+            name="GDELT DOC API",
+            category="global_news_attention",
+            url=GDELT_DOC_API_URL,
+            collection_status="candidate_no_key_news_attention_source",
+            requires_api_key=False,
+            current_repo_use="not yet collected",
+            modeling_use=(
+                "global article-count and event-attention features by company/query",
+                "news-volume shock flags before adding paid or keyed news sentiment",
+            ),
+            leakage_controls=(
+                "use article publication datetime and query datetime separately",
+                "deduplicate syndicated or near-identical article URLs before scoring",
+            ),
+            limitations=(
+                "entity matching is noisy and needs ticker/company-name disambiguation",
+                "article tone/volume is a proxy and must be validated out-of-sample",
+            ),
+        ),
+        DataSource(
+            name="BLS Public Data API",
+            category="labor_macro_regime",
+            url=BLS_API_URL,
+            collection_status="candidate_no_key_or_registered_key_macro_source",
+            requires_api_key=False,
+            current_repo_use="not yet collected",
+            modeling_use=(
+                "labor, CPI/PPI, employment, and wage regime features",
+                "macro stress filters alongside FRED/ALFRED",
+            ),
+            leakage_controls=(
+                "respect survey release dates and do not use later revisions early",
+                "align monthly releases to the first tradable decision after publication",
+            ),
+            limitations=(
+                "higher limits may require registration key",
+                "macro frequency is low relative to daily/intraday trading",
+            ),
+        ),
+        DataSource(
+            name="Bank of Korea ECOS API",
+            category="korea_macro_regime",
+            url=BANK_OF_KOREA_ECOS_URL,
+            collection_status="candidate_free_key_korea_macro_source",
+            requires_api_key=True,
+            current_repo_use="not yet collected",
+            modeling_use=(
+                "Korean rates, FX, money, and macro regime features",
+                "domestic equity risk throttle and Korea-US macro comparison",
+            ),
+            leakage_controls=(
+                "use publication/release date and preserve vintage where available",
+                "lag low-frequency values until public release is known",
+            ),
+            limitations=(
+                "API key setup is required",
+                "series discovery and Korean metadata mapping must be maintained",
             ),
         ),
         DataSource(

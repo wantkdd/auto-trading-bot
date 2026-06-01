@@ -92,6 +92,14 @@ uv run python scripts/modeling_data_source_registry.py
 
 The registry records which price, SEC, macro, news, and portfolio-risk data sources are candidates for future no-order modeling.
 
+Refresh the broad public US symbol universe with:
+
+```bash
+uv run python scripts/us_symbol_universe_refresh.py
+```
+
+The latest refresh found 12,708 listed rows and 5,386 common-equity candidates from Nasdaq Trader public directories. See `docs/free-data-source-expansion.md` for the full free/free-key source queue.
+
 Build the current point-in-time daily feature/label dataset from cached OHLCV data with:
 
 ```bash

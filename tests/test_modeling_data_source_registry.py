@@ -25,11 +25,19 @@ def test_registry_covers_price_fundamental_macro_news_and_portfolio_features() -
     registry = build_registry()
 
     categories = {source["category"] for source in registry["data_sources"]}
+    names = {source["name"] for source in registry["data_sources"]}
     assert "historical_price_ohlcv" in categories
+    assert "independent_historical_price_ohlcv" in categories
     assert "fundamentals_and_filings" in categories
+    assert "korea_fundamentals_and_filings" in categories
     assert "macro_regime" in categories
+    assert "korea_macro_regime" in categories
+    assert "global_news_attention" in categories
     assert "price_fundamental_news_sentiment" in categories
     assert "portfolio_risk" in {group["name"] for group in registry["feature_groups"]}
+    assert "Nasdaq Trader symbol directories" in names
+    assert "OpenDART" in names
+    assert "GDELT DOC API" in names
 
 
 def test_registry_references_official_source_docs() -> None:
@@ -40,6 +48,9 @@ def test_registry_references_official_source_docs() -> None:
     assert refs["alpaca_market_data"].startswith("https://docs.alpaca.markets/")
     assert refs["polygon_stocks"].startswith("https://polygon.io/")
     assert refs["finra_day_trading"].startswith("https://www.finra.org/")
+    assert refs["nasdaq_trader_symbol_directory"].startswith("https://www.nasdaqtrader.com/")
+    assert refs["opendart"].startswith("https://opendart.fss.or.kr/")
+    assert refs["bls_api"].startswith("https://www.bls.gov/")
 
 
 def test_registry_script_writes_json_and_markdown(tmp_path) -> None:
