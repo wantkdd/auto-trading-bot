@@ -102,6 +102,10 @@ uv run python scripts/broker_api_comparison.py
 
 The current recommendation is to defer broker connection and start with a broker-neutral no-order adapter contract only after explicit approval.
 
+## No-order broker adapter contract
+
+`src/auto_trading_bot/broker_contract.py` defines the current broker boundary: validated `would_buy` / `would_sell` paper intents can be previewed by a fixture adapter, but every plan keeps `order_created=false`, `paper_api_authorized=false`, and `live_trading_authorized=false`. The contract has no broker SDK, network client, credential lookup, or account access.
+
 ## Future live-trading work
 
 Any paper or live trading proposal must pass a separate approval gate before design or implementation. See `docs/future-live-trading-gate.md`. Until that gate is approved, this repository remains local-simulator-only and must not add broker SDKs, network clients, credential storage, account reads, or order-routing paths.
