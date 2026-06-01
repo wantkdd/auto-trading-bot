@@ -23,6 +23,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--summary", default=".omx/reports/paper-observation-summary-latest.json")
     parser.add_argument("--readiness", default=".omx/reports/live-readiness-gate-latest.json")
     parser.add_argument("--market-scan", default=".omx/reports/market-universe-scan-latest.json")
+    parser.add_argument("--bls-macro", default=".omx/reports/bls-macro-snapshot-latest.json")
     parser.add_argument("--no-order-preview", default=".omx/reports/no-order-preview-latest.json")
     parser.add_argument("--run-url", default=os.environ.get("GITHUB_RUN_URL", ""))
     parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", ""))
@@ -48,6 +49,7 @@ def build_issue_body(args: argparse.Namespace) -> str:
     summary = read_json_if_exists(Path(args.summary))
     readiness = read_json_if_exists(Path(args.readiness))
     market_scan = read_json_if_exists(Path(args.market_scan))
+    bls_macro = read_json_if_exists(Path(args.bls_macro))
     no_order_preview = read_json_if_exists(Path(args.no_order_preview))
     observed_days = summary.get("observed_days", "unknown") if summary else "unknown"
     required_days = summary.get("required_days", "unknown") if summary else "unknown"
@@ -65,6 +67,9 @@ def build_issue_body(args: argparse.Namespace) -> str:
     top_market_candidate = market_summary.get("top_candidate", "unknown")
     market_passed = market_summary.get("passed", "unknown")
     market_symbols = market_summary.get("symbols", "unknown")
+    bls_summary = bls_macro.get("summary", {}) if bls_macro else {}
+    bls_status = bls_summary.get("status", "missing")
+    bls_latest_points = bls_summary.get("latest_points", "unknown")
     no_order_summary = no_order_preview.get("summary", {}) if no_order_preview else {}
     no_order_status = no_order_summary.get("status", "missing")
     no_order_accepted = no_order_summary.get("accepted", "unknown")
@@ -88,6 +93,8 @@ def build_issue_body(args: argparse.Namespace) -> str:
             f"- 시장 후보군 스캔 종목수: `{market_symbols}`",
             f"- 시장 후보군 통과 후보: `{market_passed}`",
             f"- 시장 후보군 top candidate: `{top_market_candidate}`",
+            f"- BLS macro status: `{bls_status}`",
+            f"- BLS macro latest points: `{bls_latest_points}`",
             f"- no-order preview status: `{no_order_status}`",
             f"- no-order accepted/rejected: `{no_order_accepted} / {no_order_rejected}`",
             f"- no-order accepted notional: `{no_order_total_notional}`",

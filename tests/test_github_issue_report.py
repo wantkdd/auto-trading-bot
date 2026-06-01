@@ -17,6 +17,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     summary = tmp_path / "summary.json"
     readiness = tmp_path / "readiness.json"
     market_scan = tmp_path / "market-scan.json"
+    bls_macro = tmp_path / "bls-macro.json"
     no_order_preview = tmp_path / "no-order-preview.json"
     summary.write_text(
         json.dumps(
@@ -54,6 +55,10 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
         ),
         encoding="utf-8",
     )
+    bls_macro.write_text(
+        json.dumps({"summary": {"status": "ok", "latest_points": 3}}),
+        encoding="utf-8",
+    )
     no_order_preview.write_text(
         json.dumps(
             {
@@ -74,6 +79,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
             summary=str(summary),
             readiness=str(readiness),
             market_scan=str(market_scan),
+            bls_macro=str(bls_macro),
             no_order_preview=str(no_order_preview),
             run_url="https://example.test/run",
             repo="wantkdd/auto-trading-bot",
@@ -85,6 +91,8 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     assert "live trading authorized: `False`" in body
     assert "시장 후보군 스캔 종목수: `82`" in body
     assert "NVDA_0.3_GLD_0.7" in body
+    assert "BLS macro status: `ok`" in body
+    assert "BLS macro latest points: `3`" in body
     assert "no-order preview status: `ok`" in body
     assert "no-order accepted/rejected: `2 / 0`" in body
     assert "order created: `False`" in body
