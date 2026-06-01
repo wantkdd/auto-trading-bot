@@ -81,6 +81,7 @@ jobs:
           uv run python scripts/paper_signal_dry_run.py \
             --strategy "${STRATEGY_NAME}" \
             --weights ${STRATEGY_WEIGHTS}
+          uv run python scripts/paper_challenger_signal.py
 
       - name: Append paper observation log
         run: |
@@ -105,6 +106,7 @@ jobs:
           retention-days: 90
           path: |
             reports/paper-dry-run-signal-latest.json
+            reports/paper-challenger-signal-latest.json
             reports/paper-observation-log.jsonl
             reports/paper-trade-intent-log.jsonl
             .omx/reports/fundamental-macro-recent-gate-latest.json
@@ -120,6 +122,8 @@ jobs:
             .omx/reports/paper-observation-summary-latest.md
             .omx/reports/no-order-preview-latest.json
             .omx/reports/no-order-preview-latest.md
+            .omx/reports/paper-challenger-selection-latest.json
+            .omx/reports/paper-challenger-selection-latest.md
             .omx/reports/operational-risk-gate-latest.json
             .omx/reports/operational-risk-gate-latest.md
             .omx/reports/independent-price-replication-latest.json
@@ -135,6 +139,7 @@ jobs:
           tmp_state="$(mktemp -d)"
           mkdir -p "${tmp_state}/reports" "${tmp_state}/.omx/reports"
           cp -f reports/paper-dry-run-signal-latest.json "${tmp_state}/reports/"
+          cp -f reports/paper-challenger-signal-latest.json "${tmp_state}/reports/"
           cp -f reports/paper-observation-log.jsonl "${tmp_state}/reports/"
           cp -f reports/paper-trade-intent-log.jsonl "${tmp_state}/reports/"
           mkdir -p "${tmp_state}/.omx/features"
@@ -145,6 +150,7 @@ jobs:
           cp -f .omx/reports/market-universe-scan-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/paper-observation-summary-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/no-order-preview-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/paper-challenger-selection-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/operational-risk-gate-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/independent-price-replication-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/live-readiness-gate-latest.* "${tmp_state}/.omx/reports/"

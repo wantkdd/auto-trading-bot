@@ -26,6 +26,10 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--bls-macro", default=".omx/reports/bls-macro-snapshot-latest.json")
     parser.add_argument("--no-order-preview", default=".omx/reports/no-order-preview-latest.json")
     parser.add_argument(
+        "--challenger-selection",
+        default=".omx/reports/paper-challenger-selection-latest.json",
+    )
+    parser.add_argument(
         "--operational-risk",
         default=".omx/reports/operational-risk-gate-latest.json",
     )
@@ -63,6 +67,7 @@ def build_issue_body(args: argparse.Namespace) -> str:
     market_scan = read_json_if_exists(Path(args.market_scan))
     bls_macro = read_json_if_exists(Path(args.bls_macro))
     no_order_preview = read_json_if_exists(Path(args.no_order_preview))
+    challenger_selection = read_json_if_exists(Path(args.challenger_selection))
     operational_risk = read_json_if_exists(Path(args.operational_risk))
     independent_price = read_json_if_exists(Path(args.independent_price))
     observed_days = summary.get("observed_days", "unknown") if summary else "unknown"
@@ -90,6 +95,10 @@ def build_issue_body(args: argparse.Namespace) -> str:
     no_order_rejected = no_order_summary.get("rejected", "unknown")
     no_order_total_notional = no_order_summary.get("total_notional", "unknown")
     no_order_created = no_order_summary.get("order_created", False)
+    challenger_summary = challenger_selection.get("summary", {}) if challenger_selection else {}
+    challenger_status = challenger_summary.get("status", "missing")
+    challenger_strategy = challenger_summary.get("challenger_strategy", "unknown")
+    primary_strategy_changed = challenger_summary.get("primary_strategy_changed", "unknown")
     operational_summary = operational_risk.get("summary", {}) if operational_risk else {}
     operational_status = operational_summary.get("status", "missing")
     operational_halt = operational_summary.get("halt_required", "unknown")
@@ -126,6 +135,9 @@ def build_issue_body(args: argparse.Namespace) -> str:
             f"- no-order preview status: `{no_order_status}`",
             f"- no-order accepted/rejected: `{no_order_accepted} / {no_order_rejected}`",
             f"- no-order accepted notional: `{no_order_total_notional}`",
+            f"- challenger status: `{challenger_status}`",
+            f"- challenger strategy: `{challenger_strategy}`",
+            f"- primary strategy changed: `{primary_strategy_changed}`",
             f"- operational risk status: `{operational_status}`",
             f"- operational halt required: `{operational_halt}`",
             f"- market-data staleness gate: `{staleness_status}`",

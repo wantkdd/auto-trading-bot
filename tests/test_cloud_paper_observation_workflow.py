@@ -13,6 +13,7 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "30 2 * * 2-6" in workflow
     assert "workflow_dispatch" in workflow
     assert "paper_observation_log.py" in workflow
+    assert "paper_challenger_signal.py" in workflow
     assert "no_order_preview_report.py" in workflow
     assert "operational_risk_gate.py" in workflow
     assert "independent_price_replication_gate.py" in workflow
@@ -25,6 +26,8 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "STRATEGY_WEIGHTS" in workflow
     assert "market-universe-scan-latest" in workflow
     assert "no-order-preview-latest" in workflow
+    assert "paper-challenger-selection-latest" in workflow
+    assert "paper-challenger-signal-latest" in workflow
     assert "operational-risk-gate-latest" in workflow
     assert "independent-price-replication-latest" in workflow
     assert "no-order-gate-status-latest" in workflow

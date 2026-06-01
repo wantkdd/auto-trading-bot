@@ -19,6 +19,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     market_scan = tmp_path / "market-scan.json"
     bls_macro = tmp_path / "bls-macro.json"
     no_order_preview = tmp_path / "no-order-preview.json"
+    challenger_selection = tmp_path / "challenger-selection.json"
     operational_risk = tmp_path / "operational-risk.json"
     independent_price = tmp_path / "independent-price.json"
     summary.write_text(
@@ -75,6 +76,18 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
         ),
         encoding="utf-8",
     )
+    challenger_selection.write_text(
+        json.dumps(
+            {
+                "summary": {
+                    "status": "pass",
+                    "challenger_strategy": "LLY_0.4_GLD_0.6",
+                    "primary_strategy_changed": False,
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
     operational_risk.write_text(
         json.dumps(
             {
@@ -109,6 +122,7 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
             market_scan=str(market_scan),
             bls_macro=str(bls_macro),
             no_order_preview=str(no_order_preview),
+            challenger_selection=str(challenger_selection),
             operational_risk=str(operational_risk),
             independent_price=str(independent_price),
             run_url="https://example.test/run",
@@ -125,6 +139,9 @@ def test_build_issue_body_preserves_no_live_trading_boundary(tmp_path) -> None:
     assert "BLS macro latest points: `3`" in body
     assert "no-order preview status: `ok`" in body
     assert "no-order accepted/rejected: `2 / 0`" in body
+    assert "challenger status: `pass`" in body
+    assert "challenger strategy: `LLY_0.4_GLD_0.6`" in body
+    assert "primary strategy changed: `False`" in body
     assert "operational risk status: `monitoring`" in body
     assert "market-data staleness gate: `pass`" in body
     assert "kill switch: `armed`" in body
@@ -143,6 +160,7 @@ def test_build_issue_body_supports_action_needed_mode(tmp_path) -> None:
             market_scan=str(tmp_path / "missing-market.json"),
             bls_macro=str(tmp_path / "missing-bls.json"),
             no_order_preview=str(tmp_path / "missing-preview.json"),
+            challenger_selection=str(tmp_path / "missing-challenger.json"),
             operational_risk=str(tmp_path / "missing-operational.json"),
             independent_price=str(tmp_path / "missing-independent.json"),
             run_url="",
