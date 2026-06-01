@@ -108,6 +108,14 @@ uv run python scripts/point_in_time_dataset.py
 
 This writes `.omx/datasets/point-in-time-daily.csv` plus `.omx/reports/point-in-time-dataset-latest.json` / `.md`. Features use only data available at each `as_of_date`; forward labels are for offline evaluation only.
 
+Collect a no-key GDELT news-attention snapshot with rate-limit-safe reporting:
+
+```bash
+uv run python scripts/gdelt_news_attention_snapshot.py --symbols AAPL MSFT --max-symbols 2
+```
+
+This records article samples/counts when GDELT allows it and writes `rate_limited` instead of failing the research loop when public throttles apply.
+
 Build the cached SEC fundamental feature snapshot with:
 
 ```bash
