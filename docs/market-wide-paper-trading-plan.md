@@ -33,9 +33,10 @@ GitHub Actions runs `.github/workflows/paper-observation.yml` after the US close
 1. Runs tests, lint, and type checks.
 2. Refreshes the existing fundamental/macro/recent gates.
 3. Runs `scripts/market_universe_candidate_scan.py` over the broad non-leveraged watchlist.
-4. Keeps the locked paper strategy target weights unless a future promotion gate explicitly changes it.
-5. Appends paper observation and hypothetical trade-intent logs.
-6. Updates the status issue with observation, live-readiness, and market-scan summary fields.
+4. Runs `scripts/quant_paper_signal.py` to create a diversified quant paper candidate from breadth, momentum, trend, volatility, and defensive-sleeve rules.
+5. Keeps the locked paper strategy target weights unless a future promotion gate explicitly changes it.
+6. Appends champion, challenger, quant-candidate, and hypothetical trade-intent logs.
+7. Updates the status issue with observation, live-readiness, market-scan, and quant-candidate summary fields.
 
 ## Buy and sell behavior
 
@@ -53,6 +54,17 @@ The current safe cadence is daily close-based observation. That is enough to tes
 
 Until that gate exists, intraday or second-level trading is out of scope.
 
+## Quant paper candidate lane
+
+`AAPL_0.3_GLD_0.7` remains a locked baseline, not a claim that those two assets are best. The quant lane writes `reports/paper-quant-signal-latest.json`, `.omx/reports/quant-paper-selection-latest.json`, and `reports/paper-quant-observation-log.jsonl` separately. Its current families are:
+
+- `quant_momentum_top5_defensive`: ranks broad assets by 20d/63d momentum, SMA confirmation, volatility, drawdown, and liquidity; then adds a defensive sleeve.
+- `quant_sector_rotation_top3_defensive`: rotates among broad sector ETFs with a defensive sleeve.
+- `quant_core_inverse_volatility`: sizes core ETFs by inverse volatility with caps.
+- `quant_defensive_min_volatility`: tracks a low-volatility defensive comparator.
+
+All quant candidates remain no-order paper observations. A `review` status can still be observed on paper, but `use_for_strategy_promotion` stays `false` when the market regime is conflicted or quality gates are weak.
+
 ## Promotion gate for changing the tracked strategy
 
 A new market-wide candidate can replace the locked baseline only if it passes all of these paper-only checks:
@@ -62,5 +74,5 @@ A new market-wide candidate can replace the locked baseline only if it passes al
 - Recent-regime gate, including post-2020, post-2022, AI-proxy post-2023, trailing 504-day, and trailing 252-day windows when data is available.
 - Stock fundamentals gate for company legs using SEC data where applicable.
 - Macro proxy review for defensive legs.
-- At least 30 observed paper days after promotion to a candidate watch state.
+- At least 12 observed paper sessions for the current two-week review target, with a longer window required if returns, drawdowns, data quality, or regime signals are conflicted.
 - Explicit human approval before any future broker connection. This repository still contains no live-order path.

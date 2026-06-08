@@ -29,6 +29,10 @@ Each scheduled run now also writes `.omx/reports/market-universe-scan-latest.jso
 
 Each scheduled run writes `.omx/reports/market-data-feature-gate-latest.json` and `.md`. This pulls the dynamic liquid watchlist plus core sector/cross-asset ETFs into a breadth/regime/quality diagnostic. If coverage is poor, dates are stale, or market signals are conflicted, the report stays `review` and is not used for strategy promotion. See [`docs/broad-market-data-feature-gate.md`](broad-market-data-feature-gate.md).
 
+## Quant paper candidate
+
+Each scheduled run also writes `reports/paper-quant-signal-latest.json`, `.omx/reports/quant-paper-selection-latest.json`, and `.omx/reports/paper-quant-observation-summary-latest.json`. This is a quant-style no-order candidate generated from broad market features: momentum, SMA trend confirmation, realized volatility, drawdown, liquidity, sector rotation, inverse-volatility core sizing, and defensive sleeves. It is tracked separately from the locked champion baseline and cannot authorize live trading.
+
 ## Adjustment and tuning review
 
 GitHub Actions intentionally reruns the same reviewed code. The code responds to changing market data through generated signals, refreshed universes, intraday logs, and candidate reports; it does **not** let live market data rewrite source code automatically.
@@ -53,13 +57,15 @@ The workflow writes `.omx/reports/independent-price-replication-latest.json` and
 
 ## State and artifacts
 
-- Durable observation log: `paper-observation-state:reports/paper-observation-log.jsonl`
+- Durable champion observation log: `paper-observation-state:reports/paper-observation-log.jsonl`
+- Durable quant observation log: `paper-observation-state:reports/paper-quant-observation-log.jsonl`
 - Hypothetical trade-intent log: `paper-observation-state:reports/paper-trade-intent-log.jsonl`
 - Latest no-order preview: `paper-observation-state:.omx/reports/no-order-preview-latest.json`
 - Latest broker execution preflight: `paper-observation-state:.omx/reports/broker-execution-preflight-latest.json`
 - Latest operational risk gate: `paper-observation-state:.omx/reports/operational-risk-gate-latest.json`
 - Latest independent price replication: `paper-observation-state:.omx/reports/independent-price-replication-latest.json`
 - Latest SEC feature snapshot: `paper-observation-state:.omx/features/sec-fundamental-snapshot.csv`
+- Latest quant selection: `paper-observation-state:.omx/reports/quant-paper-selection-latest.json`
 - Latest generated reports: `paper-observation-state:.omx/reports/*latest*`
 - Per-run artifacts: uploaded by GitHub Actions with short retention, currently `retention-days: 1`
 

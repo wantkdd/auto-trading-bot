@@ -18,12 +18,14 @@ from typing import Any
 
 DEFAULT_PAPER_SUMMARY = ".omx/reports/paper-observation-summary-latest.json"
 DEFAULT_CHALLENGER_SUMMARY = ".omx/reports/paper-challenger-observation-summary-latest.json"
+DEFAULT_QUANT_SUMMARY = ".omx/reports/paper-quant-observation-summary-latest.json"
 DEFAULT_PREVIEW = ".omx/reports/no-order-preview-latest.json"
 DEFAULT_READINESS = ".omx/reports/live-readiness-gate-latest.json"
 DEFAULT_GATE_STATUS = ".omx/reports/no-order-gate-status-latest.json"
 DEFAULT_DYNAMIC_UNIVERSE = ".omx/reports/us-dynamic-liquid-universe-latest.json"
 DEFAULT_MARKET_SCAN = ".omx/reports/market-universe-scan-latest.json"
 DEFAULT_CHALLENGER_SELECTION = ".omx/reports/paper-challenger-selection-latest.json"
+DEFAULT_QUANT_SELECTION = ".omx/reports/quant-paper-selection-latest.json"
 DEFAULT_INTRADAY_LOG = "reports/intraday-no-order-log.jsonl"
 DEFAULT_ADAPTIVE_SEARCH = ".omx/reports/adaptive-allocation-search-latest.json"
 DEFAULT_BROKER_PREFLIGHT = ".omx/reports/broker-execution-preflight-latest.json"
@@ -38,12 +40,14 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--webhook-url", default=os.environ.get("DISCORD_WEBHOOK_URL", ""))
     parser.add_argument("--paper-summary", default=DEFAULT_PAPER_SUMMARY)
     parser.add_argument("--challenger-summary", default=DEFAULT_CHALLENGER_SUMMARY)
+    parser.add_argument("--quant-summary", default=DEFAULT_QUANT_SUMMARY)
     parser.add_argument("--no-order-preview", default=DEFAULT_PREVIEW)
     parser.add_argument("--readiness", default=DEFAULT_READINESS)
     parser.add_argument("--gate-status", default=DEFAULT_GATE_STATUS)
     parser.add_argument("--dynamic-universe", default=DEFAULT_DYNAMIC_UNIVERSE)
     parser.add_argument("--market-scan", default=DEFAULT_MARKET_SCAN)
     parser.add_argument("--challenger-selection", default=DEFAULT_CHALLENGER_SELECTION)
+    parser.add_argument("--quant-selection", default=DEFAULT_QUANT_SELECTION)
     parser.add_argument("--intraday-log", default=DEFAULT_INTRADAY_LOG)
     parser.add_argument("--adaptive-search", default=DEFAULT_ADAPTIVE_SEARCH)
     parser.add_argument("--broker-preflight", default=DEFAULT_BROKER_PREFLIGHT)
@@ -81,12 +85,14 @@ def main(argv: Sequence[str] | None = None) -> int:
 def build_report(args: argparse.Namespace) -> dict[str, Any]:
     paper = read_json_if_exists(Path(args.paper_summary)) or {}
     challenger = read_json_if_exists(Path(args.challenger_summary)) or {}
+    quant = read_json_if_exists(Path(args.quant_summary)) or {}
     preview = read_json_if_exists(Path(args.no_order_preview)) or {}
     readiness = read_json_if_exists(Path(args.readiness)) or {}
     gate_status = read_json_if_exists(Path(args.gate_status)) or {}
     dynamic_universe = read_json_if_exists(Path(args.dynamic_universe)) or {}
     market_scan = read_json_if_exists(Path(args.market_scan)) or {}
     challenger_selection = read_json_if_exists(Path(args.challenger_selection)) or {}
+    quant_selection = read_json_if_exists(Path(args.quant_selection)) or {}
     intraday = summarize_intraday_log(Path(args.intraday_log))
     adaptive_search = read_json_if_exists(Path(args.adaptive_search)) or {}
     broker_preflight = read_json_if_exists(Path(args.broker_preflight)) or {}
@@ -97,12 +103,14 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     message = render_message(
         paper=paper,
         challenger=challenger,
+        quant=quant,
         preview=preview,
         readiness=readiness,
         gate_status=gate_status,
         dynamic_universe=dynamic_universe,
         market_scan=market_scan,
         challenger_selection=challenger_selection,
+        quant_selection=quant_selection,
         intraday=intraday,
         adaptive_search=adaptive_search,
         broker_preflight=broker_preflight,
@@ -121,12 +129,14 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         "inputs": {
             "paper_summary": str(args.paper_summary),
             "challenger_summary": str(args.challenger_summary),
+            "quant_summary": str(args.quant_summary),
             "no_order_preview": str(args.no_order_preview),
             "readiness": str(args.readiness),
             "gate_status": str(args.gate_status),
             "dynamic_universe": str(args.dynamic_universe),
             "market_scan": str(args.market_scan),
             "challenger_selection": str(args.challenger_selection),
+            "quant_selection": str(args.quant_selection),
             "intraday_log": str(args.intraday_log),
             "adaptive_search": str(args.adaptive_search),
             "broker_preflight": str(args.broker_preflight),
@@ -154,12 +164,14 @@ def render_message(
     *,
     paper: Mapping[str, Any],
     challenger: Mapping[str, Any],
+    quant: Mapping[str, Any],
     preview: Mapping[str, Any],
     readiness: Mapping[str, Any],
     gate_status: Mapping[str, Any],
     dynamic_universe: Mapping[str, Any],
     market_scan: Mapping[str, Any],
     challenger_selection: Mapping[str, Any],
+    quant_selection: Mapping[str, Any],
     intraday: Mapping[str, Any],
     adaptive_search: Mapping[str, Any],
     broker_preflight: Mapping[str, Any],
@@ -177,6 +189,7 @@ def render_message(
         dynamic_first_symbols = []
     market_summary = mapping(market_scan.get("summary"))
     challenger_selection_summary = mapping(challenger_selection.get("summary"))
+    quant_selection_summary = mapping(quant_selection.get("summary"))
     adaptive_summary = mapping(adaptive_search.get("summary"))
     adaptive_baseline = mapping(adaptive_search.get("static_baseline_summary"))
     broker_preflight_summary = mapping(broker_preflight.get("summary"))
@@ -260,6 +273,17 @@ def render_message(
         f"- challenger 수익률: `{pct(challenger.get('total_return_since_first_observation'))}`",
         f"- challenger MDD: `{pct(challenger.get('max_drawdown_since_first_observation'))}`",
         "",
+        "**퀀트 paper 후보**",
+        f"- 상태: `{quant_selection_summary.get('status', 'missing')}`",
+        f"- 후보: `{quant_selection_summary.get('selected_strategy', 'unknown')}`",
+        f"- regime: `{quant_selection_summary.get('regime', 'unknown')}`",
+        "- 비중: `{weights}`".format(
+            weights=short_weights(quant_selection_summary.get("selected_weights"))
+        ),
+        f"- quant 관찰일: `{quant.get('observed_days', 'unknown')}`",
+        f"- quant 수익률: `{pct(quant.get('total_return_since_first_observation'))}`",
+        "- 자동 교체/실거래 반영: `False`",
+        "",
         "**안전 게이트**",
         f"- no-order gate: `{gate_summary.get('status', 'missing')}`",
         f"- paper ready: `{readiness_summary.get('paper_dry_run_ready', 'unknown')}`",
@@ -297,6 +321,21 @@ def render_message(
 
 def mapping(value: Any) -> Mapping[str, Any]:
     return value if isinstance(value, Mapping) else {}
+
+
+def short_weights(value: Any) -> str:
+    if not isinstance(value, Mapping):
+        return "unknown"
+    rows: list[tuple[str, float]] = []
+    for symbol, weight in value.items():
+        if isinstance(weight, int | float):
+            rows.append((str(symbol), float(weight)))
+    if not rows:
+        return "unknown"
+    return ", ".join(
+        f"{symbol}:{weight * 100:.0f}%"
+        for symbol, weight in sorted(rows, key=lambda item: item[1], reverse=True)[:6]
+    )
 
 
 def money(value: Any) -> str:

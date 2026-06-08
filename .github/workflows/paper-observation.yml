@@ -49,6 +49,8 @@ jobs:
               > reports/paper-observation-log.jsonl || true
             git show "${STATE_BRANCH}:reports/paper-challenger-observation-log.jsonl" \
               > reports/paper-challenger-observation-log.jsonl || true
+            git show "${STATE_BRANCH}:reports/paper-quant-observation-log.jsonl" \
+              > reports/paper-quant-observation-log.jsonl || true
             git show "${STATE_BRANCH}:reports/paper-trade-intent-log.jsonl" \
               > reports/paper-trade-intent-log.jsonl || true
           fi
@@ -102,6 +104,7 @@ jobs:
             --strategy "${STRATEGY_NAME}" \
             --weights ${STRATEGY_WEIGHTS}
           uv run python scripts/paper_challenger_signal.py
+          uv run python scripts/quant_paper_signal.py
 
       - name: Append paper observation log
         run: |
@@ -143,6 +146,42 @@ jobs:
           )
           PY
           fi
+          if [[ -f reports/paper-quant-signal-latest.json ]]; then
+            uv run python scripts/paper_observation_log.py \
+              --signal reports/paper-quant-signal-latest.json \
+              --log reports/paper-quant-observation-log.jsonl \
+              --summary .omx/reports/paper-quant-observation-summary-latest.json \
+              --markdown .omx/reports/paper-quant-observation-summary-latest.md
+          else
+            uv run python - <<'PY'
+          import json
+          from datetime import UTC, datetime
+          from pathlib import Path
+
+          summary = {
+              "status": "blocked",
+              "observed_days": 0,
+              "required_days": 12,
+              "latest_as_of_date": None,
+              "latest_strategy": None,
+              "latest_virtual_equity": None,
+              "total_return_since_first_observation": None,
+              "max_drawdown_since_first_observation": None,
+              "generated_at": datetime.now(tz=UTC).isoformat(),
+              "blockers": ["quant_feature_gate_missing_or_no_candidate"],
+              "safety": "quant observation blocked; no orders; no trading venue; no advice",
+          }
+          out = Path(".omx/reports/paper-quant-observation-summary-latest.json")
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+          Path(".omx/reports/paper-quant-observation-summary-latest.md").write_text(
+              "# Paper quant observation\n\n"
+              "Status: blocked\n\n"
+              "- quant_feature_gate_missing_or_no_candidate\n",
+              encoding="utf-8",
+          )
+          PY
+          fi
           uv run python scripts/paper_trade_intent_log.py
           uv run python scripts/no_order_preview_report.py
           uv run python scripts/operational_risk_gate.py
@@ -169,8 +208,10 @@ jobs:
           path: |
             reports/paper-dry-run-signal-latest.json
             reports/paper-challenger-signal-latest.json
+            reports/paper-quant-signal-latest.json
             reports/paper-observation-log.jsonl
             reports/paper-challenger-observation-log.jsonl
+            reports/paper-quant-observation-log.jsonl
             reports/paper-trade-intent-log.jsonl
             reports/intraday-no-order-log.jsonl
             .omx/reports/fundamental-macro-recent-gate-latest.json
@@ -193,10 +234,14 @@ jobs:
             .omx/reports/paper-observation-summary-latest.md
             .omx/reports/paper-challenger-observation-summary-latest.json
             .omx/reports/paper-challenger-observation-summary-latest.md
+            .omx/reports/paper-quant-observation-summary-latest.json
+            .omx/reports/paper-quant-observation-summary-latest.md
             .omx/reports/no-order-preview-latest.json
             .omx/reports/no-order-preview-latest.md
             .omx/reports/paper-challenger-selection-latest.json
             .omx/reports/paper-challenger-selection-latest.md
+            .omx/reports/quant-paper-selection-latest.json
+            .omx/reports/quant-paper-selection-latest.md
             .omx/reports/operational-risk-gate-latest.json
             .omx/reports/operational-risk-gate-latest.md
             .omx/reports/independent-price-replication-latest.json
@@ -217,8 +262,10 @@ jobs:
           mkdir -p "${tmp_state}/reports" "${tmp_state}/.omx/reports" "${tmp_state}/data/universe"
           cp -f reports/paper-dry-run-signal-latest.json "${tmp_state}/reports/"
           cp -f reports/paper-challenger-signal-latest.json "${tmp_state}/reports/" || true
+          cp -f reports/paper-quant-signal-latest.json "${tmp_state}/reports/" || true
           cp -f reports/paper-observation-log.jsonl "${tmp_state}/reports/"
           cp -f reports/paper-challenger-observation-log.jsonl "${tmp_state}/reports/" || true
+          cp -f reports/paper-quant-observation-log.jsonl "${tmp_state}/reports/" || true
           cp -f reports/paper-trade-intent-log.jsonl "${tmp_state}/reports/"
           mkdir -p "${tmp_state}/.omx/features"
           cp -f .omx/features/sec-fundamental-snapshot.csv "${tmp_state}/.omx/features/"
@@ -232,8 +279,10 @@ jobs:
           cp -f .omx/reports/adaptive-allocation-search-latest.* "${tmp_state}/.omx/reports/" || true
           cp -f .omx/reports/paper-observation-summary-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/paper-challenger-observation-summary-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/paper-quant-observation-summary-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/no-order-preview-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/paper-challenger-selection-latest.* "${tmp_state}/.omx/reports/"
+          cp -f .omx/reports/quant-paper-selection-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/operational-risk-gate-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/independent-price-replication-latest.* "${tmp_state}/.omx/reports/"
           cp -f .omx/reports/live-readiness-gate-latest.* "${tmp_state}/.omx/reports/"

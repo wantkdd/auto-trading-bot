@@ -14,6 +14,7 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "workflow_dispatch" in workflow
     assert "paper_observation_log.py" in workflow
     assert "paper_challenger_signal.py" in workflow
+    assert "quant_paper_signal.py" in workflow
     assert "discord_paper_report.py" in workflow
     assert "no_order_preview_report.py" in workflow
     assert "operational_risk_gate.py" in workflow
@@ -38,14 +39,18 @@ def test_github_actions_paper_observation_workflow_preserves_safety_boundary() -
     assert "no-order-preview-latest" in workflow
     assert "paper-challenger-selection-latest" in workflow
     assert "paper-challenger-signal-latest" in workflow
+    assert "paper-quant-signal-latest" in workflow
     assert 'if [[ -f reports/paper-challenger-signal-latest.json ]]' in workflow
     assert "market_scan_has_no_safe_passed_challenger" in workflow
     assert "paper-challenger-observation-log.jsonl" in workflow
+    assert "paper-quant-observation-log.jsonl" in workflow
     assert "paper-challenger-observation-summary-latest" in workflow
+    assert "paper-quant-observation-summary-latest" in workflow
     assert "operational-risk-gate-latest" in workflow
     assert "independent-price-replication-latest" in workflow
     assert "no-order-gate-status-latest" in workflow
     assert "broker-execution-preflight-latest" in workflow
+    assert "quant-paper-selection-latest" in workflow
     assert "discord-paper-report-latest" in workflow
     assert "retention-days: 1" in workflow
     assert 'steps.gate_status.outputs.mode }}" == "action-needed"' in workflow

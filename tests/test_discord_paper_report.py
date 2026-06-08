@@ -20,12 +20,14 @@ def _args(tmp_path: Path, **overrides):
         "webhook_url": "",
         "paper_summary": str(tmp_path / "paper.json"),
         "challenger_summary": str(tmp_path / "challenger.json"),
+        "quant_summary": str(tmp_path / "quant.json"),
         "no_order_preview": str(tmp_path / "preview.json"),
         "readiness": str(tmp_path / "readiness.json"),
         "gate_status": str(tmp_path / "gate.json"),
         "dynamic_universe": str(tmp_path / "dynamic-universe.json"),
         "market_scan": str(tmp_path / "market.json"),
         "challenger_selection": str(tmp_path / "selection.json"),
+        "quant_selection": str(tmp_path / "quant-selection.json"),
         "intraday_log": str(tmp_path / "intraday.jsonl"),
         "adaptive_search": str(tmp_path / "adaptive.json"),
         "broker_preflight": str(tmp_path / "broker-preflight.json"),
@@ -104,6 +106,24 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
     _write(tmp_path / "market.json", {"summary": {"top_candidate": "LLY_0.4_GLD_0.6"}})
     _write(tmp_path / "selection.json", {"summary": {"challenger_strategy": "LLY_0.4_GLD_0.6"}})
     _write(
+        tmp_path / "quant-selection.json",
+        {
+            "summary": {
+                "status": "review",
+                "selected_strategy": "quant_momentum_top5_defensive",
+                "regime": "conflicted",
+                "selected_weights": {"NVDA": 0.15, "MSFT": 0.15, "GLD": 0.25, "SHY": 0.45},
+            }
+        },
+    )
+    _write(
+        tmp_path / "quant.json",
+        {
+            "observed_days": 2,
+            "total_return_since_first_observation": 0.012,
+        },
+    )
+    _write(
         tmp_path / "adaptive.json",
         {
             "summary": {
@@ -177,6 +197,8 @@ def test_build_report_renders_daily_weekly_and_final_sections(tmp_path: Path) ->
     assert "자동 교체/실거래 반영: `False`" in report["message"]
     assert "방대한 시장 데이터 게이트" in report["message"]
     assert "사용 가능 자산: `142`개" in report["message"]
+    assert "퀀트 paper 후보" in report["message"]
+    assert "quant_momentum_top5_defensive" in report["message"]
     assert "브로커 API 연결 준비도" in report["message"]
     assert "API preflight: `blocked`" in report["message"]
     assert "adapter ticket 수: `2`" in report["message"]
