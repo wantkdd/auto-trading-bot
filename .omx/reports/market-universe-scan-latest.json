@@ -1,0 +1,700 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:04:02.592434+00:00",
+  "safety": "market-wide paper candidate scan only; no orders; no broker; no advice",
+  "universe_policy": {
+    "requested_symbols": 150,
+    "allowed_symbols": 150,
+    "blocked_symbols": [],
+    "note": "This is a broad liquid-universe seed, not literally every tradable security. Candidates must pass gates before paper intent tracking."
+  },
+  "summary": {
+    "status": "ok",
+    "symbols": 150,
+    "requested_symbols": 150,
+    "allowed_symbols": 150,
+    "valid_assets": 150,
+    "missing_price_data": 0,
+    "passed": 0,
+    "review": 30,
+    "top_candidate": null
+  },
+  "passed_candidates": [],
+  "review_candidates": [
+    {
+      "name": "SATS_0.5_GLD_0.5",
+      "symbols": [
+        "SATS",
+        "GLD"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "status": "review",
+      "base_median_excess": 1.7709277171653204,
+      "base_worst_mdd": -0.18306244880291267,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "MU_0.3_IEF_0.7",
+      "symbols": [
+        "MU",
+        "IEF"
+      ],
+      "weights": [
+        0.3,
+        0.7
+      ],
+      "status": "review",
+      "base_median_excess": 1.5226112865133516,
+      "base_worst_mdd": -0.19980245416318987,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "MU:revenue_decline_worse_than_minus_10pct",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "SATS_0.4_GLD_0.6",
+      "symbols": [
+        "SATS",
+        "GLD"
+      ],
+      "weights": [
+        0.4,
+        0.6
+      ],
+      "status": "review",
+      "base_median_excess": 1.5048745334046085,
+      "base_worst_mdd": -0.16122494457348913,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "SATS_0.36_GLD_0.64",
+      "symbols": [
+        "SATS",
+        "GLD"
+      ],
+      "weights": [
+        0.36,
+        0.64
+      ],
+      "status": "review",
+      "base_median_excess": 1.3991936923681099,
+      "base_worst_mdd": -0.16163504119116812,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "AMD_0.6_GLD_0.4",
+      "symbols": [
+        "AMD",
+        "GLD"
+      ],
+      "weights": [
+        0.6,
+        0.4
+      ],
+      "status": "review",
+      "base_median_excess": 1.3455138717728778,
+      "base_worst_mdd": -0.19980750432458005,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "AMD:revenue_decline_worse_than_minus_10pct",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct",
+        "trailing_252d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "FIX_0.5_GLD_0.5",
+      "symbols": [
+        "FIX",
+        "GLD"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "status": "review",
+      "base_median_excess": 1.2578721397460688,
+      "base_worst_mdd": -0.18923977571542783,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "INTC_0.5_GLD_0.5",
+      "symbols": [
+        "INTC",
+        "GLD"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "status": "review",
+      "base_median_excess": 1.2405018142096118,
+      "base_worst_mdd": -0.19958527493540879,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "INTC:net_income_not_positive",
+        "post_2020:recent_excess_below_minus_5pp",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct",
+        "trailing_252d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "SATS_0.3_GLD_0.7",
+      "symbols": [
+        "SATS",
+        "GLD"
+      ],
+      "weights": [
+        0.3,
+        0.7
+      ],
+      "status": "review",
+      "base_median_excess": 1.237621333751691,
+      "base_worst_mdd": -0.169310690658241,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "AMD_0.5_GLD_0.5",
+      "symbols": [
+        "AMD",
+        "GLD"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "status": "review",
+      "base_median_excess": 1.1902221584710748,
+      "base_worst_mdd": -0.193777103112451,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "AMD:revenue_decline_worse_than_minus_10pct",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "FIX_0.4_GLD_0.6",
+      "symbols": [
+        "FIX",
+        "GLD"
+      ],
+      "weights": [
+        0.4,
+        0.6
+      ],
+      "status": "review",
+      "base_median_excess": 1.1196694078646185,
+      "base_worst_mdd": -0.1483577820844646,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "INTC_0.4_GLD_0.6",
+      "symbols": [
+        "INTC",
+        "GLD"
+      ],
+      "weights": [
+        0.4,
+        0.6
+      ],
+      "status": "review",
+      "base_median_excess": 1.0870732014468187,
+      "base_worst_mdd": -0.18778564123172492,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "INTC:net_income_not_positive",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "AMD_0.4_GLD_0.6",
+      "symbols": [
+        "AMD",
+        "GLD"
+      ],
+      "weights": [
+        0.4,
+        0.6
+      ],
+      "status": "review",
+      "base_median_excess": 1.053648396880274,
+      "base_worst_mdd": -0.1913075862880239,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "AMD:revenue_decline_worse_than_minus_10pct",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "FIX_0.36_GLD_0.64",
+      "symbols": [
+        "FIX",
+        "GLD"
+      ],
+      "weights": [
+        0.36,
+        0.64
+      ],
+      "status": "review",
+      "base_median_excess": 1.044898370942417,
+      "base_worst_mdd": -0.14715159683802403,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "INTC_0.36_GLD_0.64",
+      "symbols": [
+        "INTC",
+        "GLD"
+      ],
+      "weights": [
+        0.36,
+        0.64
+      ],
+      "status": "review",
+      "base_median_excess": 1.0272272445497557,
+      "base_worst_mdd": -0.18222259576021127,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "INTC:net_income_not_positive",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "SATS_0.36_IEF_0.64",
+      "symbols": [
+        "SATS",
+        "IEF"
+      ],
+      "weights": [
+        0.36,
+        0.64
+      ],
+      "status": "review",
+      "base_median_excess": 1.023141302190794,
+      "base_worst_mdd": -0.19328287203496386,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_excess_below_minus_5pp",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "GLW_0.6_GLD_0.4",
+      "symbols": [
+        "GLW",
+        "GLD"
+      ],
+      "weights": [
+        0.6,
+        0.4
+      ],
+      "status": "review",
+      "base_median_excess": 0.9848324057990065,
+      "base_worst_mdd": -0.19570969356810985,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "AMD_0.36_GLD_0.64",
+      "symbols": [
+        "AMD",
+        "GLD"
+      ],
+      "weights": [
+        0.36,
+        0.64
+      ],
+      "status": "review",
+      "base_median_excess": 0.9797017464675993,
+      "base_worst_mdd": -0.18946226159746593,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "AMD:revenue_decline_worse_than_minus_10pct",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "INTC_0.5_IEF_0.5",
+      "symbols": [
+        "INTC",
+        "IEF"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "status": "review",
+      "base_median_excess": 0.9566200271895279,
+      "base_worst_mdd": -0.19761859994745568,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "INTC:net_income_not_positive",
+        "post_2020:recent_excess_below_minus_5pp",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct",
+        "trailing_252d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "INTC_0.3_GLD_0.7",
+      "symbols": [
+        "INTC",
+        "GLD"
+      ],
+      "weights": [
+        0.3,
+        0.7
+      ],
+      "status": "review",
+      "base_median_excess": 0.9251338679711962,
+      "base_worst_mdd": -0.17243340275841612,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "INTC:net_income_not_positive",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "AMAT_0.6_GLD_0.4",
+      "symbols": [
+        "AMAT",
+        "GLD"
+      ],
+      "weights": [
+        0.6,
+        0.4
+      ],
+      "status": "review",
+      "base_median_excess": 0.9191505418136661,
+      "base_worst_mdd": -0.16396151682743587,
+      "fundamental_status": "pass",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "FIX_0.3_GLD_0.7",
+      "symbols": [
+        "FIX",
+        "GLD"
+      ],
+      "weights": [
+        0.3,
+        0.7
+      ],
+      "status": "review",
+      "base_median_excess": 0.9038571025360144,
+      "base_worst_mdd": -0.14432213982262576,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "AMD_0.5_IEF_0.5",
+      "symbols": [
+        "AMD",
+        "IEF"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "status": "review",
+      "base_median_excess": 0.9021347642642598,
+      "base_worst_mdd": -0.18909401619790778,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "AMD:revenue_decline_worse_than_minus_10pct",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "GLW_0.5_GLD_0.5",
+      "symbols": [
+        "GLW",
+        "GLD"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "status": "review",
+      "base_median_excess": 0.8954412070492939,
+      "base_worst_mdd": -0.1891953047212278,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "AMD_0.3_GLD_0.7",
+      "symbols": [
+        "AMD",
+        "GLD"
+      ],
+      "weights": [
+        0.3,
+        0.7
+      ],
+      "status": "review",
+      "base_median_excess": 0.892825355704071,
+      "base_worst_mdd": -0.18912983428681895,
+      "fundamental_status": "review",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "AMD:revenue_decline_worse_than_minus_10pct",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "AMAT_0.5_GLD_0.5",
+      "symbols": [
+        "AMAT",
+        "GLD"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "status": "review",
+      "base_median_excess": 0.8550791734934321,
+      "base_worst_mdd": -0.15602547674312783,
+      "fundamental_status": "pass",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "SATS_0.3_IEF_0.7",
+      "symbols": [
+        "SATS",
+        "IEF"
+      ],
+      "weights": [
+        0.3,
+        0.7
+      ],
+      "status": "review",
+      "base_median_excess": 0.8307379990603844,
+      "base_worst_mdd": -0.16472560863918295,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_excess_below_minus_5pp",
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "GLW_0.4_GLD_0.6",
+      "symbols": [
+        "GLW",
+        "GLD"
+      ],
+      "weights": [
+        0.4,
+        0.6
+      ],
+      "status": "review",
+      "base_median_excess": 0.8041346107437525,
+      "base_worst_mdd": -0.18410744473707807,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "FIX_0.4_IEF_0.6",
+      "symbols": [
+        "FIX",
+        "IEF"
+      ],
+      "weights": [
+        0.4,
+        0.6
+      ],
+      "status": "review",
+      "base_median_excess": 0.7702672052130319,
+      "base_worst_mdd": -0.1472004142826575,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct",
+        "ai_proxy_post_2023:recent_mdd_worse_than_minus_20pct",
+        "trailing_504d:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "GLW_0.36_GLD_0.64",
+      "symbols": [
+        "GLW",
+        "GLD"
+      ],
+      "weights": [
+        0.36,
+        0.64
+      ],
+      "status": "review",
+      "base_median_excess": 0.7671463558827293,
+      "base_worst_mdd": -0.18068081581786888,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct"
+      ]
+    },
+    {
+      "name": "AMAT_0.4_GLD_0.6",
+      "symbols": [
+        "AMAT",
+        "GLD"
+      ],
+      "weights": [
+        0.4,
+        0.6
+      ],
+      "status": "review",
+      "base_median_excess": 0.765195992137736,
+      "base_worst_mdd": -0.15022058928141935,
+      "fundamental_status": "pass",
+      "recent_regime_status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct"
+      ]
+    }
+  ],
+  "source_gate_summary": {
+    "status": "ok",
+    "candidates": 30,
+    "passed": 0,
+    "review": 30,
+    "top_status": "review",
+    "top_candidate": "SATS_0.5_GLD_0.5",
+    "leverage_policy": "leveraged_and_inverse_products_blocked",
+    "max_leverage_allowed": 1.0
+  },
+  "source_universe_summary": {
+    "status": "ok",
+    "valid_assets": 150,
+    "pass_assets": 14,
+    "pass_pairs": 593,
+    "qqq_single_asset_status": "review",
+    "qqq_single_asset_worst_mdd": -0.22231205787734232,
+    "interpretation": "QQQ is not leveraged, but single-asset QQQ fails drawdown stability; defensive pairing with GLD is what improved the gate result."
+  },
+  "missing_price_data_symbols": [],
+  "live_trading_authorized": false
+}

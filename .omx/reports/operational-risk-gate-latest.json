@@ -1,0 +1,63 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:04:17.251219+00:00",
+  "safety": "operational risk gate only; no orders; no broker; no credentials; no advice",
+  "live_trading_authorized": false,
+  "summary": {
+    "status": "monitoring",
+    "halt_required": false,
+    "blockers": 0,
+    "market_data_staleness_gate": "pass",
+    "drift_monitor": "pass",
+    "kill_switch": "armed",
+    "trade_intent_safety": "pass",
+    "order_created": false,
+    "live_trading_authorized": false
+  },
+  "market_data_staleness_gate": {
+    "status": "pass",
+    "halt_required": false,
+    "blockers": [],
+    "max_calendar_lag_days": 5,
+    "observed_lag_days": 1,
+    "as_of_date": "2026-06-11",
+    "source_bar_dates": {
+      "AAPL": "2026-06-11",
+      "GLD": "2026-06-11"
+    },
+    "stale_symbols": []
+  },
+  "drift_monitor": {
+    "status": "pass",
+    "halt_required": false,
+    "blockers": [],
+    "observation_days": 9,
+    "required_observation_days": 1,
+    "max_drawdown": -0.067225105587703,
+    "worst_daily_return": -0.02933138575107682,
+    "daily_loss_halt": -0.03,
+    "drawdown_halt": -0.08
+  },
+  "kill_switch": {
+    "status": "armed",
+    "halt_required": false,
+    "blockers": [],
+    "manual_halt_file": ".omx/state/manual-kill-switch.flag",
+    "manual_halt_file_present": false,
+    "triggered_by": []
+  },
+  "trade_intent_safety": {
+    "status": "pass",
+    "halt_required": false,
+    "blockers": [],
+    "trade_intent_rows": 9,
+    "created_order_rows": [],
+    "authorized_rows": []
+  },
+  "blockers": [],
+  "required_next_evidence": [
+    "Keep collecting no-order paper observations through the 2026-06-16 live-pilot review target.",
+    "Review any halt_required=true report before changing thresholds.",
+    "Before broker sandbox work, add latency, idempotency, partial-fill, and reconciliation tests."
+  ]
+}

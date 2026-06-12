@@ -1,0 +1,861 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:02:14.374489+00:00",
+  "as_of_date": "2026-06-11",
+  "safety": "offline research only; non-leveraged; no orders, no broker, no advice",
+  "sources": {
+    "sec_api_documentation": "https://www.sec.gov/edgar/sec-api-documentation",
+    "sec_fair_access": "https://www.sec.gov/edgar/searchedgar/accessing-edgar-data.htm",
+    "fred_api_key_documentation": "https://fred.stlouisfed.org/docs/api/fred/v2/api_key.html",
+    "price_data": "Yahoo Finance chart endpoint via existing local research cache"
+  },
+  "limitations": [
+    "SEC fundamentals cover companies, not ETFs such as QQQ or GLD.",
+    "FRED macro series are documented but require an API key, so this run uses price-based macro proxies only.",
+    "Public news sentiment is not treated as a reliable free data source; SEC 8-K counts are used only as event-risk flags, not sentiment or prediction.",
+    "Passing this research gate is still not approval for real-money trading."
+  ],
+  "blocked_symbols": [],
+  "price_data": [
+    {
+      "symbol": "AAPL",
+      "query_symbol": "AAPL",
+      "cache_path": "data/external/aapl_yahoo_daily_2015_2026.csv",
+      "source": "Yahoo Finance chart endpoint",
+      "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+      "refreshed": false,
+      "status": "ok",
+      "rows": 2877,
+      "first_bar": "2015-01-02T14:30:00",
+      "last_bar": "2026-06-11T13:30:00"
+    },
+    {
+      "symbol": "DIA",
+      "query_symbol": "DIA",
+      "cache_path": "data/external/dia_yahoo_daily_2015_2026.csv",
+      "source": "Yahoo Finance chart endpoint",
+      "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+      "refreshed": false,
+      "status": "ok",
+      "rows": 2877,
+      "first_bar": "2015-01-02T14:30:00",
+      "last_bar": "2026-06-11T13:30:00"
+    },
+    {
+      "symbol": "GLD",
+      "query_symbol": "GLD",
+      "cache_path": "data/external/gld_yahoo_daily_2015_2026.csv",
+      "source": "Yahoo Finance chart endpoint",
+      "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+      "refreshed": false,
+      "status": "ok",
+      "rows": 2877,
+      "first_bar": "2015-01-02T14:30:00",
+      "last_bar": "2026-06-11T13:30:00"
+    },
+    {
+      "symbol": "IEF",
+      "query_symbol": "IEF",
+      "cache_path": "data/external/ief_yahoo_daily_2015_2026.csv",
+      "source": "Yahoo Finance chart endpoint",
+      "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+      "refreshed": false,
+      "status": "ok",
+      "rows": 2877,
+      "first_bar": "2015-01-02T14:30:00",
+      "last_bar": "2026-06-11T13:30:00"
+    },
+    {
+      "symbol": "QQQ",
+      "query_symbol": "QQQ",
+      "cache_path": "data/external/qqq_yahoo_daily_2015_2026.csv",
+      "source": "Yahoo Finance chart endpoint",
+      "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+      "refreshed": false,
+      "status": "ok",
+      "rows": 2877,
+      "first_bar": "2015-01-02T14:30:00",
+      "last_bar": "2026-06-11T13:30:00"
+    },
+    {
+      "symbol": "SHY",
+      "query_symbol": "SHY",
+      "cache_path": "data/external/shy_yahoo_daily_2015_2026.csv",
+      "source": "Yahoo Finance chart endpoint",
+      "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+      "refreshed": false,
+      "status": "ok",
+      "rows": 2877,
+      "first_bar": "2015-01-02T14:30:00",
+      "last_bar": "2026-06-11T13:30:00"
+    },
+    {
+      "symbol": "SPY",
+      "query_symbol": "SPY",
+      "cache_path": "data/external/spy_yahoo_daily_2015_2026.csv",
+      "source": "Yahoo Finance chart endpoint",
+      "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+      "refreshed": false,
+      "status": "ok",
+      "rows": 2877,
+      "first_bar": "2015-01-02T14:30:00",
+      "last_bar": "2026-06-11T13:30:00"
+    },
+    {
+      "symbol": "TLT",
+      "query_symbol": "TLT",
+      "cache_path": "data/external/tlt_yahoo_daily_2015_2026.csv",
+      "source": "Yahoo Finance chart endpoint",
+      "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+      "refreshed": false,
+      "status": "ok",
+      "rows": 2877,
+      "first_bar": "2015-01-02T14:30:00",
+      "last_bar": "2026-06-11T13:30:00"
+    },
+    {
+      "symbol": "XLK",
+      "query_symbol": "XLK",
+      "cache_path": "data/external/xlk_yahoo_daily_2015_2026.csv",
+      "source": "Yahoo Finance chart endpoint",
+      "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+      "refreshed": false,
+      "status": "ok",
+      "rows": 2877,
+      "first_bar": "2015-01-02T14:30:00",
+      "last_bar": "2026-06-11T13:30:00"
+    }
+  ],
+  "macro_proxy": {
+    "method": "price-based proxy because FRED API requires a user API key",
+    "fred_api_key_documentation": "https://fred.stlouisfed.org/docs/api/fred/v2/api_key.html",
+    "tlt_trailing_252d_return": -0.00185739533141982,
+    "tlt_last_date": "2026-06-11",
+    "ief_trailing_252d_return": 0.0011672819382206878,
+    "ief_last_date": "2026-06-11",
+    "shy_trailing_252d_return": -0.0037621988136847806,
+    "shy_last_date": "2026-06-11",
+    "gld_trailing_252d_return": 0.25278079398551245,
+    "gld_last_date": "2026-06-11",
+    "spy_trailing_252d_return": 0.22681925591427787,
+    "spy_last_date": "2026-06-11",
+    "rate_proxy_regime": "bond_pressure"
+  },
+  "live_trading_authorized": false,
+  "promotion_level": "research_only",
+  "summary": {
+    "status": "ok",
+    "candidates": 8,
+    "passed": 4,
+    "review": 4,
+    "top_status": "pass",
+    "top_candidate": "AAPL_0.3_GLD_0.7",
+    "leverage_policy": "leveraged_and_inverse_products_blocked",
+    "max_leverage_allowed": 1.0
+  },
+  "candidate_gates": [
+    {
+      "name": "AAPL_0.3_GLD_0.7",
+      "symbols": [
+        "AAPL",
+        "GLD"
+      ],
+      "weights": [
+        0.3,
+        0.7
+      ],
+      "base_median_excess": 0.12085717252180217,
+      "base_holdout_excess": 0.2651354768637326,
+      "base_worst_mdd": -0.18288344022101577,
+      "fundamental_status": "pass",
+      "recent_regime_status": "pass",
+      "status": "pass",
+      "failure_reasons": [],
+      "recent_regimes": [
+        {
+          "window": "post_2020",
+          "start": "2020-01-02",
+          "end": "2026-06-11",
+          "candidate_return": 2.036297204808183,
+          "benchmark_return": 1.3982400082744566,
+          "excess_return": 0.6380571965337265,
+          "max_drawdown": -0.18541807707282632,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "post_2022",
+          "start": "2022-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.0707167601401526,
+          "benchmark_return": 0.5354685973536635,
+          "excess_return": 0.5352481627864891,
+          "max_drawdown": -0.18153041426143623,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "ai_proxy_post_2023",
+          "start": "2023-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.2698655570748092,
+          "benchmark_return": 1.0160490967153537,
+          "excess_return": 0.2538164603594555,
+          "max_drawdown": -0.15762985044258304,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_504d",
+          "start": "2024-06-07",
+          "end": "2026-06-11",
+          "candidate_return": 0.7127334166357961,
+          "benchmark_return": 0.3969095952088231,
+          "excess_return": 0.3158238214269731,
+          "max_drawdown": -0.16963736931814954,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_252d",
+          "start": "2025-06-11",
+          "end": "2026-06-11",
+          "candidate_return": 0.3085282709457484,
+          "benchmark_return": 0.23568834259267413,
+          "excess_return": 0.07283992835307429,
+          "max_drawdown": -0.1477254370650759,
+          "status": "pass",
+          "failure_reasons": []
+        }
+      ],
+      "fundamentals": [
+        {
+          "symbol": "AAPL",
+          "cik": "0000320193",
+          "company_name": "Apple Inc.",
+          "status": "pass",
+          "revenue_growth_yoy": -0.07734206191301374,
+          "net_income_positive": true,
+          "operating_cash_flow_positive": true,
+          "debt_to_equity": 2.4846325041552806,
+          "current_ratio": 1.07035746912159,
+          "latest_filing_date": "2026-05-29",
+          "recent_8k_count_90d": 2,
+          "failure_reasons": [],
+          "data_warnings": []
+        }
+      ]
+    },
+    {
+      "name": "AAPL_0.36_GLD_0.64",
+      "symbols": [
+        "AAPL",
+        "GLD"
+      ],
+      "weights": [
+        0.36,
+        0.64
+      ],
+      "base_median_excess": 0.1034780372979156,
+      "base_holdout_excess": 0.26057135769683604,
+      "base_worst_mdd": -0.17632894252116338,
+      "fundamental_status": "pass",
+      "recent_regime_status": "pass",
+      "status": "pass",
+      "failure_reasons": [],
+      "recent_regimes": [
+        {
+          "window": "post_2020",
+          "start": "2020-01-02",
+          "end": "2026-06-11",
+          "candidate_return": 2.1137698896030876,
+          "benchmark_return": 1.3982400082744566,
+          "excess_return": 0.715529881328631,
+          "max_drawdown": -0.18990073689699138,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "post_2022",
+          "start": "2022-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.0272298079433546,
+          "benchmark_return": 0.5354685973536635,
+          "excess_return": 0.49176121058969113,
+          "max_drawdown": -0.1781955125930723,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "ai_proxy_post_2023",
+          "start": "2023-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.2761534025842778,
+          "benchmark_return": 1.0160490967153537,
+          "excess_return": 0.2601043058689241,
+          "max_drawdown": -0.14412263855835084,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_504d",
+          "start": "2024-06-07",
+          "end": "2026-06-11",
+          "candidate_return": 0.6885727915628264,
+          "benchmark_return": 0.3969095952088231,
+          "excess_return": 0.2916631963540033,
+          "max_drawdown": -0.15132036064110121,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_252d",
+          "start": "2025-06-11",
+          "end": "2026-06-11",
+          "candidate_return": 0.32257208157014383,
+          "benchmark_return": 0.23568834259267413,
+          "excess_return": 0.0868837389774697,
+          "max_drawdown": -0.13584558637555466,
+          "status": "pass",
+          "failure_reasons": []
+        }
+      ],
+      "fundamentals": [
+        {
+          "symbol": "AAPL",
+          "cik": "0000320193",
+          "company_name": "Apple Inc.",
+          "status": "pass",
+          "revenue_growth_yoy": -0.07734206191301374,
+          "net_income_positive": true,
+          "operating_cash_flow_positive": true,
+          "debt_to_equity": 2.4846325041552806,
+          "current_ratio": 1.07035746912159,
+          "latest_filing_date": "2026-05-29",
+          "recent_8k_count_90d": 2,
+          "failure_reasons": [],
+          "data_warnings": []
+        }
+      ]
+    },
+    {
+      "name": "AAPL_0.4_GLD_0.6",
+      "symbols": [
+        "AAPL",
+        "GLD"
+      ],
+      "weights": [
+        0.4,
+        0.6
+      ],
+      "base_median_excess": 0.09336023414609684,
+      "base_holdout_excess": 0.26643170794834004,
+      "base_worst_mdd": -0.17785798132328878,
+      "fundamental_status": "pass",
+      "recent_regime_status": "pass",
+      "status": "pass",
+      "failure_reasons": [],
+      "recent_regimes": [
+        {
+          "window": "post_2020",
+          "start": "2020-01-02",
+          "end": "2026-06-11",
+          "candidate_return": 2.171794950133169,
+          "benchmark_return": 1.3982400082744566,
+          "excess_return": 0.7735549418587122,
+          "max_drawdown": -0.19496736640350176,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "post_2022",
+          "start": "2022-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.0055473310028362,
+          "benchmark_return": 0.5354685973536635,
+          "excess_return": 0.47007873364917274,
+          "max_drawdown": -0.17955541340798598,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "ai_proxy_post_2023",
+          "start": "2023-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.2863665936369038,
+          "benchmark_return": 1.0160490967153537,
+          "excess_return": 0.27031749692155005,
+          "max_drawdown": -0.13872054382549748,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_504d",
+          "start": "2024-06-07",
+          "end": "2026-06-11",
+          "candidate_return": 0.6725119198866467,
+          "benchmark_return": 0.3969095952088231,
+          "excess_return": 0.27560232467782364,
+          "max_drawdown": -0.14212771380862754,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_252d",
+          "start": "2025-06-11",
+          "end": "2026-06-11",
+          "candidate_return": 0.33456739919502154,
+          "benchmark_return": 0.23568834259267413,
+          "excess_return": 0.09887905660234741,
+          "max_drawdown": -0.13140945967117723,
+          "status": "pass",
+          "failure_reasons": []
+        }
+      ],
+      "fundamentals": [
+        {
+          "symbol": "AAPL",
+          "cik": "0000320193",
+          "company_name": "Apple Inc.",
+          "status": "pass",
+          "revenue_growth_yoy": -0.07734206191301374,
+          "net_income_positive": true,
+          "operating_cash_flow_positive": true,
+          "debt_to_equity": 2.4846325041552806,
+          "current_ratio": 1.07035746912159,
+          "latest_filing_date": "2026-05-29",
+          "recent_8k_count_90d": 2,
+          "failure_reasons": [],
+          "data_warnings": []
+        }
+      ]
+    },
+    {
+      "name": "AAPL_0.5_GLD_0.5",
+      "symbols": [
+        "AAPL",
+        "GLD"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "base_median_excess": 0.09284028615814943,
+      "base_holdout_excess": 0.25145965533191217,
+      "base_worst_mdd": -0.19831403373038914,
+      "fundamental_status": "pass",
+      "recent_regime_status": "review",
+      "status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct"
+      ],
+      "recent_regimes": [
+        {
+          "window": "post_2020",
+          "start": "2020-01-02",
+          "end": "2026-06-11",
+          "candidate_return": 2.28526117630692,
+          "benchmark_return": 1.3982400082744566,
+          "excess_return": 0.8870211680324633,
+          "max_drawdown": -0.21576544746403603,
+          "status": "review",
+          "failure_reasons": [
+            "recent_mdd_worse_than_minus_20pct"
+          ]
+        },
+        {
+          "window": "post_2022",
+          "start": "2022-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 0.940742531626173,
+          "benchmark_return": 0.5354685973536635,
+          "excess_return": 0.4052739342725096,
+          "max_drawdown": -0.1870296784171468,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "ai_proxy_post_2023",
+          "start": "2023-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.2990807886743703,
+          "benchmark_return": 1.0160490967153537,
+          "excess_return": 0.28303169195901656,
+          "max_drawdown": -0.15842985784156316,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_504d",
+          "start": "2024-06-07",
+          "end": "2026-06-11",
+          "candidate_return": 0.6502542648408951,
+          "benchmark_return": 0.3969095952088231,
+          "excess_return": 0.25334466963207203,
+          "max_drawdown": -0.14242873568973136,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_252d",
+          "start": "2025-06-11",
+          "end": "2026-06-11",
+          "candidate_return": 0.3607443943572046,
+          "benchmark_return": 0.23568834259267413,
+          "excess_return": 0.1250560517645305,
+          "max_drawdown": -0.1190942011053524,
+          "status": "pass",
+          "failure_reasons": []
+        }
+      ],
+      "fundamentals": [
+        {
+          "symbol": "AAPL",
+          "cik": "0000320193",
+          "company_name": "Apple Inc.",
+          "status": "pass",
+          "revenue_growth_yoy": -0.07734206191301374,
+          "net_income_positive": true,
+          "operating_cash_flow_positive": true,
+          "debt_to_equity": 2.4846325041552806,
+          "current_ratio": 1.07035746912159,
+          "latest_filing_date": "2026-05-29",
+          "recent_8k_count_90d": 2,
+          "failure_reasons": [],
+          "data_warnings": []
+        }
+      ]
+    },
+    {
+      "name": "QQQ_0.36_GLD_0.64",
+      "symbols": [
+        "QQQ",
+        "GLD"
+      ],
+      "weights": [
+        0.36,
+        0.64
+      ],
+      "base_median_excess": 0.08527413013487295,
+      "base_holdout_excess": 0.3831115587488789,
+      "base_worst_mdd": -0.19320852928057353,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct"
+      ],
+      "recent_regimes": [
+        {
+          "window": "post_2020",
+          "start": "2020-01-02",
+          "end": "2026-06-11",
+          "candidate_return": 1.8619833423958179,
+          "benchmark_return": 1.3982400082744566,
+          "excess_return": 0.46374333412136126,
+          "max_drawdown": -0.22581197077106685,
+          "status": "review",
+          "failure_reasons": [
+            "recent_mdd_worse_than_minus_20pct"
+          ]
+        },
+        {
+          "window": "post_2022",
+          "start": "2022-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.090016466123445,
+          "benchmark_return": 0.5354685973536635,
+          "excess_return": 0.5545478687697816,
+          "max_drawdown": -0.20163193006509306,
+          "status": "review",
+          "failure_reasons": [
+            "recent_mdd_worse_than_minus_20pct"
+          ]
+        },
+        {
+          "window": "ai_proxy_post_2023",
+          "start": "2023-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.3937906003006604,
+          "benchmark_return": 1.0160490967153537,
+          "excess_return": 0.37774150358530667,
+          "max_drawdown": -0.15910124137357418,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_504d",
+          "start": "2024-06-07",
+          "end": "2026-06-11",
+          "candidate_return": 0.6915787336900379,
+          "benchmark_return": 0.3969095952088231,
+          "excess_return": 0.2946691384812148,
+          "max_drawdown": -0.1632402772513315,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_252d",
+          "start": "2025-06-11",
+          "end": "2026-06-11",
+          "candidate_return": 0.2667756639934522,
+          "benchmark_return": 0.23568834259267413,
+          "excess_return": 0.03108732140077808,
+          "max_drawdown": -0.1562390320059206,
+          "status": "pass",
+          "failure_reasons": []
+        }
+      ],
+      "fundamentals": []
+    },
+    {
+      "name": "QQQ_0.4_GLD_0.6",
+      "symbols": [
+        "QQQ",
+        "GLD"
+      ],
+      "weights": [
+        0.4,
+        0.6
+      ],
+      "base_median_excess": 0.08480015392231754,
+      "base_holdout_excess": 0.4290692834250842,
+      "base_worst_mdd": -0.19660813893650086,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct",
+        "post_2022:recent_mdd_worse_than_minus_20pct"
+      ],
+      "recent_regimes": [
+        {
+          "window": "post_2020",
+          "start": "2020-01-02",
+          "end": "2026-06-11",
+          "candidate_return": 1.8887644624152782,
+          "benchmark_return": 1.3982400082744566,
+          "excess_return": 0.4905244541408216,
+          "max_drawdown": -0.23621179934602898,
+          "status": "review",
+          "failure_reasons": [
+            "recent_mdd_worse_than_minus_20pct"
+          ]
+        },
+        {
+          "window": "post_2022",
+          "start": "2022-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.0775698951333053,
+          "benchmark_return": 0.5354685973536635,
+          "excess_return": 0.5421012977796418,
+          "max_drawdown": -0.20660141304587365,
+          "status": "review",
+          "failure_reasons": [
+            "recent_mdd_worse_than_minus_20pct"
+          ]
+        },
+        {
+          "window": "ai_proxy_post_2023",
+          "start": "2023-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.3965298094368563,
+          "benchmark_return": 1.0160490967153537,
+          "excess_return": 0.38048071272150263,
+          "max_drawdown": -0.15592838514808371,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_504d",
+          "start": "2024-06-07",
+          "end": "2026-06-11",
+          "candidate_return": 0.681478593386643,
+          "benchmark_return": 0.3969095952088231,
+          "excess_return": 0.2845689981778199,
+          "max_drawdown": -0.15952012012707517,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_252d",
+          "start": "2025-06-11",
+          "end": "2026-06-11",
+          "candidate_return": 0.2775669201691007,
+          "benchmark_return": 0.23568834259267413,
+          "excess_return": 0.041878577576426546,
+          "max_drawdown": -0.15455763911001064,
+          "status": "pass",
+          "failure_reasons": []
+        }
+      ],
+      "fundamentals": []
+    },
+    {
+      "name": "QQQ_0.3_GLD_0.7",
+      "symbols": [
+        "QQQ",
+        "GLD"
+      ],
+      "weights": [
+        0.3,
+        0.7
+      ],
+      "base_median_excess": 0.0806148658618342,
+      "base_holdout_excess": 0.3801536386942994,
+      "base_worst_mdd": -0.199302535459563,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "review",
+      "status": "review",
+      "failure_reasons": [
+        "post_2020:recent_mdd_worse_than_minus_20pct"
+      ],
+      "recent_regimes": [
+        {
+          "window": "post_2020",
+          "start": "2020-01-02",
+          "end": "2026-06-11",
+          "candidate_return": 1.8097016590201882,
+          "benchmark_return": 1.3982400082744566,
+          "excess_return": 0.4114616507457316,
+          "max_drawdown": -0.20884349574454686,
+          "status": "review",
+          "failure_reasons": [
+            "recent_mdd_worse_than_minus_20pct"
+          ]
+        },
+        {
+          "window": "post_2022",
+          "start": "2022-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.1149371739817688,
+          "benchmark_return": 0.5354685973536635,
+          "excess_return": 0.5794685766281054,
+          "max_drawdown": -0.1988431311681459,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "ai_proxy_post_2023",
+          "start": "2023-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.3666340993766628,
+          "benchmark_return": 1.0160490967153537,
+          "excess_return": 0.3505850026613091,
+          "max_drawdown": -0.16408710005019056,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_504d",
+          "start": "2024-06-07",
+          "end": "2026-06-11",
+          "candidate_return": 0.7196078082945812,
+          "benchmark_return": 0.3969095952088231,
+          "excess_return": 0.3226982130857581,
+          "max_drawdown": -0.17496401119281357,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_252d",
+          "start": "2025-06-11",
+          "end": "2026-06-11",
+          "candidate_return": 0.2637635406389296,
+          "benchmark_return": 0.23568834259267413,
+          "excess_return": 0.028075198046255467,
+          "max_drawdown": -0.1624431371948255,
+          "status": "pass",
+          "failure_reasons": []
+        }
+      ],
+      "fundamentals": []
+    },
+    {
+      "name": "XLK_0.3_GLD_0.7",
+      "symbols": [
+        "XLK",
+        "GLD"
+      ],
+      "weights": [
+        0.3,
+        0.7
+      ],
+      "base_median_excess": 0.0755541757423952,
+      "base_holdout_excess": 0.4649496151075836,
+      "base_worst_mdd": -0.19736943523490114,
+      "fundamental_status": "not_applicable",
+      "recent_regime_status": "pass",
+      "status": "pass",
+      "failure_reasons": [],
+      "recent_regimes": [
+        {
+          "window": "post_2020",
+          "start": "2020-01-02",
+          "end": "2026-06-11",
+          "candidate_return": 2.030412381770846,
+          "benchmark_return": 1.3982400082744566,
+          "excess_return": 0.6321723734963896,
+          "max_drawdown": -0.19838067644685886,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "post_2022",
+          "start": "2022-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.2179954988661539,
+          "benchmark_return": 0.5354685973536635,
+          "excess_return": 0.6825269015124904,
+          "max_drawdown": -0.19678394735437688,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "ai_proxy_post_2023",
+          "start": "2023-01-03",
+          "end": "2026-06-11",
+          "candidate_return": 1.4424747141273624,
+          "benchmark_return": 1.0160490967153537,
+          "excess_return": 0.4264256174120087,
+          "max_drawdown": -0.168339274664572,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_504d",
+          "start": "2024-06-07",
+          "end": "2026-06-11",
+          "candidate_return": 0.7709910709653218,
+          "benchmark_return": 0.3969095952088231,
+          "excess_return": 0.37408147575649875,
+          "max_drawdown": -0.17228947545890994,
+          "status": "pass",
+          "failure_reasons": []
+        },
+        {
+          "window": "trailing_252d",
+          "start": "2025-06-11",
+          "end": "2026-06-11",
+          "candidate_return": 0.3225982988550371,
+          "benchmark_return": 0.23568834259267413,
+          "excess_return": 0.08690995626236298,
+          "max_drawdown": -0.16674681889531728,
+          "status": "pass",
+          "failure_reasons": []
+        }
+      ],
+      "fundamentals": []
+    }
+  ],
+  "universe_summary": {
+    "status": "ok",
+    "valid_assets": 22,
+    "pass_assets": 0,
+    "pass_pairs": 19,
+    "qqq_single_asset_status": "review",
+    "qqq_single_asset_worst_mdd": -0.3318839078868214,
+    "interpretation": "QQQ is not leveraged, but single-asset QQQ fails drawdown stability; defensive pairing with GLD is what improved the gate result."
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:04:19.386847+00:00",
+  "safety": "readiness report only; no orders; no broker; no credentials; no advice",
+  "live_trading_authorized": false,
+  "promotion_level": "paper_dry_run_candidate",
+  "sources": {
+    "sec_automated_investment_advice": "https://www.sec.gov/about/divisions-offices/office-strategic-hub-innovation-financial-technology-finhub/automated-investment-advice",
+    "finra_day_trading": "https://www.finra.org/investors/investing/investment-products/stocks/day-trading",
+    "sec_investor_margin_bulletin": "https://www.investor.gov/additional-resources/news-alerts/alerts-bulletins/investor-bulletin-understanding-margin-accounts"
+  },
+  "summary": {
+    "live_readiness_status": "blocked_before_human_review",
+    "paper_dry_run_ready": true,
+    "passing_candidates": 4,
+    "top_candidate": "AAPL_0.3_GLD_0.7",
+    "top_candidate_symbols": [
+      "AAPL",
+      "GLD"
+    ],
+    "top_candidate_weights": [
+      0.3,
+      0.7
+    ],
+    "operational_risk_status": "monitoring",
+    "independent_price_status": "pass",
+    "paper_observation_days": 9,
+    "minimum_paper_observation_days": 12,
+    "target_live_pilot_date": "2026-06-16",
+    "live_trading_authorized": false
+  },
+  "candidate_gate": {
+    "as_of_date": "2026-06-11",
+    "source_report": ".omx/reports/fundamental-macro-recent-gate-latest.json",
+    "signal_present": true,
+    "passing_candidates": [
+      {
+        "name": "AAPL_0.3_GLD_0.7",
+        "symbols": [
+          "AAPL",
+          "GLD"
+        ],
+        "weights": [
+          0.3,
+          0.7
+        ],
+        "base_median_excess": 0.12085717252180217,
+        "base_worst_mdd": -0.18288344022101577,
+        "recent_regime_status": "pass",
+        "fundamental_status": "pass"
+      },
+      {
+        "name": "AAPL_0.36_GLD_0.64",
+        "symbols": [
+          "AAPL",
+          "GLD"
+        ],
+        "weights": [
+          0.36,
+          0.64
+        ],
+        "base_median_excess": 0.1034780372979156,
+        "base_worst_mdd": -0.17632894252116338,
+        "recent_regime_status": "pass",
+        "fundamental_status": "pass"
+      },
+      {
+        "name": "AAPL_0.4_GLD_0.6",
+        "symbols": [
+          "AAPL",
+          "GLD"
+        ],
+        "weights": [
+          0.4,
+          0.6
+        ],
+        "base_median_excess": 0.09336023414609684,
+        "base_worst_mdd": -0.17785798132328878,
+        "recent_regime_status": "pass",
+        "fundamental_status": "pass"
+      },
+      {
+        "name": "XLK_0.3_GLD_0.7",
+        "symbols": [
+          "XLK",
+          "GLD"
+        ],
+        "weights": [
+          0.3,
+          0.7
+        ],
+        "base_median_excess": 0.0755541757423952,
+        "base_worst_mdd": -0.19736943523490114,
+        "recent_regime_status": "pass",
+        "fundamental_status": "not_applicable"
+      }
+    ],
+    "candidate_blockers": []
+  },
+  "paper_signal_gate": {
+    "source_report": "reports/paper-dry-run-signal-latest.json",
+    "signal_present": true,
+    "paper_blockers": [],
+    "paper_signal": {
+      "as_of_date": "2026-06-11",
+      "strategy": "AAPL_0.3_GLD_0.7",
+      "target_weights": {
+        "AAPL": 0.3,
+        "GLD": 0.7
+      },
+      "safety": "dry-run target weights only; no orders; no broker; no investment advice",
+      "warnings": [
+        "This is a dry-run target allocation only; do not place orders from this output.",
+        "Candidate remains in research review until independent data-source replication passes."
+      ]
+    }
+  },
+  "operational_risk_gate": {
+    "source_report": ".omx/reports/operational-risk-gate-latest.json",
+    "signal_present": true,
+    "operational_blockers": [],
+    "summary": {
+      "status": "monitoring",
+      "halt_required": false,
+      "blockers": 0,
+      "market_data_staleness_gate": "pass",
+      "drift_monitor": "pass",
+      "kill_switch": "armed",
+      "trade_intent_safety": "pass",
+      "order_created": false,
+      "live_trading_authorized": false
+    }
+  },
+  "independent_price_gate": {
+    "source_report": ".omx/reports/independent-price-replication-latest.json",
+    "signal_present": true,
+    "independent_price_blockers": [],
+    "summary": {
+      "status": "pass",
+      "provider": "alpha_vantage",
+      "symbols_checked": 2,
+      "max_close_diff_bps": 100.0,
+      "blockers": 0,
+      "order_created": false,
+      "live_trading_authorized": false
+    }
+  },
+  "paper_observation_window_gate": {
+    "source_report": ".omx/reports/paper-observation-summary-latest.json",
+    "signal_present": true,
+    "observation_window_blockers": [
+      "live_pilot_target_date_not_reached",
+      "minimum_paper_observation_window_missing"
+    ],
+    "summary": {
+      "status": "early_checkpoint_ready",
+      "generated_at": "2026-06-12T07:04:16.957251+00:00",
+      "log_path": "reports/paper-observation-log.jsonl",
+      "observed_days": 9,
+      "required_days": 12,
+      "early_checkpoint_days": 5,
+      "first_as_of_date": "2026-05-29",
+      "latest_as_of_date": "2026-06-11",
+      "latest_strategy": "AAPL_0.3_GLD_0.7",
+      "latest_target_weights": {
+        "AAPL": 0.3,
+        "GLD": 0.7
+      },
+      "latest_virtual_equity": 9327.74894412297,
+      "total_return_since_first_observation": -0.067225105587703,
+      "max_drawdown_since_first_observation": -0.067225105587703,
+      "live_trading_authorized": false,
+      "promotion_level": "paper_observation_collecting",
+      "remaining_days_to_required_window": 3,
+      "warnings": [
+        "This is not investment advice and does not authorize live trading.",
+        "A short observation window cannot prove stable profitability."
+      ]
+    }
+  },
+  "live_blockers": [
+    "live_pilot_target_date_not_reached",
+    "minimum_paper_observation_window_missing",
+    "tax_cost_and_liquidity_review_missing",
+    "human_approval_missing",
+    "legal_or_registered_adviser_review_missing_for_automated_investment_advice",
+    "broker_sandbox_and_order_reconciliation_intentionally_not_connected",
+    "broker_api_latency_budget_not_defined",
+    "slippage_and_spread_model_not_validated_against_live_quotes",
+    "partial_fill_rejection_cancel_replace_handling_missing",
+    "idempotency_keys_and_duplicate_order_prevention_missing",
+    "rate_limit_backoff_and_outage_recovery_missing",
+    "account_position_reconciliation_missing",
+    "market_hours_holiday_and_corporate_action_handling_missing"
+  ],
+  "required_next_evidence": [
+    "Collect no-order dry-run target logging through the 2026-06-16 live-pilot review target.",
+    "Replicate price history with an independent licensed or official data source.",
+    "Keep operational risk gate passing: drift monitor, loss limits, stale-data halt, and manual kill switch.",
+    "Define broker API latency budget, stale-quote halt, idempotent order model, partial-fill handling, and reconciliation tests before any broker sandbox.",
+    "Complete tax/cost/liquidity and legal/adviser-status review before any real capital."
+  ]
+}

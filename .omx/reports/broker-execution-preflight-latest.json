@@ -1,0 +1,69 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:04:19.455033+00:00",
+  "safety": "broker execution preflight only; no SDK; no credentials; no network; no submitted orders",
+  "live_trading_authorized": false,
+  "paper_api_authorized": false,
+  "summary": {
+    "status": "blocked",
+    "ticket_count": 0,
+    "blockers": 7,
+    "order_created": false,
+    "submit_attempted": false,
+    "api_attachable_after_approvals": false
+  },
+  "preflight": {
+    "status": "blocked",
+    "generated_at": "2026-06-12T07:04:19.455014+00:00",
+    "safety": "broker execution preflight only; no SDK; no credentials; no network; no submitted orders",
+    "order_created": false,
+    "submit_attempted": false,
+    "ticket_count": 0,
+    "total_estimated_notional": 0,
+    "tickets": [],
+    "blockers": [
+      "account_position_reconciliation_missing",
+      "broker_api_adapter_not_connected",
+      "human_approval_missing",
+      "kill_switch_not_armed",
+      "market_data_freshness_missing",
+      "minimum_paper_observation_days_missing",
+      "no_broker_order_tickets"
+    ],
+    "warnings": [
+      "preflight only; a separate broker-specific adapter must implement route_ticket",
+      "do not route live capital until legal/tax/account reviews are complete"
+    ],
+    "approval": {
+      "venue": "paper",
+      "human_approved": false,
+      "broker_api_connected": false,
+      "account_reconciled": false,
+      "market_data_fresh": false,
+      "kill_switch_armed": false,
+      "legal_tax_review_complete": false,
+      "live_trading_authorized": false,
+      "paper_observation_days": 9
+    },
+    "policy": {
+      "max_order_notional": 1000.0,
+      "max_total_notional": 2000.0,
+      "min_paper_observation_days": 12,
+      "allowed_symbols": [
+        "AAPL",
+        "GLD"
+      ],
+      "blocked_symbols": []
+    }
+  },
+  "source_reports": {
+    "no_order_preview": ".omx/reports/no-order-preview-latest.json",
+    "paper_summary": ".omx/reports/paper-observation-summary-latest.json"
+  },
+  "required_before_api_attachment": [
+    "Implement a broker-specific adapter that satisfies BrokerExecutionAdapter.",
+    "Keep client_order_id idempotency and account reconciliation tests passing.",
+    "Use broker sandbox/paper endpoint first; live endpoint remains blocked separately.",
+    "Do not store broker API keys in source; use GitHub/host secrets only."
+  ]
+}

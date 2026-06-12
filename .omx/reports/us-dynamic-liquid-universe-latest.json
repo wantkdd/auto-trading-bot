@@ -1,0 +1,2894 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:03:48.682457+00:00",
+  "safety": "dynamic universe builder only; no orders; no broker; no credentials; no advice",
+  "live_trading_authorized": false,
+  "summary": {
+    "status": "ok",
+    "sources": 536,
+    "rank_candidates": 300,
+    "ranked": 297,
+    "selected": 150,
+    "min_selected_symbols": 10,
+    "blocked_leveraged_or_inverse": 0,
+    "lookback_days": 45,
+    "history_start": "2015-01-01",
+    "min_history_rows": 1100,
+    "max_output_symbols": 150
+  },
+  "source_counts": {
+    "unique_symbols": 536
+  },
+  "selected_symbols": [
+    "SPY",
+    "QQQ",
+    "DIA",
+    "AAPL",
+    "GLD",
+    "MU",
+    "NVDA",
+    "TSLA",
+    "MSFT",
+    "AMD",
+    "INTC",
+    "AVGO",
+    "GOOGL",
+    "META",
+    "AMZN",
+    "GOOG",
+    "IWM",
+    "ORCL",
+    "QCOM",
+    "DELL",
+    "AMAT",
+    "NOW",
+    "LLY",
+    "CSCO",
+    "IBM",
+    "WMT",
+    "CRM",
+    "XLK",
+    "NFLX",
+    "UNH",
+    "JPM",
+    "CRWD",
+    "APP",
+    "V",
+    "XOM",
+    "COST",
+    "CAT",
+    "TXN",
+    "BRK-B",
+    "GLW",
+    "GS",
+    "TLT",
+    "XLE",
+    "COHR",
+    "ADI",
+    "BAC",
+    "XLF",
+    "HPE",
+    "JNJ",
+    "MA",
+    "CVX",
+    "COIN",
+    "HD",
+    "CIEN",
+    "XLV",
+    "BA",
+    "APH",
+    "GE",
+    "ADBE",
+    "ANET",
+    "DDOG",
+    "XLI",
+    "C",
+    "KO",
+    "PEP",
+    "PG",
+    "NEE",
+    "MRK",
+    "WFC",
+    "MS",
+    "F",
+    "BKNG",
+    "LIN",
+    "MCD",
+    "AZO",
+    "ABBV",
+    "BSX",
+    "TMO",
+    "CEG",
+    "HON",
+    "T",
+    "SCHW",
+    "XLP",
+    "VZ",
+    "ABT",
+    "GILD",
+    "RTX",
+    "ETN",
+    "SATS",
+    "NKE",
+    "XLY",
+    "CME",
+    "CDNS",
+    "ACN",
+    "XLU",
+    "AXP",
+    "AMGN",
+    "COF",
+    "FTNT",
+    "DE",
+    "PFE",
+    "FSLR",
+    "FCX",
+    "DIS",
+    "FIX",
+    "AKAM",
+    "IEF",
+    "COP",
+    "CMCSA",
+    "CVS",
+    "DHR",
+    "DASH",
+    "BLK",
+    "SLB",
+    "CVNA",
+    "ELV",
+    "D",
+    "CCL",
+    "HCA",
+    "GM",
+    "CMI",
+    "FDX",
+    "DVN",
+    "AEP",
+    "BMY",
+    "XLC",
+    "CMG",
+    "HWM",
+    "XLB",
+    "HPQ",
+    "LMT",
+    "MMM",
+    "ADSK",
+    "ADP",
+    "BX",
+    "AMT",
+    "UPS",
+    "EQIX",
+    "CSX",
+    "DAL",
+    "MO",
+    "CASY",
+    "CB",
+    "EBAY",
+    "SO",
+    "CRH",
+    "PLD",
+    "AXON",
+    "DXCM",
+    "HLT"
+  ],
+  "top_selected_symbols": [
+    "SPY",
+    "QQQ",
+    "DIA",
+    "AAPL",
+    "GLD",
+    "MU",
+    "NVDA",
+    "TSLA",
+    "MSFT",
+    "AMD"
+  ],
+  "ranked_symbols": [
+    {
+      "symbol": "MU",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 48979876362.11731,
+      "latest_close": 995.8699951171875,
+      "latest_volume": 58826500.0,
+      "error": ""
+    },
+    {
+      "symbol": "SPY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 39892674954.01947,
+      "latest_close": 737.760009765625,
+      "latest_volume": 86176700.0,
+      "error": ""
+    },
+    {
+      "symbol": "NVDA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 38789552813.51494,
+      "latest_close": 204.8699951171875,
+      "latest_volume": 157872000.0,
+      "error": ""
+    },
+    {
+      "symbol": "QQQ",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 34044418391.990356,
+      "latest_close": 717.1199951171875,
+      "latest_volume": 71471100.0,
+      "error": ""
+    },
+    {
+      "symbol": "TSLA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 19358350354.059296,
+      "latest_close": 399.1499938964844,
+      "latest_volume": 45021300.0,
+      "error": ""
+    },
+    {
+      "symbol": "MSFT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 15874028281.75476,
+      "latest_close": 390.3399963378906,
+      "latest_volume": 47114000.0,
+      "error": ""
+    },
+    {
+      "symbol": "AAPL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 15304947906.212006,
+      "latest_close": 295.6300048828125,
+      "latest_volume": 42523300.0,
+      "error": ""
+    },
+    {
+      "symbol": "AMD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 15123471691.098938,
+      "latest_close": 488.45001220703125,
+      "latest_volume": 30372700.0,
+      "error": ""
+    },
+    {
+      "symbol": "INTC",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 14499041420.786474,
+      "latest_close": 116.95999908447266,
+      "latest_volume": 187566500.0,
+      "error": ""
+    },
+    {
+      "symbol": "AVGO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 13139713715.829773,
+      "latest_close": 385.57000732421875,
+      "latest_volume": 35108000.0,
+      "error": ""
+    },
+    {
+      "symbol": "GOOGL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 12137733342.712402,
+      "latest_close": 357.7699890136719,
+      "latest_volume": 35441500.0,
+      "error": ""
+    },
+    {
+      "symbol": "META",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 10646955232.137451,
+      "latest_close": 568.4299926757812,
+      "latest_volume": 17586900.0,
+      "error": ""
+    },
+    {
+      "symbol": "AMZN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 10523924386.791687,
+      "latest_close": 241.50999450683594,
+      "latest_volume": 41250200.0,
+      "error": ""
+    },
+    {
+      "symbol": "GOOG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 8705669687.634583,
+      "latest_close": 356.55999755859375,
+      "latest_volume": 28711100.0,
+      "error": ""
+    },
+    {
+      "symbol": "IWM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 8236154807.131958,
+      "latest_close": 290.4100036621094,
+      "latest_volume": 41405200.0,
+      "error": ""
+    },
+    {
+      "symbol": "ORCL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 5327661114.200821,
+      "latest_close": 184.10000610351562,
+      "latest_volume": 63522200.0,
+      "error": ""
+    },
+    {
+      "symbol": "QCOM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 5074476993.165894,
+      "latest_close": 202.9600067138672,
+      "latest_volume": 18896800.0,
+      "error": ""
+    },
+    {
+      "symbol": "DELL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 4479718139.206924,
+      "latest_close": 391.45001220703125,
+      "latest_volume": 7828000.0,
+      "error": ""
+    },
+    {
+      "symbol": "AMAT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 4168600004.8669434,
+      "latest_close": 552.6400146484375,
+      "latest_volume": 12406800.0,
+      "error": ""
+    },
+    {
+      "symbol": "NOW",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 3971116641.610489,
+      "latest_close": 103.08000183105469,
+      "latest_volume": 28130100.0,
+      "error": ""
+    },
+    {
+      "symbol": "LLY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 3483370555.8233643,
+      "latest_close": 1160.949951171875,
+      "latest_volume": 2762200.0,
+      "error": ""
+    },
+    {
+      "symbol": "CSCO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 3466035949.255142,
+      "latest_close": 121.83000183105469,
+      "latest_volume": 24619100.0,
+      "error": ""
+    },
+    {
+      "symbol": "IBM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 3453831930.731964,
+      "latest_close": 274.8500061035156,
+      "latest_volume": 7540600.0,
+      "error": ""
+    },
+    {
+      "symbol": "WMT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 3232046205.5574036,
+      "latest_close": 120.5,
+      "latest_volume": 22414400.0,
+      "error": ""
+    },
+    {
+      "symbol": "CRM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2941261152.9247284,
+      "latest_close": 166.4499969482422,
+      "latest_volume": 16626300.0,
+      "error": ""
+    },
+    {
+      "symbol": "GLD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2879567832.940674,
+      "latest_close": 386.32000732421875,
+      "latest_volume": 12560500.0,
+      "error": ""
+    },
+    {
+      "symbol": "XLK",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2835172126.9561005,
+      "latest_close": 183.2100067138672,
+      "latest_volume": 18230100.0,
+      "error": ""
+    },
+    {
+      "symbol": "NFLX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2833362756.5530014,
+      "latest_close": 81.2699966430664,
+      "latest_volume": 33344500.0,
+      "error": ""
+    },
+    {
+      "symbol": "UNH",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2745533679.9443054,
+      "latest_close": 405.54998779296875,
+      "latest_volume": 4934400.0,
+      "error": ""
+    },
+    {
+      "symbol": "DIA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2673172883.580475,
+      "latest_close": 509.3599853515625,
+      "latest_volume": 6337500.0,
+      "error": ""
+    },
+    {
+      "symbol": "JPM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2669372095.350952,
+      "latest_close": 313.489990234375,
+      "latest_volume": 9113800.0,
+      "error": ""
+    },
+    {
+      "symbol": "CRWD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2645435921.37146,
+      "latest_close": 691.530029296875,
+      "latest_volume": 3528900.0,
+      "error": ""
+    },
+    {
+      "symbol": "APP",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2576679806.244812,
+      "latest_close": 478.57000732421875,
+      "latest_volume": 5929200.0,
+      "error": ""
+    },
+    {
+      "symbol": "V",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2552421792.8259277,
+      "latest_close": 319.04998779296875,
+      "latest_volume": 5956200.0,
+      "error": ""
+    },
+    {
+      "symbol": "XOM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2541334872.0947266,
+      "latest_close": 146.60000610351562,
+      "latest_volume": 17275600.0,
+      "error": ""
+    },
+    {
+      "symbol": "COST",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2520642931.2615967,
+      "latest_close": 975.6900024414062,
+      "latest_volume": 1900300.0,
+      "error": ""
+    },
+    {
+      "symbol": "CAT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2515088876.88385,
+      "latest_close": 897.6300048828125,
+      "latest_volume": 3461800.0,
+      "error": ""
+    },
+    {
+      "symbol": "TXN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2503046633.786621,
+      "latest_close": 297.1000061035156,
+      "latest_volume": 9857200.0,
+      "error": ""
+    },
+    {
+      "symbol": "BRK-B",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2491372272.575226,
+      "latest_close": 485.7900085449219,
+      "latest_volume": 5656500.0,
+      "error": ""
+    },
+    {
+      "symbol": "GLW",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2412592958.9105225,
+      "latest_close": 176.5500030517578,
+      "latest_volume": 9845200.0,
+      "error": ""
+    },
+    {
+      "symbol": "GS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2324090669.1659546,
+      "latest_close": 1035.6400146484375,
+      "latest_volume": 2560500.0,
+      "error": ""
+    },
+    {
+      "symbol": "TLT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2313232138.845825,
+      "latest_close": 85.9800033569336,
+      "latest_volume": 35159300.0,
+      "error": ""
+    },
+    {
+      "symbol": "XLE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2256086018.7600327,
+      "latest_close": 57.119998931884766,
+      "latest_volume": 40848200.0,
+      "error": ""
+    },
+    {
+      "symbol": "COHR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2253567109.460449,
+      "latest_close": 363.5799865722656,
+      "latest_volume": 6447000.0,
+      "error": ""
+    },
+    {
+      "symbol": "ADI",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2151607644.6624756,
+      "latest_close": 412.1300048828125,
+      "latest_volume": 4846300.0,
+      "error": ""
+    },
+    {
+      "symbol": "BAC",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 2063768193.541832,
+      "latest_close": 55.15999984741211,
+      "latest_volume": 31740600.0,
+      "error": ""
+    },
+    {
+      "symbol": "XLF",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1919529419.6380234,
+      "latest_close": 52.619998931884766,
+      "latest_volume": 41279300.0,
+      "error": ""
+    },
+    {
+      "symbol": "HPE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1846089702.8090096,
+      "latest_close": 46.79999923706055,
+      "latest_volume": 24434900.0,
+      "error": ""
+    },
+    {
+      "symbol": "JNJ",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1814708455.5417633,
+      "latest_close": 238.3300018310547,
+      "latest_volume": 7395600.0,
+      "error": ""
+    },
+    {
+      "symbol": "MA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1779606705.0526428,
+      "latest_close": 486.510009765625,
+      "latest_volume": 3800200.0,
+      "error": ""
+    },
+    {
+      "symbol": "CVX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1743062838.6347198,
+      "latest_close": 185.82000732421875,
+      "latest_volume": 9256500.0,
+      "error": ""
+    },
+    {
+      "symbol": "COIN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1683201913.0126953,
+      "latest_close": 160.42999267578125,
+      "latest_volume": 6909100.0,
+      "error": ""
+    },
+    {
+      "symbol": "HD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1662520685.4849243,
+      "latest_close": 326.010009765625,
+      "latest_volume": 4655600.0,
+      "error": ""
+    },
+    {
+      "symbol": "CIEN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1645694914.9479675,
+      "latest_close": 445.2200012207031,
+      "latest_volume": 2995800.0,
+      "error": ""
+    },
+    {
+      "symbol": "XLV",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1627216449.3320465,
+      "latest_close": 154.08999633789062,
+      "latest_volume": 10546400.0,
+      "error": ""
+    },
+    {
+      "symbol": "BA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1621726884.4002533,
+      "latest_close": 221.6300048828125,
+      "latest_volume": 6640200.0,
+      "error": ""
+    },
+    {
+      "symbol": "APH",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1535321097.238922,
+      "latest_close": 152.4600067138672,
+      "latest_volume": 11903500.0,
+      "error": ""
+    },
+    {
+      "symbol": "GE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1503400263.8471985,
+      "latest_close": 332.760009765625,
+      "latest_volume": 4449300.0,
+      "error": ""
+    },
+    {
+      "symbol": "ADBE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1476112827.719574,
+      "latest_close": 218.8000030517578,
+      "latest_volume": 17480600.0,
+      "error": ""
+    },
+    {
+      "symbol": "ANET",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1465107323.9756012,
+      "latest_close": 156.39999389648438,
+      "latest_volume": 5309500.0,
+      "error": ""
+    },
+    {
+      "symbol": "DDOG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1440502232.4750519,
+      "latest_close": 234.24000549316406,
+      "latest_volume": 5035400.0,
+      "error": ""
+    },
+    {
+      "symbol": "XLI",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1437700623.2456207,
+      "latest_close": 175.14999389648438,
+      "latest_volume": 11045300.0,
+      "error": ""
+    },
+    {
+      "symbol": "C",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1384222338.5490417,
+      "latest_close": 138.07000732421875,
+      "latest_volume": 12458700.0,
+      "error": ""
+    },
+    {
+      "symbol": "KO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1307733607.1647263,
+      "latest_close": 82.52999877929688,
+      "latest_volume": 14244200.0,
+      "error": ""
+    },
+    {
+      "symbol": "PEP",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1241510065.9899902,
+      "latest_close": 143.72999572753906,
+      "latest_volume": 8650400.0,
+      "error": ""
+    },
+    {
+      "symbol": "PG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1232838649.292984,
+      "latest_close": 148.33999633789062,
+      "latest_volume": 6681500.0,
+      "error": ""
+    },
+    {
+      "symbol": "NEE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1231022914.377594,
+      "latest_close": 84.83999633789062,
+      "latest_volume": 8636000.0,
+      "error": ""
+    },
+    {
+      "symbol": "MRK",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1229961749.1289902,
+      "latest_close": 120.76000213623047,
+      "latest_volume": 13178700.0,
+      "error": ""
+    },
+    {
+      "symbol": "WFC",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1219928067.3727798,
+      "latest_close": 82.4000015258789,
+      "latest_volume": 10926300.0,
+      "error": ""
+    },
+    {
+      "symbol": "MS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1216384873.458252,
+      "latest_close": 212.66000366210938,
+      "latest_volume": 4629100.0,
+      "error": ""
+    },
+    {
+      "symbol": "F",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1204454326.4800358,
+      "latest_close": 14.710000038146973,
+      "latest_volume": 47621100.0,
+      "error": ""
+    },
+    {
+      "symbol": "BKNG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1200790925.965271,
+      "latest_close": 163.58999633789062,
+      "latest_volume": 8088400.0,
+      "error": ""
+    },
+    {
+      "symbol": "LIN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1192985523.7713623,
+      "latest_close": 515.4400024414062,
+      "latest_volume": 2258200.0,
+      "error": ""
+    },
+    {
+      "symbol": "MCD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1192824555.8625793,
+      "latest_close": 284.7699890136719,
+      "latest_volume": 4562500.0,
+      "error": ""
+    },
+    {
+      "symbol": "AZO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1174401132.803955,
+      "latest_close": 3081.6201171875,
+      "latest_volume": 159100.0,
+      "error": ""
+    },
+    {
+      "symbol": "ABBV",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1157564138.3868408,
+      "latest_close": 224.77000427246094,
+      "latest_volume": 4569000.0,
+      "error": ""
+    },
+    {
+      "symbol": "BSX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1147692861.9943619,
+      "latest_close": 47.16999816894531,
+      "latest_volume": 18898300.0,
+      "error": ""
+    },
+    {
+      "symbol": "TMO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1147148647.5831604,
+      "latest_close": 475.6600036621094,
+      "latest_volume": 1776600.0,
+      "error": ""
+    },
+    {
+      "symbol": "CEG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1121937580.6002808,
+      "latest_close": 246.7100067138672,
+      "latest_volume": 5099800.0,
+      "error": ""
+    },
+    {
+      "symbol": "HON",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1121850968.022766,
+      "latest_close": 219.1199951171875,
+      "latest_volume": 6638800.0,
+      "error": ""
+    },
+    {
+      "symbol": "T",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1066172311.451788,
+      "latest_close": 23.0,
+      "latest_volume": 38127800.0,
+      "error": ""
+    },
+    {
+      "symbol": "SCHW",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1060217270.189209,
+      "latest_close": 88.69999694824219,
+      "latest_volume": 11371700.0,
+      "error": ""
+    },
+    {
+      "symbol": "XLP",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1058009487.6170349,
+      "latest_close": 85.2699966430664,
+      "latest_volume": 18010800.0,
+      "error": ""
+    },
+    {
+      "symbol": "VZ",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1048077478.9371872,
+      "latest_close": 46.939998626708984,
+      "latest_volume": 26873800.0,
+      "error": ""
+    },
+    {
+      "symbol": "ABT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1047592268.4646606,
+      "latest_close": 89.6500015258789,
+      "latest_volume": 15087400.0,
+      "error": ""
+    },
+    {
+      "symbol": "GILD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1034453216.9379044,
+      "latest_close": 125.87000274658203,
+      "latest_volume": 8664700.0,
+      "error": ""
+    },
+    {
+      "symbol": "RTX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1018866292.2777557,
+      "latest_close": 184.2100067138672,
+      "latest_volume": 6484900.0,
+      "error": ""
+    },
+    {
+      "symbol": "ETN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1011157124.4050598,
+      "latest_close": 393.6400146484375,
+      "latest_volume": 2639000.0,
+      "error": ""
+    },
+    {
+      "symbol": "SATS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 1003662927.309227,
+      "latest_close": 128.1300048828125,
+      "latest_volume": 16246800.0,
+      "error": ""
+    },
+    {
+      "symbol": "NKE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 961235739.7397804,
+      "latest_close": 45.959999084472656,
+      "latest_volume": 16617300.0,
+      "error": ""
+    },
+    {
+      "symbol": "XLY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 948091166.8134308,
+      "latest_close": 116.30000305175781,
+      "latest_volume": 8680300.0,
+      "error": ""
+    },
+    {
+      "symbol": "CME",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 933453766.2448883,
+      "latest_close": 262.17999267578125,
+      "latest_volume": 3508700.0,
+      "error": ""
+    },
+    {
+      "symbol": "CDNS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 926642482.5283813,
+      "latest_close": 383.739990234375,
+      "latest_volume": 2128100.0,
+      "error": ""
+    },
+    {
+      "symbol": "ACN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 923096722.7259827,
+      "latest_close": 167.52000427246094,
+      "latest_volume": 5256300.0,
+      "error": ""
+    },
+    {
+      "symbol": "XLU",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 921883706.0308456,
+      "latest_close": 44.04999923706055,
+      "latest_volume": 19144400.0,
+      "error": ""
+    },
+    {
+      "symbol": "AXP",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 901773181.2965393,
+      "latest_close": 318.489990234375,
+      "latest_volume": 2589900.0,
+      "error": ""
+    },
+    {
+      "symbol": "AMGN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 896851405.0244141,
+      "latest_close": 354.05999755859375,
+      "latest_volume": 4726000.0,
+      "error": ""
+    },
+    {
+      "symbol": "COF",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 891197939.2317963,
+      "latest_close": 182.0399932861328,
+      "latest_volume": 6042800.0,
+      "error": ""
+    },
+    {
+      "symbol": "FTNT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 884696371.3296509,
+      "latest_close": 145.05999755859375,
+      "latest_volume": 7428900.0,
+      "error": ""
+    },
+    {
+      "symbol": "DE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 884012542.8625488,
+      "latest_close": 568.6400146484375,
+      "latest_volume": 1266000.0,
+      "error": ""
+    },
+    {
+      "symbol": "PFE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 864405777.5814819,
+      "latest_close": 26.170000076293945,
+      "latest_volume": 45216000.0,
+      "error": ""
+    },
+    {
+      "symbol": "FSLR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 836575285.795517,
+      "latest_close": 271.1700134277344,
+      "latest_volume": 2465900.0,
+      "error": ""
+    },
+    {
+      "symbol": "FCX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 832554736.1570358,
+      "latest_close": 66.33999633789062,
+      "latest_volume": 14891200.0,
+      "error": ""
+    },
+    {
+      "symbol": "DIS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 831009290.9035492,
+      "latest_close": 100.33999633789062,
+      "latest_volume": 9258500.0,
+      "error": ""
+    },
+    {
+      "symbol": "FIX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 829131833.2501221,
+      "latest_close": 1843.4200439453125,
+      "latest_volume": 500400.0,
+      "error": ""
+    },
+    {
+      "symbol": "AKAM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 786555255.1239777,
+      "latest_close": 132.4600067138672,
+      "latest_volume": 3933300.0,
+      "error": ""
+    },
+    {
+      "symbol": "IEF",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 786402997.6994705,
+      "latest_close": 94.33999633789062,
+      "latest_volume": 11280000.0,
+      "error": ""
+    },
+    {
+      "symbol": "COP",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 769062481.050415,
+      "latest_close": 115.36000061035156,
+      "latest_volume": 6696700.0,
+      "error": ""
+    },
+    {
+      "symbol": "CMCSA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 765170849.6129322,
+      "latest_close": 23.969999313354492,
+      "latest_volume": 25572300.0,
+      "error": ""
+    },
+    {
+      "symbol": "CVS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 760702879.1858673,
+      "latest_close": 100.4800033569336,
+      "latest_volume": 14114900.0,
+      "error": ""
+    },
+    {
+      "symbol": "DHR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 759619524.4985199,
+      "latest_close": 180.7899932861328,
+      "latest_volume": 3533600.0,
+      "error": ""
+    },
+    {
+      "symbol": "DASH",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 751175258.5798645,
+      "latest_close": 154.58999633789062,
+      "latest_volume": 4860800.0,
+      "error": ""
+    },
+    {
+      "symbol": "BLK",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 728693673.6404419,
+      "latest_close": 1016.5800170898438,
+      "latest_volume": 842000.0,
+      "error": ""
+    },
+    {
+      "symbol": "SLB",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 728436068.6941528,
+      "latest_close": 56.0,
+      "latest_volume": 10564200.0,
+      "error": ""
+    },
+    {
+      "symbol": "CVNA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 690609247.4960327,
+      "latest_close": 67.81999969482422,
+      "latest_volume": 12386300.0,
+      "error": ""
+    },
+    {
+      "symbol": "ELV",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 688137046.8078613,
+      "latest_close": 399.17999267578125,
+      "latest_volume": 2127500.0,
+      "error": ""
+    },
+    {
+      "symbol": "D",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 686391994.561367,
+      "latest_close": 66.69000244140625,
+      "latest_volume": 6979700.0,
+      "error": ""
+    },
+    {
+      "symbol": "CCL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 682265308.7168598,
+      "latest_close": 28.1200008392334,
+      "latest_volume": 29956000.0,
+      "error": ""
+    },
+    {
+      "symbol": "HCA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 681314782.591095,
+      "latest_close": 378.510009765625,
+      "latest_volume": 1672200.0,
+      "error": ""
+    },
+    {
+      "symbol": "GM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 667552155.5966187,
+      "latest_close": 80.8499984741211,
+      "latest_volume": 6019600.0,
+      "error": ""
+    },
+    {
+      "symbol": "CMI",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 658359934.354248,
+      "latest_close": 655.6900024414062,
+      "latest_volume": 1021000.0,
+      "error": ""
+    },
+    {
+      "symbol": "FDX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 656438495.0680908,
+      "latest_close": 338.0,
+      "latest_volume": 2521600.0,
+      "error": ""
+    },
+    {
+      "symbol": "DVN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 654516190.081234,
+      "latest_close": 44.61000061035156,
+      "latest_volume": 15176300.0,
+      "error": ""
+    },
+    {
+      "symbol": "AEP",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 650239259.2006302,
+      "latest_close": 128.47999572753906,
+      "latest_volume": 4624800.0,
+      "error": ""
+    },
+    {
+      "symbol": "BMY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 647386117.9509926,
+      "latest_close": 56.900001525878906,
+      "latest_volume": 8894800.0,
+      "error": ""
+    },
+    {
+      "symbol": "XLC",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 639714096.9428635,
+      "latest_close": 112.12000274658203,
+      "latest_volume": 5931800.0,
+      "error": ""
+    },
+    {
+      "symbol": "CMG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 629838413.5013199,
+      "latest_close": 31.25,
+      "latest_volume": 16281700.0,
+      "error": ""
+    },
+    {
+      "symbol": "HWM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 628859285.7165527,
+      "latest_close": 264.6000061035156,
+      "latest_volume": 2506600.0,
+      "error": ""
+    },
+    {
+      "symbol": "XLB",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 626502880.9742928,
+      "latest_close": 51.220001220703125,
+      "latest_volume": 12442900.0,
+      "error": ""
+    },
+    {
+      "symbol": "HPQ",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 620480271.7426395,
+      "latest_close": 24.68000030517578,
+      "latest_volume": 14704300.0,
+      "error": ""
+    },
+    {
+      "symbol": "LMT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 619828328.7432861,
+      "latest_close": 548.6799926757812,
+      "latest_volume": 1376200.0,
+      "error": ""
+    },
+    {
+      "symbol": "MMM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 605317450.8293915,
+      "latest_close": 157.91000366210938,
+      "latest_volume": 4873700.0,
+      "error": ""
+    },
+    {
+      "symbol": "ADSK",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 602879007.8554535,
+      "latest_close": 205.57000732421875,
+      "latest_volume": 4269800.0,
+      "error": ""
+    },
+    {
+      "symbol": "ADP",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 602246069.9820709,
+      "latest_close": 225.77000427246094,
+      "latest_volume": 2747600.0,
+      "error": ""
+    },
+    {
+      "symbol": "BX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 597393332.8123856,
+      "latest_close": 120.87999725341797,
+      "latest_volume": 4294600.0,
+      "error": ""
+    },
+    {
+      "symbol": "AMT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 593810272.607193,
+      "latest_close": 189.30999755859375,
+      "latest_volume": 3337500.0,
+      "error": ""
+    },
+    {
+      "symbol": "UPS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 588908489.2108917,
+      "latest_close": 108.6500015258789,
+      "latest_volume": 5085300.0,
+      "error": ""
+    },
+    {
+      "symbol": "EQIX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 578568290.9686279,
+      "latest_close": 1043.1800537109375,
+      "latest_volume": 584700.0,
+      "error": ""
+    },
+    {
+      "symbol": "CSX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 574928253.3250046,
+      "latest_close": 47.369998931884766,
+      "latest_volume": 11140900.0,
+      "error": ""
+    },
+    {
+      "symbol": "DAL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 560980748.6614609,
+      "latest_close": 81.83000183105469,
+      "latest_volume": 7967900.0,
+      "error": ""
+    },
+    {
+      "symbol": "MO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 560198975.5392838,
+      "latest_close": 71.41000366210938,
+      "latest_volume": 7402000.0,
+      "error": ""
+    },
+    {
+      "symbol": "CASY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 546506652.4060059,
+      "latest_close": 916.280029296875,
+      "latest_volume": 892900.0,
+      "error": ""
+    },
+    {
+      "symbol": "CB",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 546298054.573822,
+      "latest_close": 327.92999267578125,
+      "latest_volume": 1351100.0,
+      "error": ""
+    },
+    {
+      "symbol": "EBAY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 531513061.5816879,
+      "latest_close": 109.61000061035156,
+      "latest_volume": 3356500.0,
+      "error": ""
+    },
+    {
+      "symbol": "SO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 531436494.27898407,
+      "latest_close": 93.2699966430664,
+      "latest_volume": 4755500.0,
+      "error": ""
+    },
+    {
+      "symbol": "CRH",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 514283935.7464218,
+      "latest_close": 104.83000183105469,
+      "latest_volume": 6166600.0,
+      "error": ""
+    },
+    {
+      "symbol": "PLD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 513265447.7228546,
+      "latest_close": 147.19000244140625,
+      "latest_volume": 3493700.0,
+      "error": ""
+    },
+    {
+      "symbol": "AXON",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 509108459.47509766,
+      "latest_close": 446.20001220703125,
+      "latest_volume": 885200.0,
+      "error": ""
+    },
+    {
+      "symbol": "DXCM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 506092883.2878876,
+      "latest_close": 75.25,
+      "latest_volume": 6607300.0,
+      "error": ""
+    },
+    {
+      "symbol": "HLT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 502622092.26242065,
+      "latest_close": 341.8599853515625,
+      "latest_volume": 1399800.0,
+      "error": ""
+    },
+    {
+      "symbol": "AON",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 501418077.6298523,
+      "latest_close": 335.1700134277344,
+      "latest_volume": 1431100.0,
+      "error": ""
+    },
+    {
+      "symbol": "ABNB",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 500402486.2702179,
+      "latest_close": 130.8699951171875,
+      "latest_volume": 3954400.0,
+      "error": ""
+    },
+    {
+      "symbol": "BNY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 496845304.59098816,
+      "latest_close": 142.08999633789062,
+      "latest_volume": 3146600.0,
+      "error": ""
+    },
+    {
+      "symbol": "BKR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 486945798.4074402,
+      "latest_close": 63.47999954223633,
+      "latest_volume": 6551700.0,
+      "error": ""
+    },
+    {
+      "symbol": "CTSH",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 484427488.68520737,
+      "latest_close": 51.18000030517578,
+      "latest_volume": 7799300.0,
+      "error": ""
+    },
+    {
+      "symbol": "FANG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 474871452.7924347,
+      "latest_close": 191.58999633789062,
+      "latest_volume": 2787500.0,
+      "error": ""
+    },
+    {
+      "symbol": "CL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 473798122.98698425,
+      "latest_close": 89.38999938964844,
+      "latest_volume": 4054000.0,
+      "error": ""
+    },
+    {
+      "symbol": "CAH",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 472098868.06259155,
+      "latest_close": 221.16000366210938,
+      "latest_volume": 2834100.0,
+      "error": ""
+    },
+    {
+      "symbol": "CBOE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 471196925.4573059,
+      "latest_close": 295.8999938964844,
+      "latest_volume": 1245300.0,
+      "error": ""
+    },
+    {
+      "symbol": "HAL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 466111094.08771515,
+      "latest_close": 39.7599983215332,
+      "latest_volume": 20806300.0,
+      "error": ""
+    },
+    {
+      "symbol": "ECL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 465707159.06570435,
+      "latest_close": 263.6300048828125,
+      "latest_volume": 1397100.0,
+      "error": ""
+    },
+    {
+      "symbol": "CARR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 460735691.8052101,
+      "latest_close": 69.73999786376953,
+      "latest_volume": 6320500.0,
+      "error": ""
+    },
+    {
+      "symbol": "COR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 458515692.0350647,
+      "latest_close": 281.4800109863281,
+      "latest_volume": 938300.0,
+      "error": ""
+    },
+    {
+      "symbol": "DG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 451819080.98155975,
+      "latest_close": 114.33999633789062,
+      "latest_volume": 3127000.0,
+      "error": ""
+    },
+    {
+      "symbol": "CI",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 450328744.2073059,
+      "latest_close": 294.8399963378906,
+      "latest_volume": 1132500.0,
+      "error": ""
+    },
+    {
+      "symbol": "EOG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 440856149.8171234,
+      "latest_close": 136.52999877929688,
+      "latest_volume": 3141100.0,
+      "error": ""
+    },
+    {
+      "symbol": "EW",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 435137587.9705429,
+      "latest_close": 85.76000213623047,
+      "latest_volume": 5087000.0,
+      "error": ""
+    },
+    {
+      "symbol": "CHTR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 430985164.4709015,
+      "latest_close": 139.13999938964844,
+      "latest_volume": 2038000.0,
+      "error": ""
+    },
+    {
+      "symbol": "DLTR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 430983065.37216187,
+      "latest_close": 114.88999938964844,
+      "latest_volume": 2079400.0,
+      "error": ""
+    },
+    {
+      "symbol": "APO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 427903697.88261414,
+      "latest_close": 133.91000366210938,
+      "latest_volume": 2341000.0,
+      "error": ""
+    },
+    {
+      "symbol": "XYZ",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 415732937.4781418,
+      "latest_close": 69.08999633789062,
+      "latest_volume": 5931400.0,
+      "error": ""
+    },
+    {
+      "symbol": "FICO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 409574033.8494873,
+      "latest_close": 1185.3699951171875,
+      "latest_volume": 331200.0,
+      "error": ""
+    },
+    {
+      "symbol": "DLR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 400460739.9157715,
+      "latest_close": 182.83999633789062,
+      "latest_volume": 2642000.0,
+      "error": ""
+    },
+    {
+      "symbol": "DOW",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 400291775.31873703,
+      "latest_close": 33.630001068115234,
+      "latest_volume": 12402800.0,
+      "error": ""
+    },
+    {
+      "symbol": "ETR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 397935937.3006439,
+      "latest_close": 109.88999938964844,
+      "latest_volume": 2275200.0,
+      "error": ""
+    },
+    {
+      "symbol": "DUK",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 396850977.25055695,
+      "latest_close": 124.19000244140625,
+      "latest_volume": 3286600.0,
+      "error": ""
+    },
+    {
+      "symbol": "CTAS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 391976795.340271,
+      "latest_close": 181.8800048828125,
+      "latest_volume": 2455200.0,
+      "error": ""
+    },
+    {
+      "symbol": "CBRE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 387104899.6918106,
+      "latest_close": 131.91000366210938,
+      "latest_volume": 1799000.0,
+      "error": ""
+    },
+    {
+      "symbol": "BDX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 384866341.4437866,
+      "latest_close": 147.35000610351562,
+      "latest_volume": 1639900.0,
+      "error": ""
+    },
+    {
+      "symbol": "EA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 381695561.9013214,
+      "latest_close": 203.0500030517578,
+      "latest_volume": 1590400.0,
+      "error": ""
+    },
+    {
+      "symbol": "FISV",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 376422355.17269135,
+      "latest_close": 53.060001373291016,
+      "latest_volume": 5024300.0,
+      "error": ""
+    },
+    {
+      "symbol": "AJG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 375990885.4790497,
+      "latest_close": 220.89999389648438,
+      "latest_volume": 2479300.0,
+      "error": ""
+    },
+    {
+      "symbol": "ALL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 373852709.2227173,
+      "latest_close": 219.57000732421875,
+      "latest_volume": 1198400.0,
+      "error": ""
+    },
+    {
+      "symbol": "EXC",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 373691559.34869766,
+      "latest_close": 45.5099983215332,
+      "latest_volume": 7427200.0,
+      "error": ""
+    },
+    {
+      "symbol": "BBY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 369293714.9419403,
+      "latest_close": 77.0999984741211,
+      "latest_volume": 3253200.0,
+      "error": ""
+    },
+    {
+      "symbol": "EMR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 366723749.012146,
+      "latest_close": 142.08999633789062,
+      "latest_volume": 2056800.0,
+      "error": ""
+    },
+    {
+      "symbol": "CPRT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 364222131.5405464,
+      "latest_close": 31.059999465942383,
+      "latest_volume": 9452100.0,
+      "error": ""
+    },
+    {
+      "symbol": "FITB",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 362680540.1848984,
+      "latest_close": 53.41999816894531,
+      "latest_volume": 6572700.0,
+      "error": ""
+    },
+    {
+      "symbol": "CCI",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 361990148.9678192,
+      "latest_close": 92.04000091552734,
+      "latest_volume": 4060100.0,
+      "error": ""
+    },
+    {
+      "symbol": "ALB",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 359727578.76808167,
+      "latest_close": 159.05999755859375,
+      "latest_volume": 2232700.0,
+      "error": ""
+    },
+    {
+      "symbol": "GD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 350797086.29730225,
+      "latest_close": 358.8599853515625,
+      "latest_volume": 1708900.0,
+      "error": ""
+    },
+    {
+      "symbol": "HSY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 345717668.63487244,
+      "latest_close": 180.83999633789062,
+      "latest_volume": 2210400.0,
+      "error": ""
+    },
+    {
+      "symbol": "GIS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 344286298.4797859,
+      "latest_close": 33.81999969482422,
+      "latest_volume": 7424100.0,
+      "error": ""
+    },
+    {
+      "symbol": "EQT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 342590113.8549423,
+      "latest_close": 51.20000076293945,
+      "latest_volume": 8440300.0,
+      "error": ""
+    },
+    {
+      "symbol": "ATO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 339660047.4143982,
+      "latest_close": 168.22999572753906,
+      "latest_volume": 1632500.0,
+      "error": ""
+    },
+    {
+      "symbol": "A",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 338933237.82497406,
+      "latest_close": 129.5500030517578,
+      "latest_volume": 2016200.0,
+      "error": ""
+    },
+    {
+      "symbol": "APD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 338104119.6965027,
+      "latest_close": 278.1199951171875,
+      "latest_volume": 979000.0,
+      "error": ""
+    },
+    {
+      "symbol": "EL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 337486538.2572937,
+      "latest_close": 88.0199966430664,
+      "latest_volume": 2968100.0,
+      "error": ""
+    },
+    {
+      "symbol": "EXPE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 337019815.69007874,
+      "latest_close": 224.66000366210938,
+      "latest_volume": 1158600.0,
+      "error": ""
+    },
+    {
+      "symbol": "DHI",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 335739828.4914398,
+      "latest_close": 154.42999267578125,
+      "latest_volume": 2345600.0,
+      "error": ""
+    },
+    {
+      "symbol": "CF",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 323643415.50640106,
+      "latest_close": 106.55999755859375,
+      "latest_volume": 3149500.0,
+      "error": ""
+    },
+    {
+      "symbol": "CHRW",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 310625940.1006317,
+      "latest_close": 191.11000061035156,
+      "latest_volume": 970900.0,
+      "error": ""
+    },
+    {
+      "symbol": "STZ",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 309611993.5910797,
+      "latest_close": 143.1199951171875,
+      "latest_volume": 2090500.0,
+      "error": ""
+    },
+    {
+      "symbol": "AFL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 307311867.4914932,
+      "latest_close": 116.44999694824219,
+      "latest_volume": 2645500.0,
+      "error": ""
+    },
+    {
+      "symbol": "FAST",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 302941850.29356,
+      "latest_close": 46.38999938964844,
+      "latest_volume": 6015100.0,
+      "error": ""
+    },
+    {
+      "symbol": "EME",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 301113449.08966064,
+      "latest_close": 811.530029296875,
+      "latest_volume": 281200.0,
+      "error": ""
+    },
+    {
+      "symbol": "VNQ",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 300719348.5557556,
+      "latest_close": 97.61000061035156,
+      "latest_volume": 3896700.0,
+      "error": ""
+    },
+    {
+      "symbol": "FIS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 299831492.46212006,
+      "latest_close": 38.349998474121094,
+      "latest_volume": 7774000.0,
+      "error": ""
+    },
+    {
+      "symbol": "ARES",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 296945520.4259491,
+      "latest_close": 132.82000732421875,
+      "latest_volume": 1877100.0,
+      "error": ""
+    },
+    {
+      "symbol": "EXE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 295074761.5457535,
+      "latest_close": 87.08000183105469,
+      "latest_volume": 3201600.0,
+      "error": ""
+    },
+    {
+      "symbol": "CNC",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 291081466.43766403,
+      "latest_close": 63.540000915527344,
+      "latest_volume": 6335700.0,
+      "error": ""
+    },
+    {
+      "symbol": "CSGP",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 285772909.2423439,
+      "latest_close": 32.650001525878906,
+      "latest_volume": 7750500.0,
+      "error": ""
+    },
+    {
+      "symbol": "ADM",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 285657807.5764084,
+      "latest_close": 78.9000015258789,
+      "latest_volume": 3378900.0,
+      "error": ""
+    },
+    {
+      "symbol": "SHY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 285256872.22694397,
+      "latest_close": 82.08999633789062,
+      "latest_volume": 4528000.0,
+      "error": ""
+    },
+    {
+      "symbol": "AIG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 282654733.5682297,
+      "latest_close": 75.31999969482422,
+      "latest_volume": 4232400.0,
+      "error": ""
+    },
+    {
+      "symbol": "GPN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 280593677.36370087,
+      "latest_close": 65.44000244140625,
+      "latest_volume": 5005900.0,
+      "error": ""
+    },
+    {
+      "symbol": "APTV",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 278375162.6394081,
+      "latest_close": 67.95999908447266,
+      "latest_volume": 2689100.0,
+      "error": ""
+    },
+    {
+      "symbol": "AMP",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 277792081.7224121,
+      "latest_close": 450.3800048828125,
+      "latest_volume": 364500.0,
+      "error": ""
+    },
+    {
+      "symbol": "ED",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 277405509.996109,
+      "latest_close": 106.83999633789062,
+      "latest_volume": 2106900.0,
+      "error": ""
+    },
+    {
+      "symbol": "CTVA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 273953230.2968216,
+      "latest_close": 74.86000061035156,
+      "latest_volume": 4249800.0,
+      "error": ""
+    },
+    {
+      "symbol": "FFIV",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 271253686.08932495,
+      "latest_close": 393.8399963378906,
+      "latest_volume": 455600.0,
+      "error": ""
+    },
+    {
+      "symbol": "IT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 270333054.3095398,
+      "latest_close": 148.80999755859375,
+      "latest_volume": 1249200.0,
+      "error": ""
+    },
+    {
+      "symbol": "CFG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 265755557.3295784,
+      "latest_close": 66.51000213623047,
+      "latest_volume": 3937600.0,
+      "error": ""
+    },
+    {
+      "symbol": "AME",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 256437986.97097778,
+      "latest_close": 226.2100067138672,
+      "latest_volume": 1166400.0,
+      "error": ""
+    },
+    {
+      "symbol": "EFX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 256180986.17988586,
+      "latest_close": 159.5800018310547,
+      "latest_volume": 2530000.0,
+      "error": ""
+    },
+    {
+      "symbol": "GDDY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 255794659.49436188,
+      "latest_close": 75.16999816894531,
+      "latest_volume": 2694900.0,
+      "error": ""
+    },
+    {
+      "symbol": "HIG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 254350218.3594513,
+      "latest_close": 128.39999389648438,
+      "latest_volume": 1938400.0,
+      "error": ""
+    },
+    {
+      "symbol": "CDW",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 253256868.4133911,
+      "latest_close": 129.1300048828125,
+      "latest_volume": 1698800.0,
+      "error": ""
+    },
+    {
+      "symbol": "AWK",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 250781229.35985565,
+      "latest_close": 124.44999694824219,
+      "latest_volume": 2119500.0,
+      "error": ""
+    },
+    {
+      "symbol": "CMS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 248199905.57491302,
+      "latest_close": 72.8499984741211,
+      "latest_volume": 4452700.0,
+      "error": ""
+    },
+    {
+      "symbol": "DECK",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 241331853.107872,
+      "latest_close": 114.37000274658203,
+      "latest_volume": 1452500.0,
+      "error": ""
+    },
+    {
+      "symbol": "CLX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 239977192.70809174,
+      "latest_close": 98.30000305175781,
+      "latest_volume": 2550900.0,
+      "error": ""
+    },
+    {
+      "symbol": "ACGL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 239652284.77020264,
+      "latest_close": 91.12999725341797,
+      "latest_volume": 1764300.0,
+      "error": ""
+    },
+    {
+      "symbol": "GNRC",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 237088327.14653015,
+      "latest_close": 257.3299865722656,
+      "latest_volume": 993000.0,
+      "error": ""
+    },
+    {
+      "symbol": "BR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 227112621.63124084,
+      "latest_close": 144.86000061035156,
+      "latest_volume": 1264600.0,
+      "error": ""
+    },
+    {
+      "symbol": "COO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 226421855.77949524,
+      "latest_close": 67.51000213623047,
+      "latest_volume": 3245100.0,
+      "error": ""
+    },
+    {
+      "symbol": "BG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 223392645.41793823,
+      "latest_close": 125.27999877929688,
+      "latest_volume": 1728600.0,
+      "error": ""
+    },
+    {
+      "symbol": "DPZ",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 222865546.68762207,
+      "latest_close": 312.260009765625,
+      "latest_volume": 986700.0,
+      "error": ""
+    },
+    {
+      "symbol": "CNP",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 221337044.516716,
+      "latest_close": 42.54999923706055,
+      "latest_volume": 4197100.0,
+      "error": ""
+    },
+    {
+      "symbol": "XLRE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 217347776.04572296,
+      "latest_close": 44.91999816894531,
+      "latest_volume": 5513200.0,
+      "error": ""
+    },
+    {
+      "symbol": "AVB",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 216942457.30674744,
+      "latest_close": 184.36000061035156,
+      "latest_volume": 875200.0,
+      "error": ""
+    },
+    {
+      "symbol": "DTE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 216845110.87036133,
+      "latest_close": 145.7899932861328,
+      "latest_volume": 1097200.0,
+      "error": ""
+    },
+    {
+      "symbol": "BIIB",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 215190974.04548645,
+      "latest_close": 199.9600067138672,
+      "latest_volume": 914700.0,
+      "error": ""
+    },
+    {
+      "symbol": "FE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 214596467.70341873,
+      "latest_close": 46.66999816894531,
+      "latest_volume": 4414100.0,
+      "error": ""
+    },
+    {
+      "symbol": "FDS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 212469757.32147217,
+      "latest_close": 236.63999938964844,
+      "latest_volume": 932900.0,
+      "error": ""
+    },
+    {
+      "symbol": "BLDR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 211144117.8616333,
+      "latest_close": 78.56999969482422,
+      "latest_volume": 2407300.0,
+      "error": ""
+    },
+    {
+      "symbol": "EQR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 208187925.37519455,
+      "latest_close": 66.6500015258789,
+      "latest_volume": 2971300.0,
+      "error": ""
+    },
+    {
+      "symbol": "HST",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 206983268.64839554,
+      "latest_close": 24.34000015258789,
+      "latest_volume": 12883400.0,
+      "error": ""
+    },
+    {
+      "symbol": "DRI",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 202738498.60328674,
+      "latest_close": 210.83999633789062,
+      "latest_volume": 1343100.0,
+      "error": ""
+    },
+    {
+      "symbol": "FTV",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 202672600.3745079,
+      "latest_close": 59.84000015258789,
+      "latest_volume": 2940500.0,
+      "error": ""
+    },
+    {
+      "symbol": "CAG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 201696654.6298647,
+      "latest_close": 13.449999809265137,
+      "latest_volume": 9910600.0,
+      "error": ""
+    },
+    {
+      "symbol": "GEN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 201206742.54976273,
+      "latest_close": 23.940000534057617,
+      "latest_volume": 6726400.0,
+      "error": ""
+    },
+    {
+      "symbol": "APA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 200984520.5901146,
+      "latest_close": 36.779998779296875,
+      "latest_volume": 4790800.0,
+      "error": ""
+    },
+    {
+      "symbol": "EXPD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 200831828.8922119,
+      "latest_close": 166.44000244140625,
+      "latest_volume": 1352200.0,
+      "error": ""
+    },
+    {
+      "symbol": "HAS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 197024732.18955994,
+      "latest_close": 83.7699966430664,
+      "latest_volume": 1662600.0,
+      "error": ""
+    },
+    {
+      "symbol": "AEE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 195926888.68110657,
+      "latest_close": 108.25,
+      "latest_volume": 1424700.0,
+      "error": ""
+    },
+    {
+      "symbol": "CPB",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 195748907.8584385,
+      "latest_close": 22.729999542236328,
+      "latest_volume": 9659100.0,
+      "error": ""
+    },
+    {
+      "symbol": "ES",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 193685222.2758484,
+      "latest_close": 68.43000030517578,
+      "latest_volume": 3678200.0,
+      "error": ""
+    },
+    {
+      "symbol": "CPAY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 193516086.86325073,
+      "latest_close": 350.8500061035156,
+      "latest_volume": 497100.0,
+      "error": ""
+    },
+    {
+      "symbol": "EIX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 187415256.96582794,
+      "latest_close": 72.33999633789062,
+      "latest_volume": 1911400.0,
+      "error": ""
+    },
+    {
+      "symbol": "DOC",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 187387913.73488426,
+      "latest_close": 20.5,
+      "latest_volume": 6968800.0,
+      "error": ""
+    },
+    {
+      "symbol": "CHD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 183556596.8283081,
+      "latest_close": 97.08000183105469,
+      "latest_volume": 1488300.0,
+      "error": ""
+    },
+    {
+      "symbol": "BRO",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 176452519.14655685,
+      "latest_close": 59.95000076293945,
+      "latest_volume": 2935800.0,
+      "error": ""
+    },
+    {
+      "symbol": "ALGN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 176260991.24961853,
+      "latest_close": 176.50999450683594,
+      "latest_volume": 1029400.0,
+      "error": ""
+    },
+    {
+      "symbol": "LNT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 175526243.176651,
+      "latest_close": 72.62000274658203,
+      "latest_volume": 2283700.0,
+      "error": ""
+    },
+    {
+      "symbol": "DOV",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 172846709.145813,
+      "latest_close": 218.52999877929688,
+      "latest_volume": 1019500.0,
+      "error": ""
+    },
+    {
+      "symbol": "FOXA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 172142736.00624084,
+      "latest_close": 68.30000305175781,
+      "latest_volume": 3311100.0,
+      "error": ""
+    },
+    {
+      "symbol": "GRMN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 171539156.58699036,
+      "latest_close": 238.5800018310547,
+      "latest_volume": 547600.0,
+      "error": ""
+    },
+    {
+      "symbol": "DD",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 168264373.6948204,
+      "latest_close": 46.84000015258789,
+      "latest_volume": 3614100.0,
+      "error": ""
+    },
+    {
+      "symbol": "EVRG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 166725830.14247894,
+      "latest_close": 82.80999755859375,
+      "latest_volume": 1618200.0,
+      "error": ""
+    },
+    {
+      "symbol": "BALL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 162984211.24238968,
+      "latest_close": 56.34000015258789,
+      "latest_volume": 3132500.0,
+      "error": ""
+    },
+    {
+      "symbol": "HRL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 158580207.95178413,
+      "latest_close": 24.440000534057617,
+      "latest_volume": 3049700.0,
+      "error": ""
+    },
+    {
+      "symbol": "DVA",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 157160446.77749634,
+      "latest_close": 203.8300018310547,
+      "latest_volume": 849700.0,
+      "error": ""
+    },
+    {
+      "symbol": "CRL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 154736531.87042236,
+      "latest_close": 188.05999755859375,
+      "latest_volume": 540800.0,
+      "error": ""
+    },
+    {
+      "symbol": "EXR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 154082110.4850006,
+      "latest_close": 150.25999450683594,
+      "latest_volume": 1307000.0,
+      "error": ""
+    },
+    {
+      "symbol": "GPC",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 151669056.68640137,
+      "latest_close": 102.26000213623047,
+      "latest_volume": 1924000.0,
+      "error": ""
+    },
+    {
+      "symbol": "TECH",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 151432710.68222046,
+      "latest_close": 54.02000045776367,
+      "latest_volume": 2664500.0,
+      "error": ""
+    },
+    {
+      "symbol": "AMCR",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 144660294.95233536,
+      "latest_close": 39.91999816894531,
+      "latest_volume": 4163500.0,
+      "error": ""
+    },
+    {
+      "symbol": "ESS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 143263169.83276367,
+      "latest_close": 280.5899963378906,
+      "latest_volume": 459000.0,
+      "error": ""
+    },
+    {
+      "symbol": "EG",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 140562707.16400146,
+      "latest_close": 336.25,
+      "latest_volume": 358100.0,
+      "error": ""
+    },
+    {
+      "symbol": "AES",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 137641545.5620718,
+      "latest_close": 14.670000076293945,
+      "latest_volume": 6714700.0,
+      "error": ""
+    },
+    {
+      "symbol": "CPT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 136124819.46193695,
+      "latest_close": 114.44000244140625,
+      "latest_volume": 1091500.0,
+      "error": ""
+    },
+    {
+      "symbol": "BAX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 129050349.52760696,
+      "latest_close": 20.489999771118164,
+      "latest_volume": 7525800.0,
+      "error": ""
+    },
+    {
+      "symbol": "BEN",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 126976076.5637207,
+      "latest_close": 31.809999465942383,
+      "latest_volume": 3342700.0,
+      "error": ""
+    },
+    {
+      "symbol": "ALLE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 125765718.46748352,
+      "latest_close": 133.7100067138672,
+      "latest_volume": 1484100.0,
+      "error": ""
+    },
+    {
+      "symbol": "FRT",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 121854514.81510162,
+      "latest_close": 124.72000122070312,
+      "latest_volume": 1501900.0,
+      "error": ""
+    },
+    {
+      "symbol": "HSIC",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 121792820.7730484,
+      "latest_close": 80.22000122070312,
+      "latest_volume": 1704100.0,
+      "error": ""
+    },
+    {
+      "symbol": "AIZ",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 113139973.01315308,
+      "latest_close": 258.5,
+      "latest_volume": 279400.0,
+      "error": ""
+    },
+    {
+      "symbol": "AVY",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 110437873.16177368,
+      "latest_close": 158.75,
+      "latest_volume": 956800.0,
+      "error": ""
+    },
+    {
+      "symbol": "CINF",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 106272841.96395874,
+      "latest_close": 168.3000030517578,
+      "latest_volume": 1282700.0,
+      "error": ""
+    },
+    {
+      "symbol": "ARE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 103807195.17194748,
+      "latest_close": 52.77000045776367,
+      "latest_volume": 1811300.0,
+      "error": ""
+    },
+    {
+      "symbol": "AOS",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 92700476.39886856,
+      "latest_close": 58.65999984741211,
+      "latest_volume": 1657400.0,
+      "error": ""
+    },
+    {
+      "symbol": "GL",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 89200990.52330017,
+      "latest_close": 165.10000610351562,
+      "latest_volume": 521100.0,
+      "error": ""
+    },
+    {
+      "symbol": "BXP",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 86244119.71136093,
+      "latest_close": 66.2300033569336,
+      "latest_volume": 1382100.0,
+      "error": ""
+    },
+    {
+      "symbol": "BF-B",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 71738672.37391472,
+      "latest_close": 26.68000030517578,
+      "latest_volume": 1854100.0,
+      "error": ""
+    },
+    {
+      "symbol": "FOX",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 57711255.36556244,
+      "latest_close": 61.36000061035156,
+      "latest_volume": 771800.0,
+      "error": ""
+    },
+    {
+      "symbol": "ERIE",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "ok",
+      "average_dollar_volume": 39291358.81881714,
+      "latest_close": 226.00999450683594,
+      "latest_volume": 192800.0,
+      "error": ""
+    },
+    {
+      "symbol": "FDXF",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "insufficient_history",
+      "average_dollar_volume": 0.0,
+      "latest_close": 180.0,
+      "latest_volume": 1894500.0,
+      "error": "rows=12 min_history_rows=1100"
+    },
+    {
+      "symbol": "GEHC",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "insufficient_history",
+      "average_dollar_volume": 0.0,
+      "latest_close": 64.51000213623047,
+      "latest_volume": 3058900.0,
+      "error": "rows=874 min_history_rows=1100"
+    },
+    {
+      "symbol": "GEV",
+      "source": "Yahoo Finance chart endpoint",
+      "status": "insufficient_history",
+      "average_dollar_volume": 0.0,
+      "latest_close": 906.7899780273438,
+      "latest_volume": 4256000.0,
+      "error": "rows=554 min_history_rows=1100"
+    }
+  ],
+  "blocked_symbols": [],
+  "blockers": [],
+  "source_urls": {
+    "sp500": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
+    "nasdaq100": "https://en.wikipedia.org/wiki/Nasdaq-100"
+  }
+}

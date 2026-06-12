@@ -1,0 +1,634 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:02:15.265862+00:00",
+  "safety": "BLS macro snapshot only; no broker; no credentials; no orders; no advice",
+  "summary": {
+    "status": "ok",
+    "series": 3,
+    "returned_series": 3,
+    "latest_points": 3,
+    "order_created": false,
+    "live_trading_authorized": false
+  },
+  "source": {
+    "endpoint": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+    "docs": "https://www.bls.gov/developers/api_signature_v2.htm"
+  },
+  "series": [
+    {
+      "series_id": "CUUR0000SA0",
+      "name": "cpi_all_urban_consumers",
+      "points": [
+        {
+          "year": "2026",
+          "period": "M05",
+          "period_name": "May",
+          "value": 335.123,
+          "latest": true,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M04",
+          "period_name": "April",
+          "value": 333.02,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M03",
+          "period_name": "March",
+          "value": 330.213,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M02",
+          "period_name": "February",
+          "value": 326.785,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M01",
+          "period_name": "January",
+          "value": 325.252,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M12",
+          "period_name": "December",
+          "value": 324.054,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M11",
+          "period_name": "November",
+          "value": 324.122,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M10",
+          "period_name": "October",
+          "value": null,
+          "latest": false,
+          "footnotes": [
+            {
+              "code": "X",
+              "text": "Data unavailable due to the 2025 lapse in appropriations"
+            }
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M09",
+          "period_name": "September",
+          "value": 324.8,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M08",
+          "period_name": "August",
+          "value": 323.976,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M07",
+          "period_name": "July",
+          "value": 323.048,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M06",
+          "period_name": "June",
+          "value": 322.561,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M05",
+          "period_name": "May",
+          "value": 321.465,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M04",
+          "period_name": "April",
+          "value": 320.795,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M03",
+          "period_name": "March",
+          "value": 319.799,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M02",
+          "period_name": "February",
+          "value": 319.082,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M01",
+          "period_name": "January",
+          "value": 317.671,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        }
+      ],
+      "latest": {
+        "year": "2026",
+        "period": "M05",
+        "period_name": "May",
+        "value": 335.123,
+        "latest": true,
+        "footnotes": [
+          {}
+        ]
+      }
+    },
+    {
+      "series_id": "LNS14000000",
+      "name": "unemployment_rate",
+      "points": [
+        {
+          "year": "2026",
+          "period": "M05",
+          "period_name": "May",
+          "value": 4.3,
+          "latest": true,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M04",
+          "period_name": "April",
+          "value": 4.3,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M03",
+          "period_name": "March",
+          "value": 4.3,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M02",
+          "period_name": "February",
+          "value": 4.4,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M01",
+          "period_name": "January",
+          "value": 4.3,
+          "latest": false,
+          "footnotes": [
+            {
+              "code": "12",
+              "text": "January 2026 estimates were revised to incorporate updated population controls. For more information, see www.bls.gov/cps/documentation.htm#pop."
+            }
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M12",
+          "period_name": "December",
+          "value": 4.4,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M11",
+          "period_name": "November",
+          "value": 4.5,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M10",
+          "period_name": "October",
+          "value": null,
+          "latest": false,
+          "footnotes": [
+            {
+              "code": "9",
+              "text": "Data unavailable due to the 2025 lapse in appropriations."
+            }
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M09",
+          "period_name": "September",
+          "value": 4.4,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M08",
+          "period_name": "August",
+          "value": 4.3,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M07",
+          "period_name": "July",
+          "value": 4.3,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M06",
+          "period_name": "June",
+          "value": 4.1,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M05",
+          "period_name": "May",
+          "value": 4.3,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M04",
+          "period_name": "April",
+          "value": 4.2,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M03",
+          "period_name": "March",
+          "value": 4.2,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M02",
+          "period_name": "February",
+          "value": 4.2,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M01",
+          "period_name": "January",
+          "value": 4.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        }
+      ],
+      "latest": {
+        "year": "2026",
+        "period": "M05",
+        "period_name": "May",
+        "value": 4.3,
+        "latest": true,
+        "footnotes": [
+          {}
+        ]
+      }
+    },
+    {
+      "series_id": "CES0000000001",
+      "name": "nonfarm_payrolls_all_employees",
+      "points": [
+        {
+          "year": "2026",
+          "period": "M05",
+          "period_name": "May",
+          "value": 159001.0,
+          "latest": true,
+          "footnotes": [
+            {
+              "code": "P",
+              "text": "preliminary"
+            }
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M04",
+          "period_name": "April",
+          "value": 158829.0,
+          "latest": false,
+          "footnotes": [
+            {
+              "code": "P",
+              "text": "preliminary"
+            }
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M03",
+          "period_name": "March",
+          "value": 158650.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M02",
+          "period_name": "February",
+          "value": 158436.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2026",
+          "period": "M01",
+          "period_name": "January",
+          "value": 158592.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M12",
+          "period_name": "December",
+          "value": 158432.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M11",
+          "period_name": "November",
+          "value": 158449.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M10",
+          "period_name": "October",
+          "value": 158408.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M09",
+          "period_name": "September",
+          "value": 158548.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M08",
+          "period_name": "August",
+          "value": 158472.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M07",
+          "period_name": "July",
+          "value": 158542.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M06",
+          "period_name": "June",
+          "value": 158478.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M05",
+          "period_name": "May",
+          "value": 158498.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M04",
+          "period_name": "April",
+          "value": 158485.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M03",
+          "period_name": "March",
+          "value": 158377.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M02",
+          "period_name": "February",
+          "value": 158310.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        },
+        {
+          "year": "2025",
+          "period": "M01",
+          "period_name": "January",
+          "value": 158268.0,
+          "latest": false,
+          "footnotes": [
+            {}
+          ]
+        }
+      ],
+      "latest": {
+        "year": "2026",
+        "period": "M05",
+        "period_name": "May",
+        "value": 159001.0,
+        "latest": true,
+        "footnotes": [
+          {
+            "code": "P",
+            "text": "preliminary"
+          }
+        ]
+      }
+    }
+  ],
+  "latest_points": [
+    {
+      "year": "2026",
+      "period": "M05",
+      "period_name": "May",
+      "value": 335.123,
+      "latest": true,
+      "footnotes": [
+        {}
+      ]
+    },
+    {
+      "year": "2026",
+      "period": "M05",
+      "period_name": "May",
+      "value": 4.3,
+      "latest": true,
+      "footnotes": [
+        {}
+      ]
+    },
+    {
+      "year": "2026",
+      "period": "M05",
+      "period_name": "May",
+      "value": 159001.0,
+      "latest": true,
+      "footnotes": [
+        {
+          "code": "P",
+          "text": "preliminary"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "point_in_time_rule": "Use BLS period/year and release availability before joining features.",
+  "live_trading_authorized": false,
+  "paper_api_authorized": false
+}

@@ -1,0 +1,47 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:04:17.313767+00:00",
+  "safety": "independent price replication only; no orders; no broker; no credentials; no advice",
+  "live_trading_authorized": false,
+  "summary": {
+    "status": "pass",
+    "provider": "alpha_vantage",
+    "symbols_checked": 2,
+    "max_close_diff_bps": 100.0,
+    "blockers": 0,
+    "order_created": false,
+    "live_trading_authorized": false
+  },
+  "sources": {
+    "stooq_csv_url": "https://stooq.com/q/d/l/",
+    "stooq_api_key_help": "https://stooq.com/q/d/?s=aapl.us&get_apikey",
+    "alpha_vantage_docs": "https://www.alphavantage.co/documentation/",
+    "source_report": "reports/paper-dry-run-signal-latest.json"
+  },
+  "comparisons": [
+    {
+      "symbol": "AAPL",
+      "as_of_date": "2026-06-11",
+      "yahoo_close": 295.6300048828125,
+      "provider": "alpha_vantage",
+      "provider_close": 295.63,
+      "close_diff_bps": 0.00016516633727370333,
+      "status": "pass"
+    },
+    {
+      "symbol": "GLD",
+      "as_of_date": "2026-06-11",
+      "yahoo_close": 386.32000732421875,
+      "provider": "alpha_vantage",
+      "provider_close": 386.32,
+      "close_diff_bps": 0.00018958942415991942,
+      "status": "pass"
+    }
+  ],
+  "blockers": [],
+  "required_next_evidence": [
+    "Provide STOOQ_API_KEY or ALPHA_VANTAGE_API_KEY to run independent replication.",
+    "Keep independent close differences within the configured basis-point tolerance.",
+    "Do not treat independent replication as live-trading approval."
+  ]
+}

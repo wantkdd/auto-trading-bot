@@ -1,0 +1,15 @@
+{
+  "status": "blocked",
+  "observed_days": 0,
+  "required_days": 12,
+  "latest_as_of_date": null,
+  "latest_strategy": null,
+  "latest_virtual_equity": null,
+  "total_return_since_first_observation": null,
+  "max_drawdown_since_first_observation": null,
+  "generated_at": "2026-06-12T07:04:16.993889+00:00",
+  "blockers": [
+    "market_scan_has_no_safe_passed_challenger"
+  ],
+  "safety": "challenger observation blocked; no orders; no trading venue; no advice"
+}

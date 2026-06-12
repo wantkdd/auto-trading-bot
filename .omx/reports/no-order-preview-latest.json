@@ -1,0 +1,47 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:04:17.204770+00:00",
+  "as_of_date": "2026-06-11",
+  "strategy": "AAPL_0.3_GLD_0.7",
+  "paper_decision": "would_rebalance",
+  "safety": "no-order preview only; no broker; no credentials; no API calls; no orders",
+  "policy": {
+    "max_order_notional": 10000.0,
+    "max_total_notional": 10000.0,
+    "allowed_symbols": [
+      "AAPL",
+      "GLD"
+    ],
+    "blocked_symbols": [],
+    "paper_api_authorized": false,
+    "live_trading_authorized": false
+  },
+  "summary": {
+    "status": "ok",
+    "decision": "would_rebalance",
+    "accepted": 0,
+    "rejected": 0,
+    "total_notional": 0.0,
+    "order_created": false,
+    "paper_api_authorized": false,
+    "live_trading_authorized": false
+  },
+  "plan": {
+    "created_at": "2026-06-12T07:04:17.204744+00:00",
+    "status": "simulated_only",
+    "order_created": false,
+    "live_trading_authorized": false,
+    "paper_api_authorized": false,
+    "total_notional": 0.0,
+    "accepted": [],
+    "rejected": [],
+    "rejection_reasons": {},
+    "safety": "no-order broker contract only; no broker, no credentials, no API calls"
+  },
+  "warnings": [
+    "Accepted means accepted by local no-order safety checks only, not routed to a broker.",
+    "This report is not investment advice and does not authorize live or paper API trading."
+  ],
+  "live_trading_authorized": false,
+  "paper_api_authorized": false
+}

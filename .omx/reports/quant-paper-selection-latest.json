@@ -1,0 +1,184 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:04:16.706937+00:00",
+  "safety": "quant paper signal only; no orders; no broker; no credentials; no advice",
+  "live_trading_authorized": false,
+  "paper_api_authorized": false,
+  "summary": {
+    "status": "review",
+    "feature_quality_status": "review",
+    "regime": "conflicted",
+    "candidate_count": 4,
+    "selected_strategy": "quant_momentum_top5_defensive",
+    "selected_family": "momentum_plus_defensive",
+    "selected_symbols": [
+      "AMD",
+      "DELL",
+      "FTNT",
+      "GLD",
+      "HPE",
+      "IEF",
+      "MU",
+      "SHY",
+      "TLT"
+    ],
+    "selected_weights": {
+      "AMD": 0.08999999999999998,
+      "DELL": 0.08999999999999998,
+      "FTNT": 0.08999999999999998,
+      "GLD": 0.02420906340734901,
+      "HPE": 0.08999999999999998,
+      "IEF": 0.11064432826064372,
+      "MU": 0.08999999999999998,
+      "SHY": 0.34951618768669523,
+      "TLT": 0.06563042064531187
+    },
+    "selected_score": 0.5825614624327765,
+    "max_weight": 0.34951618768669523,
+    "use_for_strategy_promotion": false,
+    "primary_strategy_changed": false,
+    "output": "reports/paper-quant-signal-latest.json",
+    "order_created": false,
+    "live_trading_authorized": false
+  },
+  "selected_candidate": {
+    "name": "quant_momentum_top5_defensive",
+    "family": "momentum_plus_defensive",
+    "weights": {
+      "AMD": 0.08999999999999998,
+      "DELL": 0.08999999999999998,
+      "FTNT": 0.08999999999999998,
+      "GLD": 0.02420906340734901,
+      "HPE": 0.08999999999999998,
+      "IEF": 0.11064432826064372,
+      "MU": 0.08999999999999998,
+      "SHY": 0.34951618768669523,
+      "TLT": 0.06563042064531187
+    },
+    "score": 0.5825614624327765,
+    "status": "review",
+    "failure_reasons": [
+      "regime_conflicted_requires_review"
+    ],
+    "rationale": [
+      "Ranks assets by 20d/63d trend, SMA confirmation, volatility, and 63d drawdown.",
+      "Keeps a defensive sleeve so a broad scan does not become concentrated single-name chasing."
+    ]
+  },
+  "candidates": [
+    {
+      "name": "quant_momentum_top5_defensive",
+      "family": "momentum_plus_defensive",
+      "weights": {
+        "AMD": 0.08999999999999998,
+        "DELL": 0.08999999999999998,
+        "FTNT": 0.08999999999999998,
+        "GLD": 0.02420906340734901,
+        "HPE": 0.08999999999999998,
+        "IEF": 0.11064432826064372,
+        "MU": 0.08999999999999998,
+        "SHY": 0.34951618768669523,
+        "TLT": 0.06563042064531187
+      },
+      "score": 0.5825614624327765,
+      "status": "review",
+      "failure_reasons": [
+        "regime_conflicted_requires_review"
+      ],
+      "rationale": [
+        "Ranks assets by 20d/63d trend, SMA confirmation, volatility, and 63d drawdown.",
+        "Keeps a defensive sleeve so a broad scan does not become concentrated single-name chasing."
+      ]
+    },
+    {
+      "name": "quant_sector_rotation_top3_defensive",
+      "family": "sector_rotation",
+      "weights": {
+        "GLD": 0.02420906340734902,
+        "IEF": 0.11064432826064376,
+        "SHY": 0.34951618768669535,
+        "TLT": 0.06563042064531188,
+        "XLF": 0.15,
+        "XLK": 0.15,
+        "XLRE": 0.15
+      },
+      "score": 0.09142407024211731,
+      "status": "review",
+      "failure_reasons": [
+        "regime_conflicted_requires_review"
+      ],
+      "rationale": [
+        "Rotates only among broad sector ETFs rather than individual stocks.",
+        "Limits sector exposure and adds a defensive sleeve for regime uncertainty."
+      ]
+    },
+    {
+      "name": "quant_core_inverse_volatility",
+      "family": "inverse_volatility_core",
+      "weights": {
+        "DIA": 0.08982547458405483,
+        "GLD": 0.05001997210055043,
+        "IEF": 0.22860967892716938,
+        "IWM": 0.054279611743033224,
+        "QQQ": 0.05154026727182545,
+        "SHY": 0.29999999999999993,
+        "SPY": 0.09012157468798254,
+        "TLT": 0.1356034206853842
+      },
+      "score": 0.2659998445416699,
+      "status": "review",
+      "failure_reasons": [
+        "regime_conflicted_requires_review"
+      ],
+      "rationale": [
+        "Uses core market ETFs with inverse-volatility sizing.",
+        "Caps every symbol so the candidate remains diversified for paper observation."
+      ]
+    },
+    {
+      "name": "quant_defensive_min_volatility",
+      "family": "defensive_min_volatility",
+      "weights": {
+        "IEF": 0.33018595244784876,
+        "SHY": 0.35,
+        "TLT": 0.19585498227506865,
+        "XLP": 0.12395906527708257
+      },
+      "score": -0.07796969870626061,
+      "status": "review",
+      "failure_reasons": [
+        "regime_conflicted_requires_review"
+      ],
+      "rationale": [
+        "Tracks a low-volatility defensive paper alternative.",
+        "Useful as a comparator when momentum candidates are unstable or regime is conflicted."
+      ]
+    }
+  ],
+  "signal": {
+    "as_of_date": "2026-06-11",
+    "strategy": "quant_momentum_top5_defensive",
+    "target_weights": {
+      "AMD": 0.09,
+      "DELL": 0.09,
+      "FTNT": 0.09,
+      "GLD": 0.02420906340734902,
+      "HPE": 0.09,
+      "IEF": 0.11064432826064374,
+      "MU": 0.09,
+      "SHY": 0.3495161876866953,
+      "TLT": 0.06563042064531188
+    },
+    "safety": "dry-run target weights only; no orders; no broker; no investment advice",
+    "warnings": [
+      "This is a dry-run target allocation only; do not place orders from this output.",
+      "Candidate remains in research review until independent data-source replication passes."
+    ]
+  },
+  "blockers": [],
+  "required_next_evidence": [
+    "Track this quant candidate separately from the locked champion baseline.",
+    "Do not promote quant weights to live trading without forward paper evidence.",
+    "Do not let a conflicted regime or quality blocker increase real-money exposure."
+  ]
+}

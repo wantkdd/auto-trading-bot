@@ -1,0 +1,22 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:04:19.508957+00:00",
+  "safety": "status router only; no orders; no broker; no credentials; no advice",
+  "live_trading_authorized": false,
+  "summary": {
+    "status": "pass",
+    "mode": "success",
+    "action_required": false,
+    "operational_risk_status": "monitoring",
+    "operational_halt_required": false,
+    "independent_price_status": "pass",
+    "readiness_status": "blocked_before_human_review",
+    "live_trading_authorized": false
+  },
+  "inputs": {
+    "operational_risk": ".omx/reports/operational-risk-gate-latest.json",
+    "independent_price": ".omx/reports/independent-price-replication-latest.json",
+    "readiness": ".omx/reports/live-readiness-gate-latest.json"
+  },
+  "blockers": []
+}

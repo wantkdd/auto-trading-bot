@@ -1,0 +1,25 @@
+{
+  "status": "early_checkpoint_ready",
+  "generated_at": "2026-06-12T07:04:16.957251+00:00",
+  "log_path": "reports/paper-observation-log.jsonl",
+  "observed_days": 9,
+  "required_days": 12,
+  "early_checkpoint_days": 5,
+  "first_as_of_date": "2026-05-29",
+  "latest_as_of_date": "2026-06-11",
+  "latest_strategy": "AAPL_0.3_GLD_0.7",
+  "latest_target_weights": {
+    "AAPL": 0.3,
+    "GLD": 0.7
+  },
+  "latest_virtual_equity": 9327.74894412297,
+  "total_return_since_first_observation": -0.067225105587703,
+  "max_drawdown_since_first_observation": -0.067225105587703,
+  "live_trading_authorized": false,
+  "promotion_level": "paper_observation_collecting",
+  "remaining_days_to_required_window": 3,
+  "warnings": [
+    "This is not investment advice and does not authorize live trading.",
+    "A short observation window cannot prove stable profitability."
+  ]
+}

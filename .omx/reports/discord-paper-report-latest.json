@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "generated_at": "2026-06-12T07:04:19.587196+00:00",
+  "safety": "Discord report only; no orders; no broker; no credentials; no advice",
+  "live_trading_authorized": false,
+  "sections": [
+    "daily"
+  ],
+  "message": "📊 자동매매 가정 일일 리포트 (NO-ORDER)\n실거래/브로커/API주문 없음. 오늘 종가 기준으로 '매매했다면' 로그만 기록합니다.\n\n**Champion 관찰**\n- 전략: `AAPL_0.3_GLD_0.7`\n- 관찰일: `9 / 12`\n- 가상자산: `$9,327.75`\n- 누적수익률: `-6.72%`\n- 최대낙폭: `-6.72%`\n\n**오늘 매매 가정**\n- 판단: `would_rebalance`\n- would buy/sell 통과: `0`건\n- 거절: `0`건\n- 가정 거래금액: `$0.00`\n\n**장중 5분 로그 요약**\n- 저장된 장중 체크: `18`회\n- 최근 장중 상태: `ok`\n- 판단 변화 합계: `64`\n- 특이 움직임 합계: `78`\n- 최근 체크 시각: `2026-06-11T19:40:38.982036+00:00`\n\n**보정/튜닝 상태**\n- 코드는 자동 자기수정하지 않음: 로그 기반 후보를 만들고 안전 게이트 통과 여부만 기록합니다.\n- adaptive 후보 상태: `review`\n- adaptive 중앙 초과수익: `5.40%`\n- static 기준 중앙 초과수익: `8.53%`\n- adaptive 최악 MDD: `-23.20%`\n- 자동 교체/실거래 반영: `False`\n\n**방대한 시장 데이터 게이트**\n- 상태: `review`\n- 사용 가능 자산: `153`개\n- breadth coverage: `100.00%`\n- regime: `conflicted`\n- 권고: `review_only_market_signals_are_conflicted`\n- 자동 전략/코드 반영: `False`\n\n**브로커 API 연결 준비도**\n- API preflight: `blocked`\n- adapter ticket 수: `0`\n- 남은 API 연결 blocker: `7`개\n- 주문 생성/전송 시도: `False` / `False`\n\n**시장 스캔 Challenger**\n- 동적 universe: `150`종목 선정 / `297`종목 가격검증 / `536`개 원천심볼\n- 우선 관찰 10종목: `SPY, QQQ, DIA, AAPL, GLD, MU, NVDA, TSLA, MSFT, AMD`\n- 시장 top: `None`\n- 추적 challenger: `None`\n- challenger 관찰일: `0`\n- challenger 가상자산: `unknown`\n- challenger 수익률: `unknown`\n- challenger MDD: `unknown`\n\n**퀀트 paper 후보**\n- 상태: `review`\n- 후보: `quant_momentum_top5_defensive`\n- regime: `conflicted`\n- 비중: `SHY:35%, IEF:11%, AMD:9%, DELL:9%, FTNT:9%, HPE:9%`\n- quant 관찰일: `4`\n- quant 수익률: `1.48%`\n- 자동 교체/실거래 반영: `False`\n\n**안전 게이트**\n- no-order gate: `pass`\n- paper ready: `True`\n- live authorized: `False`\n- 남은 live blockers: `13`개",
+  "inputs": {
+    "paper_summary": ".omx/reports/paper-observation-summary-latest.json",
+    "challenger_summary": ".omx/reports/paper-challenger-observation-summary-latest.json",
+    "quant_summary": ".omx/reports/paper-quant-observation-summary-latest.json",
+    "no_order_preview": ".omx/reports/no-order-preview-latest.json",
+    "readiness": ".omx/reports/live-readiness-gate-latest.json",
+    "gate_status": ".omx/reports/no-order-gate-status-latest.json",
+    "dynamic_universe": ".omx/reports/us-dynamic-liquid-universe-latest.json",
+    "market_scan": ".omx/reports/market-universe-scan-latest.json",
+    "challenger_selection": ".omx/reports/paper-challenger-selection-latest.json",
+    "quant_selection": ".omx/reports/quant-paper-selection-latest.json",
+    "intraday_log": "reports/intraday-no-order-log.jsonl",
+    "adaptive_search": ".omx/reports/adaptive-allocation-search-latest.json",
+    "broker_preflight": ".omx/reports/broker-execution-preflight-latest.json",
+    "market_feature_gate": ".omx/reports/market-data-feature-gate-latest.json"
+  }
+}

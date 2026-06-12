@@ -1,0 +1,203 @@
+{
+  "generated_at": "2026-06-12T07:04:16.875973+00:00",
+  "as_of_date": "2026-06-11",
+  "strategy": "quant_momentum_top5_defensive",
+  "target_weights": {
+    "AMD": 0.09,
+    "DELL": 0.09,
+    "FTNT": 0.09,
+    "GLD": 0.02420906340734902,
+    "HPE": 0.09,
+    "IEF": 0.11064432826064374,
+    "MU": 0.09,
+    "SHY": 0.3495161876866953,
+    "TLT": 0.06563042064531188
+  },
+  "source_bars": {
+    "AMD": {
+      "timestamp": "2026-06-11T13:30:00",
+      "open": 461.6000061035156,
+      "high": 490.4599914550781,
+      "low": 458.0199890136719,
+      "close": 488.45001220703125,
+      "volume": 30372700.0,
+      "metadata": {
+        "symbol": "AMD",
+        "query_symbol": "AMD",
+        "cache_path": "data/external/amd_yahoo_daily_2015_2026.csv",
+        "source": "Yahoo Finance chart endpoint",
+        "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+        "refreshed": false,
+        "status": "ok",
+        "rows": 2877,
+        "first_bar": "2015-01-02T14:30:00",
+        "last_bar": "2026-06-11T13:30:00"
+      }
+    },
+    "DELL": {
+      "timestamp": "2026-06-11T13:30:00",
+      "open": 368.67999267578125,
+      "high": 394.30999755859375,
+      "low": 366.9599914550781,
+      "close": 391.45001220703125,
+      "volume": 7828000.0,
+      "metadata": {
+        "symbol": "DELL",
+        "query_symbol": "DELL",
+        "cache_path": "data/external/dell_yahoo_daily_2015_2026.csv",
+        "source": "Yahoo Finance chart endpoint",
+        "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+        "refreshed": false,
+        "status": "ok",
+        "rows": 2468,
+        "first_bar": "2016-08-17T13:30:00",
+        "last_bar": "2026-06-11T13:30:00"
+      }
+    },
+    "FTNT": {
+      "timestamp": "2026-06-11T13:30:00",
+      "open": 141.00999450683594,
+      "high": 146.30999755859375,
+      "low": 139.39999389648438,
+      "close": 145.05999755859375,
+      "volume": 7428900.0,
+      "metadata": {
+        "symbol": "FTNT",
+        "query_symbol": "FTNT",
+        "cache_path": "data/external/ftnt_yahoo_daily_2015_2026.csv",
+        "source": "Yahoo Finance chart endpoint",
+        "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+        "refreshed": false,
+        "status": "ok",
+        "rows": 2877,
+        "first_bar": "2015-01-02T14:30:00",
+        "last_bar": "2026-06-11T13:30:00"
+      }
+    },
+    "GLD": {
+      "timestamp": "2026-06-11T13:30:00",
+      "open": 373.9599914550781,
+      "high": 387.2099914550781,
+      "low": 371.8800048828125,
+      "close": 386.32000732421875,
+      "volume": 12560500.0,
+      "metadata": {
+        "symbol": "GLD",
+        "query_symbol": "GLD",
+        "cache_path": "data/external/gld_yahoo_daily_2015_2026.csv",
+        "source": "Yahoo Finance chart endpoint",
+        "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+        "refreshed": false,
+        "status": "ok",
+        "rows": 2877,
+        "first_bar": "2015-01-02T14:30:00",
+        "last_bar": "2026-06-11T13:30:00"
+      }
+    },
+    "HPE": {
+      "timestamp": "2026-06-11T13:30:00",
+      "open": 45.0,
+      "high": 46.79999923706055,
+      "low": 44.7400016784668,
+      "close": 46.79999923706055,
+      "volume": 24434900.0,
+      "metadata": {
+        "symbol": "HPE",
+        "query_symbol": "HPE",
+        "cache_path": "data/external/hpe_yahoo_daily_2015_2026.csv",
+        "source": "Yahoo Finance chart endpoint",
+        "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+        "refreshed": false,
+        "status": "ok",
+        "rows": 2677,
+        "first_bar": "2015-10-19T13:30:00",
+        "last_bar": "2026-06-11T13:30:00"
+      }
+    },
+    "IEF": {
+      "timestamp": "2026-06-11T13:30:00",
+      "open": 93.80999755859375,
+      "high": 94.37999725341797,
+      "low": 93.75,
+      "close": 94.33999633789062,
+      "volume": 11280000.0,
+      "metadata": {
+        "symbol": "IEF",
+        "query_symbol": "IEF",
+        "cache_path": "data/external/ief_yahoo_daily_2015_2026.csv",
+        "source": "Yahoo Finance chart endpoint",
+        "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+        "refreshed": false,
+        "status": "ok",
+        "rows": 2877,
+        "first_bar": "2015-01-02T14:30:00",
+        "last_bar": "2026-06-11T13:30:00"
+      }
+    },
+    "MU": {
+      "timestamp": "2026-06-11T13:30:00",
+      "open": 904.3699951171875,
+      "high": 996.77001953125,
+      "low": 895.5,
+      "close": 995.8699951171875,
+      "volume": 58826500.0,
+      "metadata": {
+        "symbol": "MU",
+        "query_symbol": "MU",
+        "cache_path": "data/external/mu_yahoo_daily_2015_2026.csv",
+        "source": "Yahoo Finance chart endpoint",
+        "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+        "refreshed": false,
+        "status": "ok",
+        "rows": 2877,
+        "first_bar": "2015-01-02T14:30:00",
+        "last_bar": "2026-06-11T13:30:00"
+      }
+    },
+    "SHY": {
+      "timestamp": "2026-06-11T13:30:00",
+      "open": 81.95999908447266,
+      "high": 82.0999984741211,
+      "low": 81.94000244140625,
+      "close": 82.08999633789062,
+      "volume": 4528000.0,
+      "metadata": {
+        "symbol": "SHY",
+        "query_symbol": "SHY",
+        "cache_path": "data/external/shy_yahoo_daily_2015_2026.csv",
+        "source": "Yahoo Finance chart endpoint",
+        "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+        "refreshed": false,
+        "status": "ok",
+        "rows": 2877,
+        "first_bar": "2015-01-02T14:30:00",
+        "last_bar": "2026-06-11T13:30:00"
+      }
+    },
+    "TLT": {
+      "timestamp": "2026-06-11T13:30:00",
+      "open": 85.16999816894531,
+      "high": 86.04000091552734,
+      "low": 85.04000091552734,
+      "close": 85.9800033569336,
+      "volume": 35159300.0,
+      "metadata": {
+        "symbol": "TLT",
+        "query_symbol": "TLT",
+        "cache_path": "data/external/tlt_yahoo_daily_2015_2026.csv",
+        "source": "Yahoo Finance chart endpoint",
+        "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+        "refreshed": false,
+        "status": "ok",
+        "rows": 2877,
+        "first_bar": "2015-01-02T14:30:00",
+        "last_bar": "2026-06-11T13:30:00"
+      }
+    }
+  },
+  "warnings": [
+    "This is a dry-run target allocation only; do not place orders from this output.",
+    "Candidate remains in research review until independent data-source replication passes."
+  ],
+  "safety": "dry-run target weights only; no orders; no broker; no investment advice"
+}

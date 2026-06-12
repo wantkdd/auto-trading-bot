@@ -1,0 +1,56 @@
+{
+  "generated_at": "2026-06-12T07:04:16.511515+00:00",
+  "as_of_date": "2026-06-11",
+  "strategy": "AAPL_0.3_GLD_0.7",
+  "target_weights": {
+    "AAPL": 0.3,
+    "GLD": 0.7
+  },
+  "source_bars": {
+    "AAPL": {
+      "timestamp": "2026-06-11T13:30:00",
+      "open": 293.7200012207031,
+      "high": 297.0,
+      "low": 289.5899963378906,
+      "close": 295.6300048828125,
+      "volume": 42523300.0,
+      "metadata": {
+        "symbol": "AAPL",
+        "query_symbol": "AAPL",
+        "cache_path": "data/external/aapl_yahoo_daily_2015_2026.csv",
+        "source": "Yahoo Finance chart endpoint",
+        "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+        "refreshed": false,
+        "status": "ok",
+        "rows": 2877,
+        "first_bar": "2015-01-02T14:30:00",
+        "last_bar": "2026-06-11T13:30:00"
+      }
+    },
+    "GLD": {
+      "timestamp": "2026-06-11T13:30:00",
+      "open": 373.9599914550781,
+      "high": 387.2099914550781,
+      "low": 371.8800048828125,
+      "close": 386.32000732421875,
+      "volume": 12560500.0,
+      "metadata": {
+        "symbol": "GLD",
+        "query_symbol": "GLD",
+        "cache_path": "data/external/gld_yahoo_daily_2015_2026.csv",
+        "source": "Yahoo Finance chart endpoint",
+        "source_help_url": "https://help.yahoo.com/kb/finance-for-web/download-historical-data-yahoo-finance-sln2311.html",
+        "refreshed": false,
+        "status": "ok",
+        "rows": 2877,
+        "first_bar": "2015-01-02T14:30:00",
+        "last_bar": "2026-06-11T13:30:00"
+      }
+    }
+  },
+  "warnings": [
+    "This is a dry-run target allocation only; do not place orders from this output.",
+    "Candidate remains in research review until independent data-source replication passes."
+  ],
+  "safety": "dry-run target weights only; no orders; no broker; no investment advice"
+}

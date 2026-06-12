@@ -1,0 +1,91 @@
+symbol,as_of_date,cik,company_name,status,revenue_growth_yoy,net_income_positive,operating_cash_flow_positive,debt_to_equity,current_ratio,latest_filing_date,recent_8k_count_90d,failure_reasons,data_warnings
+SPY,2026-06-12,0000884394,SPDR S&P 500 ETF TRUST,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+QQQ,2026-06-12,0001067839,"INVESCO QQQ TRUST, SERIES 1",review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+DIA,2026-06-12,0001041130,SPDR DOW JONES INDUSTRIAL AVERAGE ETF TRUST,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+IWM,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+GLD,2026-06-12,0001222333,SPDR GOLD TRUST,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+TLT,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+IEF,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+SHY,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+XLK,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+XLV,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+XLP,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+XLU,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+XLF,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+XLE,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+XLI,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+XLY,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+XLC,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+XLRE,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+XLB,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+VNQ,2026-06-12,,,review,,,,,,,,sec_cik_not_found,
+AAPL,2026-06-12,0000320193,Apple Inc.,pass,-0.0773420619,true,true,2.4846325042,1.0703574691,2026-05-29,2,,
+MSFT,2026-06-12,0000789019,MICROSOFT CORP,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+NVDA,2026-06-12,0001045810,NVIDIA CORP,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+AMZN,2026-06-12,0001018724,AMAZON COM INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+GOOGL,2026-06-12,0001652044,Alphabet Inc.,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+GOOG,2026-06-12,0001652044,Alphabet Inc.,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+META,2026-06-12,0001326801,"Meta Platforms, Inc.",review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+AVGO,2026-06-12,0001730168,Broadcom Inc.,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+TSLA,2026-06-12,0001318605,"Tesla, Inc.",review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+BRK-B,2026-06-12,0001067983,BERKSHIRE HATHAWAY INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+JPM,2026-06-12,0000019617,JPMORGAN CHASE & CO,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+V,2026-06-12,0001403161,VISA INC.,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+LLY,2026-06-12,0000059478,ELI LILLY & Co,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+UNH,2026-06-12,0000731766,UNITEDHEALTH GROUP INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+MA,2026-06-12,0001141391,Mastercard Inc,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+COST,2026-06-12,0000909832,COSTCO WHOLESALE CORP /NEW,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+HD,2026-06-12,0000354950,"HOME DEPOT, INC.",review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+PG,2026-06-12,0000080424,PROCTER & GAMBLE Co,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+JNJ,2026-06-12,0000200406,JOHNSON & JOHNSON,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+WMT,2026-06-12,0000104169,Walmart Inc.,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+NFLX,2026-06-12,0001065280,NETFLIX INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+BAC,2026-06-12,0000070858,BANK OF AMERICA CORP /DE/,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+XOM,2026-06-12,0000034088,EXXON MOBIL CORP,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+KO,2026-06-12,0000021344,COCA COLA CO,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+PEP,2026-06-12,0000077476,PEPSICO INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+MRK,2026-06-12,0000310158,"Merck & Co., Inc.",review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+ABBV,2026-06-12,0001551152,AbbVie Inc.,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+CRM,2026-06-12,0001108524,"Salesforce, Inc.",review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+ORCL,2026-06-12,0001341439,ORACLE CORP,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+ADBE,2026-06-12,0000796343,ADOBE INC.,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+AMD,2026-06-12,0000002488,ADVANCED MICRO DEVICES INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+CSCO,2026-06-12,0000858877,"CISCO SYSTEMS, INC.",review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+INTC,2026-06-12,0000050863,INTEL CORP,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+QCOM,2026-06-12,0000804328,QUALCOMM INC/DE,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+TXN,2026-06-12,0000097476,TEXAS INSTRUMENTS INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+AMAT,2026-06-12,0000006951,APPLIED MATERIALS INC /DE,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+MU,2026-06-12,0000723125,MICRON TECHNOLOGY INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+NOW,2026-06-12,0001373715,"ServiceNow, Inc.",review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+IBM,2026-06-12,0000051143,INTERNATIONAL BUSINESS MACHINES CORP,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+GS,2026-06-12,0000886982,GOLDMAN SACHS GROUP INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+MS,2026-06-12,0000895421,MORGAN STANLEY,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+C,2026-06-12,0000831001,CITIGROUP INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+WFC,2026-06-12,0000072971,WELLS FARGO & COMPANY/MN,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+AXP,2026-06-12,0000004962,AMERICAN EXPRESS CO,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+MCD,2026-06-12,0000063908,MCDONALDS CORP,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+NKE,2026-06-12,0000320187,"NIKE, Inc.",review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+DIS,2026-06-12,0001744489,Walt Disney Co,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+CMCSA,2026-06-12,0001166691,COMCAST CORP,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+T,2026-06-12,0000732717,AT&T INC.,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+VZ,2026-06-12,0000732712,VERIZON COMMUNICATIONS INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+PFE,2026-06-12,0000078003,PFIZER INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+TMO,2026-06-12,0000097745,THERMO FISHER SCIENTIFIC INC.,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+ABT,2026-06-12,0000001800,ABBOTT LABORATORIES,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+DHR,2026-06-12,0000313616,DANAHER CORP /DE/,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+LIN,2026-06-12,0001707925,LINDE PLC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+CAT,2026-06-12,0000018230,CATERPILLAR INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+GE,2026-06-12,0000040545,GENERAL ELECTRIC CO,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+HON,2026-06-12,0000773840,HONEYWELL INTERNATIONAL INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+UPS,2026-06-12,0001090727,UNITED PARCEL SERVICE INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+LMT,2026-06-12,0000936468,LOCKHEED MARTIN CORP,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+RTX,2026-06-12,0000101829,RTX Corp,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+BA,2026-06-12,0000012927,BOEING CO,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+CVX,2026-06-12,0000093410,CHEVRON CORP,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+COP,2026-06-12,0001163165,CONOCOPHILLIPS,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+SLB,2026-06-12,0000087347,SLB LIMITED/NV,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+NEE,2026-06-12,0000753308,NEXTERA ENERGY INC,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+DUK,2026-06-12,0001326160,Duke Energy CORP,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+SO,2026-06-12,0000092122,SOUTHERN CO,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+AMT,2026-06-12,0001053507,AMERICAN TOWER CORP /MA/,review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
+PLD,2026-06-12,0001045609,"Prologis, Inc.",review,,,,,,,,revenue_growth_missing;net_income_missing;operating_cash_flow_missing;sec_data_incomplete,companyfacts_cache_missing;submissions_cache_missing
