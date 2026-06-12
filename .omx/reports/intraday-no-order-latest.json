@@ -1,0 +1,34 @@
+{
+  "status": "skipped_market_closed",
+  "generated_at": "2026-06-12T22:15:02.125627+00:00",
+  "market_time": "2026-06-12T18:15:02.125627-04:00",
+  "safety": "intraday paper monitor only; no orders; no trading venue; no advice",
+  "live_trading_authorized": false,
+  "order_created": false,
+  "summary": {
+    "status": "skipped_market_closed",
+    "market_open": false,
+    "symbols": 10,
+    "ok_quotes": 0,
+    "changes": 0,
+    "notable": 0,
+    "max_symbols": 10,
+    "order_created": false
+  },
+  "symbols": [
+    "SPY",
+    "QQQ",
+    "DIA",
+    "AAPL",
+    "GLD",
+    "MU",
+    "NVDA",
+    "TSLA",
+    "MSFT",
+    "AMD"
+  ],
+  "quotes": [],
+  "judgement_changes": [],
+  "notable_quotes": [],
+  "blockers": []
+}
